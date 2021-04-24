@@ -51,6 +51,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -162,7 +163,6 @@ GameObject:
   - component: {fileID: 3201179833738391482}
   - component: {fileID: 3201179833738391483}
   - component: {fileID: 3201179833738391476}
-  - component: {fileID: 3201179833738391477}
   - component: {fileID: 3201179833738391481}
   m_Layer: 0
   m_Name: Point2
@@ -200,6 +200,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -224,6 +225,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &3201179833738391483
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -245,22 +247,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.50000006
   m_Center: {x: -0.0000019073486, y: 0, z: 0.0000019073486}
---- !u!114 &3201179833738391477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3201179833738391479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90ed459c04fa3444b810a616878cc879, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  touched: 0
-  right: {fileID: 0}
-  origin: {fileID: 3201179834284676203}
-  distance: 0
 --- !u!54 &3201179833738391481
 Rigidbody:
   m_ObjectHideFlags: 0
