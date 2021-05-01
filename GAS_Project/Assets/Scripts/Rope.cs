@@ -20,7 +20,7 @@ public class Rope : MonoBehaviour
     [Tooltip("Adjusts how fast the rope reacts.")]
     [Range(0.0f, 1.0f)]
     [SerializeField]
-    private float adjustSpeed = 1.0f;
+    private float adjustmentSpeed = 1.0f;
 
     [Tooltip("Adjusts the length of the rope.")]
     [Range(0.0f, 1.0f)]
@@ -59,6 +59,8 @@ public class Rope : MonoBehaviour
             ropeStartPoint.y -= ropeSegLen;
         }
 
+        weight.position = ropeSegments[segmentLength-1].posNow;
+
     }
 
 
@@ -66,11 +68,15 @@ public class Rope : MonoBehaviour
     {
         this.Simulate(); 
         this.DrawRope();
+
         AdjustWeightPosition();
     }
 
     private void AdjustWeightPosition()
     {
+        Vector2 lastPosVelocity = ropeSegments[segmentLength - 1].posNow - ropeSegments[segmentLength - 1].posOld;
+        weight.velocity = lastPosVelocity/Time.deltaTime;
+
         Vector3 lastPotionPos = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
         weight.MovePosition(new Vector3(lastPotionPos.x, lastPotionPos.y, 0)); //adjust to physics 
     }
@@ -85,7 +91,7 @@ public class Rope : MonoBehaviour
             RopeSegment firstSegment = this.ropeSegments[i];
             Vector2 velocity = firstSegment.posNow - firstSegment.posOld;
             firstSegment.posOld = firstSegment.posNow;
-            firstSegment.posNow += velocity * adjustSpeed;
+            firstSegment.posNow += velocity * adjustmentSpeed;
             firstSegment.posNow += forceGravity * Time.fixedDeltaTime;
             this.ropeSegments[i] = firstSegment;
         }
@@ -95,6 +101,7 @@ public class Rope : MonoBehaviour
         {
             this.ApplyConstraint();
         }
+
     }
 
     private void ApplyConstraint()
