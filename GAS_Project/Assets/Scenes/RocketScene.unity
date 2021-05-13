@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: particle
       value: 
       objectReference: {fileID: 1290321941}
+    - target: {fileID: 6022457960825028982, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+      propertyPath: explosionSound
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7295426918518182997, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2228,6 +2232,8 @@ GameObject:
   - component: {fileID: 1351730864}
   - component: {fileID: 1351730866}
   - component: {fileID: 1351730865}
+  - component: {fileID: 1351730868}
+  - component: {fileID: 1351730867}
   m_Layer: 6
   m_Name: weight
   m_TagString: weight
@@ -2337,6 +2343,38 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!320 &1351730867
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351730862}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: b38f1c7c3aa243748baf64bcd7cde40c, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -6470070341205998245, guid: b38f1c7c3aa243748baf64bcd7cde40c, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
+--- !u!114 &1351730868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351730862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e9a8a3ca841ee45ab9e6ac7a85f5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundeffect: {fileID: 1351730867}
 --- !u!1 &1624988072
 GameObject:
   m_ObjectHideFlags: 0
