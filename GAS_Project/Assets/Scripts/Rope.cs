@@ -83,6 +83,7 @@ public class Rope : MonoBehaviour
         DrawRope();
 
         AdjustWeightPosition();
+        
     }
 
     //Adjust the position of the weight to be at the end of the rope
