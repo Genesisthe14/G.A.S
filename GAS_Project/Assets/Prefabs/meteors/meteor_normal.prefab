@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8391278770667301331}
   - component: {fileID: 7724264879143395053}
   - component: {fileID: 6248290204444589115}
+  - component: {fileID: 4368375947600353820}
   m_Layer: 0
   m_Name: meteor_normal
   m_TagString: meteor
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4b4ee000ba20045aa60db0304b3ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionSound: {fileID: 4368375947600353820}
   shatters: 1
   numOfHitsToDestroy: 1
   shatteredVersion: {fileID: 847542010473168204, guid: 7c544d924aad655488b373684c441fec, type: 3}
@@ -4864,7 +4866,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 18303a2e1f745d14396a3160ad5a8c25, type: 2}
-  - {fileID: 2100000, guid: 18303a2e1f745d14396a3160ad5a8c25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5028,3 +5029,22 @@ PolygonCollider2D:
       - {x: -0.51, y: -2.575}
       - {x: -0.17, y: -2.385}
       - {x: -0.06, y: -2.315}
+--- !u!320 &4368375947600353820
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766510746232566130}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: a368facf79eae4647abd7fbbfed74952, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -772749333589182386, guid: a368facf79eae4647abd7fbbfed74952, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class MeteorBehaviour : MonoBehaviour
 {
+    public PlayableDirector explosionSound;
     [SerializeField]
     [Tooltip("Does the meteor shatter when hit or is it destroyed immediately")]
     private bool shatters = false;
@@ -91,7 +93,7 @@ public class MeteorBehaviour : MonoBehaviour
     private void StartParticle()
     {
         particle.Play();
-
+        explosionSound.Play();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().simulated = false;
         GetComponent<PolygonCollider2D>().enabled = false;
