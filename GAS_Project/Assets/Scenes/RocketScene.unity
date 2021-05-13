@@ -1302,7 +1302,7 @@ PrefabInstance:
       objectReference: {fileID: 1351730865}
     - target: {fileID: 9125340708223292054, guid: 77e23c6fbbd027a4f86605658cf24868, type: 3}
       propertyPath: yGravity
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 9125340708223292054, guid: 77e23c6fbbd027a4f86605658cf24868, type: 3}
       propertyPath: ropeHandle
