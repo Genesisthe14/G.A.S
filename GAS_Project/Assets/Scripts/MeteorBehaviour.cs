@@ -29,14 +29,34 @@ public class MeteorBehaviour : MonoBehaviour
     [Tooltip("Force applied to the shattered parts of the meteor when it is hit")]
     private int force = 1;
 
-    [SerializeField]
     [Tooltip("ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed")]
-    private GameObject particle;
+    private ParticleSystem particle;
 
     private float minVelocity = 18.0f;
 
+    private bool particleStartedPlaying = false;
+
+    private void Awake()
+    {
+        particle = GetComponent<ParticleSystem>();
+    }
+
+    private void Update()
+    {
+        if (particle.isStopped && particleStartedPlaying)
+        {
+            particleStartedPlaying = false;
+            Destroy(gameObject);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("rocket"))
+        {
+            StartParticle();
+        }
+
         //if the meteor collides with anything else but the weight then don't do anything
         if (!collision.gameObject.CompareTag("weight")) return;
 
@@ -48,35 +68,35 @@ public class MeteorBehaviour : MonoBehaviour
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
         {
+            GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
 
-            //if the meteor shatters then instantiate the shattered version of this object
-            if (shatters)
-            {
-                GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
-
-                //list of the meteor pieces
-                List<GameObject> meteorParts = GetChildrenList(shatteredV);
+            //list of the meteor pieces
+            List<GameObject> meteorParts = GetChildrenList(shatteredV);
                 
-                //directions the meteor pieces are supposed to fly in
-                Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
-                int directionIndex = 0;
+            //directions the meteor pieces are supposed to fly in
+            Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
+            int directionIndex = 0;
 
-                foreach(GameObject part in meteorParts)
-                {
-                    //add impulse to the pieces of the shattered version
-                    Vector2 forceVec = directions[directionIndex++] * force;
-                    part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
-                }
-            }
-            //if the meteor doesn't shatter instantiate the particlesystem that produces the destroying effect
-            else
+            foreach(GameObject part in meteorParts)
             {
-                Instantiate(particle, gameObject.transform.position, gameObject.transform.rotation);
+                //add impulse to the pieces of the shattered version
+                Vector2 forceVec = directions[directionIndex++] * force;
+                part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
             }
 
-            //destroy this meteor object
-            Destroy(gameObject);
+            StartParticle();
         }
+    }
+
+    private void StartParticle()
+    {
+        particle.Play();
+
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Rigidbody2D>().simulated = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
+
+        particleStartedPlaying = true;
     }
 
     //returns all children of a gameobject

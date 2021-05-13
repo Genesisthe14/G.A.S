@@ -8,9 +8,6 @@ public class Spawner : MonoBehaviour
     private GameObject spawnObject;
 
     [SerializeField]
-    private float invokeTime = 0.5f;
-
-    [SerializeField]
     private float[] invokeTimeRange = new float[2];
 
     [SerializeField]

@@ -142,3 +142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fad55f4815e5b4e97184c247f3e585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ropeHandle: {fileID: 0}
+  weight: {fileID: 0}
+  errorAdjust: 0.8
+  yGravity: -1
+  adjustmentSpeed: 0.903
+  ropeSegLen: 0.07
+  lineWidth: 0.1

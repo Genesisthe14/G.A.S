@@ -18,7 +18,7 @@ public class Rope : MonoBehaviour
     private float errorAdjust = 0.5f;
 
     [Tooltip("Adjusts how the rope falls. The higher the faster it falls and settles down.")]
-    [Range(-0.1f,-10.0f)]
+    [Range(0.0f,-10.0f)]
     [SerializeField]
     private float yGravity = -1.5f;
 
