@@ -23,6 +23,11 @@ public class RocketControls : MonoBehaviour
 
         if (!(touchPos.x <= xRightBound && touchPos.x >= xLeftBound)) return;
         if (!(touchPos.y <= yUpBound && touchPos.y >= yDownBound)) return;
+
+        //lower the fuel by moveDiff * the lowerRate specified in GameManager
+        /*float moveDiff = ((Vector2)transform.position - touchPos).magnitude;
+        GameManager.instance.LowerFuel(moveDiff);*/
+
         transform.position = touchPos;
     }
 }

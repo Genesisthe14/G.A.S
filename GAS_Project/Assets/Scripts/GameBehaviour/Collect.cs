@@ -25,7 +25,7 @@ public class Collect : MonoBehaviour
             //otherwise add fuel this object gives
             else
             {
-                GameManager.instance.Fuel += collectedFuel;
+                GameManager.instance.AddFuel(collectedFuel);
             }
             
             //if the parent only has one child left then destroy parent

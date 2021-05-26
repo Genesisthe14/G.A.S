@@ -12,7 +12,7 @@ public class RocketBehaviour : MonoBehaviour
         //if the rocket hits a meteor then substract fuel
         if (collision.gameObject.CompareTag("meteor"))
         {
-            GameManager.instance.Fuel -= leakingFuel;
+            GameManager.instance.LowerFuel(leakingFuel);
         }
     }
 }

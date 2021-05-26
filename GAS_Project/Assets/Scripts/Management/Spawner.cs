@@ -9,6 +9,10 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]
     private float[] invokeTimeRange = new float[2];
+    public float[] InvokeTimeRange
+    {
+        get { return invokeTimeRange; }
+    }
 
     [SerializeField]
     private float[] ySpawn = new float[2];
@@ -22,7 +26,6 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Invoke("InstantiateObjects", Random.Range(invokeTimeRange[0], invokeTimeRange[1]));
         StartCoroutine(InstantiateObjects());
     }
 
