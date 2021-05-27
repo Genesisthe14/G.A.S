@@ -23,7 +23,7 @@ public class MagnetField : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "collect")
+        if (collision.tag.Equals("collect"))
         {
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.MoveTowards(collision.transform.position, this.transform.position, pullSpeed * Time.deltaTime)) ;
         }
