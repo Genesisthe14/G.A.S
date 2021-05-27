@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Zieht Sämtliche Fuel Meteoriten zu sich 
+//Zieht Sï¿½mtliche Fuel Meteoriten zu sich 
 //Nicht zusammen mit Schild verwenden
-//Zerstört sich nach gegebener Zeit selbst
+//Zerstï¿½rt sich nach gegebener Zeit selbst
+//funzt noch nicht
 public class MagnetField : MonoBehaviour
 {
     public int pullSpeed;
