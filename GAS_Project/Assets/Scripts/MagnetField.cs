@@ -5,6 +5,7 @@ using UnityEngine;
 //Zieht Sämtliche Fuel Meteoriten zu sich 
 //Nicht zusammen mit Schild verwenden
 //Zerstört sich nach gegebener Zeit selbst
+//funzt noch nicht
 public class MagnetField : MonoBehaviour
 {
     public int pullSpeed;
@@ -17,15 +18,15 @@ public class MagnetField : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Destroy(this.gameObject, lifetime * Time.deltaTime);
+    {   //funzt net zerstört zu schnell
+        //Destroy(this.gameObject, lifetime * Time.deltaTime);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "collect")
+        if (collision.CompareTag("collect"))
         {
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.MoveTowards(collision.transform.position, this.transform.position, pullSpeed * Time.deltaTime)) ;
+            collision.GetComponent<Rigidbody2D>().AddForce(Vector2.MoveTowards(collision.transform.position, this.transform.position, pullSpeed * Time.deltaTime)) ;
         }
     }
     
