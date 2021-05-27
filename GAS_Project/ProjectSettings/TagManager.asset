@@ -9,6 +9,7 @@ TagManager:
   - meteor
   - collect
   - shatterParent
+  - item
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - weight
   - shatteredParts
-  - 
+  - Item
   - 
   - 
   - 

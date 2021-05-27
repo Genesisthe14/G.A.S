@@ -9,27 +9,26 @@ public class MagnetField : MonoBehaviour
 {
     public int pullSpeed;
     public float lifetime;
-    
-    void Start()
+
+    private void OnEnable()
     {
-        
+        StartCoroutine(DestorySequence());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(this.gameObject, lifetime * Time.deltaTime);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag.Equals("collect"))
+        if (collision.gameObject.CompareTag("collect"))
         {
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.MoveTowards(collision.transform.position, this.transform.position, pullSpeed * Time.deltaTime)) ;
+            Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
         }
     }
-    
         
-         
+    private IEnumerator DestorySequence()
+    {
+        yield return new WaitForSecondsRealtime(lifetime);
+
+        Destroy(gameObject);
+    }  
     
 }
