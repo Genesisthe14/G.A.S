@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Zieht Sämtliche Fuel Meteoriten zu sich 
+//Nicht zusammen mit Schild verwenden
+//Zerstört sich nach gegebener Zeit selbst
 public class MagnetField : MonoBehaviour
 {
     public int pullSpeed;
     public float lifetime;
-    // Start is called before the first frame update
+    
     void Start()
     {
         
@@ -22,7 +25,7 @@ public class MagnetField : MonoBehaviour
     {
         if (collision.tag == "collect")
         {
-            collision.transform.position += Vector3.MoveTowards(collision.transform.position, this.transform.position,pullSpeed*Time.deltaTime);
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.MoveTowards(collision.transform.position, this.transform.position, pullSpeed * Time.deltaTime)) ;
         }
     }
     
