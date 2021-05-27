@@ -1575,7 +1575,7 @@ MonoBehaviour:
   lowerRate: 1
   fuelConsuptionTime: 0.5
   lowestSpawnInterval: 1
-  raiseDistance: 1200
+  raiseDistance: 1100
   raisePercentage: 5
   fuelText: {fileID: 229202806}
   distanceText: {fileID: 1144874846}
