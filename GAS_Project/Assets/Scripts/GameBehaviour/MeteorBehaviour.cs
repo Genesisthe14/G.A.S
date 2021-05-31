@@ -6,6 +6,7 @@ using UnityEngine.Playables;
 public class MeteorBehaviour : MonoBehaviour
 {
     public PlayableDirector explosionSound;
+
     [SerializeField]
     [Tooltip("Does the meteor shatter when hit or is it destroyed immediately")]
     private bool shatters = false;
@@ -14,6 +15,10 @@ public class MeteorBehaviour : MonoBehaviour
         get { return shatters; }
         set { shatters = value; }
     }
+
+    [SerializeField]
+    [Tooltip("Whether the parent should be destroyed if all other children have been destroyed")]
+    private bool destroyParent = false;
 
     [SerializeField]
     [Range(1,20)]
@@ -31,10 +36,11 @@ public class MeteorBehaviour : MonoBehaviour
     [Tooltip("Force applied to the shattered parts of the meteor when it is hit")]
     private int force = 1;
 
-    [Tooltip("ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed")]
-    private ParticleSystem particle;
-
+    [SerializeField]
     private float minVelocity = 18.0f;
+
+    //ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed
+    private ParticleSystem particle;
 
     private bool particleStartedPlaying = false;
 
@@ -48,6 +54,13 @@ public class MeteorBehaviour : MonoBehaviour
         if (particle.isStopped && particleStartedPlaying)
         {
             particleStartedPlaying = false;
+
+            if (destroyParent && gameObject.transform.parent.childCount == 1)
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+                return;
+            }
+
             Destroy(gameObject);
         }
     }
@@ -70,6 +83,12 @@ public class MeteorBehaviour : MonoBehaviour
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
         {
+            if (!shatters)
+            {
+                StartParticle();
+                return;
+            }
+            
             GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
 
             //list of the meteor pieces
@@ -77,12 +96,13 @@ public class MeteorBehaviour : MonoBehaviour
                 
             //directions the meteor pieces are supposed to fly in
             Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
-            int directionIndex = 0;
 
             foreach(GameObject part in meteorParts)
             {
+                Vector2 dir = directions[Random.Range(0,4)];
+                
                 //add impulse to the pieces of the shattered version
-                Vector2 forceVec = directions[directionIndex++] * force;
+                Vector2 forceVec = dir * force;
                 part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
             }
 
@@ -102,7 +122,7 @@ public class MeteorBehaviour : MonoBehaviour
     }
 
     //returns all children of a gameobject
-    private List<GameObject> GetChildrenList(GameObject parent)
+    public static List<GameObject> GetChildrenList(GameObject parent)
     {
         if (parent.transform.childCount <= 0) return null;
 
