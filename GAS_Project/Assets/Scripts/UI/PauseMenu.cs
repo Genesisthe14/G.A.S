@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class PauseMenu : MonoBehaviour
+{
+    public static bool GamePaused = false;
+    public GameObject PauseMenuUI;
+
+    public void pauseGame() 
+    {
+        if (GamePaused) 
+        {
+            Time.timeScale = 1;
+            PauseMenuUI.SetActive(false);
+            GamePaused = false;
+        } else {
+            Time.timeScale = 0;
+            PauseMenuUI.SetActive(true);
+            GamePaused = true;
+        }
+    }
+
+    public void LoadMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("UIGaS");
+    }
+
+    public void Quit()
+    {
+        Debug.Log("Quit game");
+        Application.Quit();
+    }
+}
