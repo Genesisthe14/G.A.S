@@ -130,14 +130,10 @@ public class GameManager : MonoBehaviour
             raiseIndex += increaseIndexAmount;
 
             //raise speed bg
-<<<<<<< Updated upstream
-            bgManager.Speed += initialSpeedValues["speedBG"] * raisePercentage / 100.0f;
-=======
             for (int i = 0; i < bgManagers.Length; i++)
             {
                 bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 35.0f;
             }
->>>>>>> Stashed changes
 
             //raise lowering rate of fuel
             if(fuelConsuptionTime > 0)
