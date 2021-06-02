@@ -10,6 +10,7 @@ TagManager:
   - collect
   - shatterParent
   - item
+  - pickup
   layers:
   - Default
   - TransparentFX

@@ -27,6 +27,13 @@ public class Spawner : MonoBehaviour
         get { return velocityRange; }
     }
 
+    private bool spawn = true;
+    public bool Spawn
+    {
+        get { return spawn; }
+        set { spawn = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +42,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator InstantiateObjects()
     {
-        while (true)
+        while (spawn)
         {
             /*
              * item meteor = 10%

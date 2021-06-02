@@ -68,6 +68,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Spawner of the game")]
     private Spawner spawner;
+    public Spawner Spawner
+    {
+        get { return spawner; }
+    }
+
+    [SerializeField]
+    [Tooltip("GameOver UI Reference")]
+    private GameOverUI gameOverObject;
 
     [SerializeField]
     private int[] inputMasks;
@@ -89,6 +97,12 @@ public class GameManager : MonoBehaviour
         { 
             fuel = value;
 
+            if(fuel <= 0.0f)
+            {
+                gameOverObject.GameOver((int)distance);
+                fuel = 0.0f;
+            }
+
             fuelText.text = "Fuel: " + (int)fuel;
         }
     }
@@ -98,6 +112,7 @@ public class GameManager : MonoBehaviour
     public bool ConsumeFuel
     {
         get { return consumeFuel; }
+        set { consumeFuel = value; }
     }
 
     //Distance the player has covered so far
@@ -148,7 +163,7 @@ public class GameManager : MonoBehaviour
                 LowerFuel(lowerRate);            
                 yield return new WaitForSecondsRealtime(fuelConsuptionTime);
             }
-            yield return null;
+            else yield return null;
         }
     }
 
