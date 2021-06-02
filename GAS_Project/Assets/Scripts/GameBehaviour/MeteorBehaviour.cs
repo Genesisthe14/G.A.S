@@ -54,9 +54,10 @@ public class MeteorBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("rocket"))
+        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
         {
             StartParticle();
+            return;
         }
 
         //if the meteor collides with anything else but the weight then don't do anything
