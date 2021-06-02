@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer;
+    public AudioSource audioSource;
+
+    [SerializeField]
+    private Slider volumeSlider;
+
+    private void Awake()
+    {
+        volumeSlider.value = audioSource.volume;
+    }
 
     public void SetVolume (float volume) 
     {
-        audioMixer.SetFloat("volume", volume);
+        audioSource.volume = volume;
         Debug.Log(volume);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
