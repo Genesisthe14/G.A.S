@@ -7,7 +7,7 @@ public class Homescreen : MonoBehaviour
 {
     public void StartGame () 
     {
-        SceneManager.LoadScene("RocketScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void QuitGame () 

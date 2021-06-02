@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Spawning & Speed")]
     [SerializeField]
     [Tooltip("The amount of fuel substracted per repeatTime")]
     private float lowerRate = 0.5f;
@@ -15,44 +14,17 @@ public class GameManager : MonoBehaviour
     private float fuelConsuptionTime = 1.0f;
 
     [SerializeField]
-    [Tooltip("Lowest limit for the fuel consumption time to sink to")]
-    private float limitFuelConsumptionTime = 0.5f;
-
-    [SerializeField]
     [Tooltip("lowest interval between spawning meteors")]
     private float lowestSpawnInterval = 0.5f;
 
     [SerializeField]
     [Tooltip("Length of distance needed to be traveled to raise the speed")]
-    private int raiseSpeedDistance = 10;
+    private int raiseDistance = 1200000;
 
     [SerializeField]
     [Tooltip("Percentage to raise values by")]
     private int raisePercentage = 5;
 
-    [SerializeField]
-    [Tooltip("Buffs the player can activate")]
-    private BuffItem[] possibleBuffs;
-    public BuffItem[] PossibleBuffs
-    {
-        get { return possibleBuffs; }
-    }
-
-    [SerializeField]
-    //distance traveled per second
-    private float distancePerSecond = 5.0f;
-
-    //Threshold determining on which multiples the speed is raised
-    private float raiseIndex = 1.0f;
-
-    //How much the threshold for multiples is raised everytime
-    private float increaseIndexAmount = 2.0f;
-
-    //Dictionary with initial values of the properties that are raised when the speed of the game should increase
-    private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
-
-
-    [Header("Texts & Management")]
     [SerializeField]
     [Tooltip("Text that displays the amount of fuel left")]
     private Text fuelText;
@@ -68,18 +40,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Spawner of the game")]
     private Spawner spawner;
-    public Spawner Spawner
-    {
-        get { return spawner; }
-    }
-
-    [SerializeField]
-    [Tooltip("GameOver UI Reference")]
-    private GameOverUI gameOverObject;
-
-    [SerializeField]
-    private int[] inputMasks;
-
 
     //instance of the GameManager for the singleton
     private static GameManager _instance;
@@ -97,40 +57,24 @@ public class GameManager : MonoBehaviour
         { 
             fuel = value;
 
-            if(fuel <= 0.0f)
-            {
-                gameOverObject.GameOver((int)distance);
-                fuel = 0.0f;
-            }
-
             fuelText.text = "Fuel: " + (int)fuel;
         }
-    }
-
-    //Whether the fuel consumption should be stopped
-    private bool consumeFuel = true;
-    public bool ConsumeFuel
-    {
-        get { return consumeFuel; }
-        set { consumeFuel = value; }
     }
 
     //Distance the player has covered so far
     private float distance = 0;
 
+    //distance traveled per second
+    private float distancePerSecond = 100.0f;
 
-    private void Awake()
-    {
-        //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
-        List<string> eventMask = new List<string>();
+    //Threshold determining on which multiples the speed is raised
+    private float raiseIndex = 1.0f;
 
-        foreach(int mask in inputMasks)
-        {
-            eventMask.Add(LayerMask.LayerToName(mask));
-        }
+    //How much the threshold for multiples is raised everytime
+    private float increaseIndexAmount = 2.0f;
 
-        Camera.main.eventMask = LayerMask.GetMask(eventMask.ToArray());
-    }
+    //Dictionary with initial values of the properties that are raised when the speed of the game should increase
+    private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
 
     private void Start()
     {
@@ -146,8 +90,6 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("spawnRateLowerBound", spawner.InvokeTimeRange[0]);
         initialSpeedValues.Add("spawnRateUpperBound", spawner.InvokeTimeRange[1]);
         initialSpeedValues.Add("distancePerSecond", distancePerSecond);
-        initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
-        initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
         StartCoroutine(UseFuel());
         InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
@@ -158,12 +100,8 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (consumeFuel)
-            {
-                LowerFuel(lowerRate);            
-                yield return new WaitForSecondsRealtime(fuelConsuptionTime);
-            }
-            else yield return null;
+            LowerFuel(lowerRate);
+            yield return new WaitForSecondsRealtime(fuelConsuptionTime);
         }
     }
 
@@ -182,15 +120,15 @@ public class GameManager : MonoBehaviour
     private void RaiseSpeed()
     {
         //if the distance exceeds the next multiple of raiseDistance then raise speed
-        if (distance >= raiseSpeedDistance * raiseIndex)
+        if (distance >= raiseDistance * raiseIndex)
         {
             raiseIndex += increaseIndexAmount;
 
             //raise speed bg
-            bgManager.Speed += initialSpeedValues["speedBG"] * raisePercentage / 35.0f;
+            bgManager.Speed += initialSpeedValues["speedBG"] * raisePercentage / 100.0f;
 
             //raise lowering rate of fuel
-            if(fuelConsuptionTime >= limitFuelConsumptionTime)
+            if(fuelConsuptionTime > 0)
             {
                 fuelConsuptionTime -= initialSpeedValues["fuelConsuptionTime"] * raisePercentage / 100.0f;
                 if (fuelConsuptionTime < 0) fuelConsuptionTime = 0.0f;
@@ -200,10 +138,6 @@ public class GameManager : MonoBehaviour
             distancePerSecond += initialSpeedValues["distancePerSecond"] * raisePercentage / 100.0f;
 
 
-            //raise velocity of spawned objects
-            spawner.VelocityRange[0] += initialSpeedValues["lowerVelocityRange"] * raisePercentage / 50.0f;
-            spawner.VelocityRange[1] += initialSpeedValues["upperVelocityRange"] * raisePercentage / 50.0f;
-
             //raise object spawn rate
 
             //if the lower spawn rate bound is 0 lower the upper bound until it is 0
@@ -211,7 +145,7 @@ public class GameManager : MonoBehaviour
             {
                 if (spawner.InvokeTimeRange[1] > lowestSpawnInterval)
                 {
-                    spawner.InvokeTimeRange[1] -= initialSpeedValues["spawnRateUpperBound"] * raisePercentage / 100.0f;
+                    spawner.InvokeTimeRange[1] -= initialSpeedValues["spawnRateUpperBound"] * raisePercentage * 1.5f / 100.0f;
 
                     if (spawner.InvokeTimeRange[1] < lowestSpawnInterval) spawner.InvokeTimeRange[1] = lowestSpawnInterval;
                 }
@@ -220,7 +154,7 @@ public class GameManager : MonoBehaviour
             //if the lower bound spawn rate is above 0 lower it
             else
             {
-                spawner.InvokeTimeRange[0] -= initialSpeedValues["spawnRateLowerBound"] * raisePercentage / 100.0f;
+                spawner.InvokeTimeRange[0] -= initialSpeedValues["spawnRateLowerBound"] * raisePercentage * 1.5f / 100.0f;
 
                 if (spawner.InvokeTimeRange[0] < 0.0f) spawner.InvokeTimeRange[0] = 0.0f;
             }

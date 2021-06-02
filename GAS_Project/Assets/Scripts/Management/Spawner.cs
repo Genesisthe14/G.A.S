@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField]
-    private SerializableDictionary<string, GameObject> spawnObjects;
+    private GameObject[] spawnObjects;
 
     [SerializeField]
     private float[] invokeTimeRange = new float[2];
@@ -22,17 +22,8 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]
     private float[] velocityRange = new float[2];
-    public float[] VelocityRange
-    {
-        get { return velocityRange; }
-    }
 
-    private bool spawn = true;
-    public bool Spawn
-    {
-        get { return spawn; }
-        set { spawn = value; }
-    }
+    private int spawnChanceSatellite = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -42,25 +33,12 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator InstantiateObjects()
     {
-        while (spawn)
+        while (true)
         {
-            /*
-             * item meteor = 10%
-             * normal meteor = 55%
-             * satellite = 35%
-             */
-            
-            GameObject spawnObject = null;
+            GameObject spawnObject;
 
-            int randomNum = Random.Range(0, 100);
-
-            if (randomNum < 10)
-            {
-                spawnObject = spawnObjects["item_meteor"];
-            }
-
-            else if (randomNum >= 5 && randomNum < 45) spawnObject = spawnObjects["satellite"];
-            else if (randomNum >= 45 && randomNum < 100) spawnObject = spawnObjects["normal_meteor"];
+            if (Random.Range(0, 100) <= spawnChanceSatellite) spawnObject = spawnObjects[0];
+            else spawnObject = spawnObjects[1];
 
             Vector2 spawnPos = new Vector2(Random.Range(xSpawn[0], xSpawn[1]), Random.Range(ySpawn[0], ySpawn[1]));
             GameObject temp = Instantiate(spawnObject, spawnPos, spawnObject.transform.rotation);

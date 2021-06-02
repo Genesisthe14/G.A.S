@@ -10,7 +10,6 @@ TagManager:
   - collect
   - shatterParent
   - item
-  - pickup
   layers:
   - Default
   - TransparentFX
@@ -21,7 +20,7 @@ TagManager:
   - weight
   - shatteredParts
   - Item
-  - Shield
+  - 
   - 
   - 
   - 

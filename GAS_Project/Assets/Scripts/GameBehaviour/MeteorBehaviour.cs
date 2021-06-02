@@ -99,12 +99,6 @@ public class MeteorBehaviour : MonoBehaviour
 
             foreach(GameObject part in meteorParts)
             {
-                if (part.CompareTag("pickup"))
-                {
-                    part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
-                    continue;
-                }
-                
                 Vector2 dir = directions[Random.Range(0,4)];
                 
                 //add impulse to the pieces of the shattered version
