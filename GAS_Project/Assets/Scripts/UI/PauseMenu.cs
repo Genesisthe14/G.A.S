@@ -12,10 +12,15 @@ public class PauseMenu : MonoBehaviour
     {
         if (GamePaused) 
         {
+            GameManager.instance.ConsumeFuel = true;
+            GameManager.instance.Spawner.Spawn = true;
             Time.timeScale = 1;
             PauseMenuUI.SetActive(false);
             GamePaused = false;
-        } else {
+        } 
+        else {
+            GameManager.instance.ConsumeFuel = false;
+            GameManager.instance.Spawner.Spawn = false;
             Time.timeScale = 0;
             PauseMenuUI.SetActive(true);
             GamePaused = true;
