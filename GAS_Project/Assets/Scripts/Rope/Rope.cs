@@ -32,11 +32,6 @@ public class Rope : MonoBehaviour
     [SerializeField]
     private float ropeSegLen = 0.25f;
 
-    [Tooltip("Adjusts the width of the rope.")]
-    [Range(0.0f, 1.0f)]
-    [SerializeField]
-    private float lineWidth = 0.1f;
-
     //lineRenderer that renders the rope
     private LineRenderer lineRenderer;
 
@@ -172,9 +167,6 @@ public class Rope : MonoBehaviour
     //draw the points of the rope with the lineRenderer
     private void DrawRope()
     {
-        lineRenderer.startWidth = lineWidth;
-        lineRenderer.endWidth = lineWidth;
-
         Vector3[] ropePositions = new Vector3[segmentLength];
         for (int i = 0; i < segmentLength; i++)
         {
