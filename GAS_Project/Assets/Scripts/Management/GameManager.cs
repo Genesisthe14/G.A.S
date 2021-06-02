@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("BG Manager of the game")]
-    private BGManager bgManager;
+    private BGManager[] bgManagers;
 
     [SerializeField]
     [Tooltip("Spawner of the game")]
@@ -85,7 +85,12 @@ public class GameManager : MonoBehaviour
         distanceText.text = "Distance: " + distance;
 
         //store initial values so that percentages stay constant
-        initialSpeedValues.Add("speedBG", bgManager.Speed);
+
+        for(int i = 0; i < bgManagers.Length; i++)
+        {
+            initialSpeedValues.Add("speedBG" + i, bgManagers[i].Speed);
+        }
+
         initialSpeedValues.Add("fuelConsuptionTime", fuelConsuptionTime);
         initialSpeedValues.Add("spawnRateLowerBound", spawner.InvokeTimeRange[0]);
         initialSpeedValues.Add("spawnRateUpperBound", spawner.InvokeTimeRange[1]);
@@ -125,7 +130,14 @@ public class GameManager : MonoBehaviour
             raiseIndex += increaseIndexAmount;
 
             //raise speed bg
+<<<<<<< Updated upstream
             bgManager.Speed += initialSpeedValues["speedBG"] * raisePercentage / 100.0f;
+=======
+            for (int i = 0; i < bgManagers.Length; i++)
+            {
+                bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 35.0f;
+            }
+>>>>>>> Stashed changes
 
             //raise lowering rate of fuel
             if(fuelConsuptionTime > 0)
