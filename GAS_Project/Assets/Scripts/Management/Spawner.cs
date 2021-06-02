@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
         get { return velocityRange; }
     }
 
+    [SerializeField]
     private bool spawn = true;
     public bool Spawn
     {
@@ -42,8 +43,14 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator InstantiateObjects()
     {
-        while (spawn)
+        while (true)
         {
+            if (!spawn)
+            {
+                yield return null;
+                continue;
+            }
+            
             /*
              * item meteor = 10%
              * normal meteor = 55%

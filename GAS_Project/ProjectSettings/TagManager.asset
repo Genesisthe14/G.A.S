@@ -11,6 +11,7 @@ TagManager:
   - shatterParent
   - item
   - pickup
+  - shield
   layers:
   - Default
   - TransparentFX

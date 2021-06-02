@@ -2704,7 +2704,7 @@ GameObject:
   - component: {fileID: 1791867484}
   m_Layer: 9
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2894,6 +2894,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
       propertyPath: ySpawnOffset
       value: 96.63
       objectReference: {fileID: 0}
@@ -2912,6 +2916,10 @@ PrefabInstance:
     - target: {fileID: 8740861477583775633, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
       propertyPath: m_Name
       value: BG_Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740861477583775633, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8740861477583775634, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
       propertyPath: m_RootOrder
@@ -3381,8 +3389,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 2110865606}
     m_Modifications:
     - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
+      propertyPath: orderInLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
       propertyPath: ySpawnOffset
-      value: 8.66
+      value: 19.19
       objectReference: {fileID: 0}
     - target: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
       propertyPath: bgSprites.Array.data[0]
@@ -3447,6 +3463,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8740861477583775634, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
   m_PrefabInstance: {fileID: 2089680272}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2089680274 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
+  m_PrefabInstance: {fileID: 2089680272}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1df76cd6f5bdbe4189488d8ea58bb2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2110865604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,7 +3516,9 @@ MonoBehaviour:
   distancePerSecond: 5
   fuelText: {fileID: 229202806}
   distanceText: {fileID: 299061285}
-  bgManager: {fileID: 666257668}
+  bgManagers:
+  - {fileID: 666257668}
+  - {fileID: 2089680274}
   spawner: {fileID: 2110865607}
   gameOverObject: {fileID: 250958540}
   inputMasks: 0000000005000000
