@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.4}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &66292142
@@ -181,7 +181,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
@@ -631,7 +631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &676534549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,7 +844,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
@@ -899,7 +899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3.4}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887853252
@@ -923,7 +923,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
@@ -1002,7 +1002,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
@@ -1360,7 +1360,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
@@ -1472,7 +1472,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
@@ -1585,7 +1585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1066655181
 Transform:
   m_ObjectHideFlags: 0
@@ -1970,7 +1970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1227646450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2684,7 +2684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1819078158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2697,7 +2697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd745875f1e251d4ba1cfdea4bb80970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnObjects: []
+  spawnObjects:
+    list: []
   invokeTimeRange:
   - 0
   - 5
@@ -2724,13 +2725,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lowerRate: 1
   fuelConsuptionTime: 0.5
+  limitFuelConsumptionTime: 0.5
   lowestSpawnInterval: 1
-  raiseDistance: 1200
+  raiseSpeedDistance: 10
   raisePercentage: 5
+  possibleBuffs: []
+  distancePerSecond: 5
   fuelText: {fileID: 2117188380}
   distanceText: {fileID: 2138287348}
   bgManager: {fileID: 1055389674}
   spawner: {fileID: 1819078158}
+  inputMasks: 
 --- !u!4 &1819078160
 Transform:
   m_ObjectHideFlags: 0
@@ -3145,13 +3150,14 @@ GameObject:
   - component: {fileID: 2001656847}
   - component: {fileID: 2001656846}
   - component: {fileID: 2001656845}
+  - component: {fileID: 2001656848}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &2001656845
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3217,6 +3223,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2001656848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001656844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &2050419465
 GameObject:
   m_ObjectHideFlags: 0
@@ -3275,7 +3313,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
+    m_Font: {fileID: 12800000, guid: 647492b7e315f084ba954b8ad6277f5f, type: 3}
     m_FontSize: 26
     m_FontStyle: 1
     m_BestFit: 0
@@ -3463,7 +3501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.000045776367, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 290.9348, y: 64.8615}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2117188380

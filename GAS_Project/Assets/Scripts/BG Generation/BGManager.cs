@@ -29,6 +29,9 @@ public class BGManager : MonoBehaviour
         set { speed = value; }
     }
 
+    [SerializeField]
+    private int orderInLayer = 0;
+
     //Index of the next sprite to use
     private int bgSpriteIndex = 0;
 
@@ -45,6 +48,7 @@ public class BGManager : MonoBehaviour
 
         //set sprite
         firstBG.GetComponent<SpriteRenderer>().sprite = bgSprites[bgSpriteIndex++];
+        firstBG.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
         bgObjects[0] = firstBG;
 
 
@@ -56,7 +60,8 @@ public class BGManager : MonoBehaviour
         secondBG.transform.parent = containerObject;
 
         //set sprite
-        secondBG.GetComponent<SpriteRenderer>().sprite = bgSprites[bgSpriteIndex++];        
+        secondBG.GetComponent<SpriteRenderer>().sprite = bgSprites[bgSpriteIndex++];
+        secondBG.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
 
         //Set the second Sprite above the first
         Vector3 secPos = secondBG.transform.position;

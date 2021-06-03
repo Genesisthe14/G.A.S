@@ -67,9 +67,10 @@ public class MeteorBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("rocket"))
+        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
         {
             StartParticle();
+            return;
         }
 
         //if the meteor collides with anything else but the weight then don't do anything
@@ -99,6 +100,12 @@ public class MeteorBehaviour : MonoBehaviour
 
             foreach(GameObject part in meteorParts)
             {
+                if (part.CompareTag("pickup"))
+                {
+                    part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
+                    continue;
+                }
+                
                 Vector2 dir = directions[Random.Range(0,4)];
                 
                 //add impulse to the pieces of the shattered version
