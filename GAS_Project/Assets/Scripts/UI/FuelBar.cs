@@ -7,8 +7,8 @@ public class FuelBar : MonoBehaviour
 {
     public Slider fuelSlider;
 
-    public void SetHealth(int health)
+    public void SetFuel(float fuel)
     {
-        fuelSlider.value = health;
+        fuelSlider.value = fuel;
     }
 }

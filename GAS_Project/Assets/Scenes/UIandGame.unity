@@ -747,6 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0f1d67120ca6d4a876e98f9e3b72b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   pointsText: {fileID: 1003926781}
 --- !u!114 &760319175
 MonoBehaviour:
@@ -1554,17 +1555,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
---- !u!114 &1055389674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8740861477583775632, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
-  m_PrefabInstance: {fileID: 1055389673}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1df76cd6f5bdbe4189488d8ea58bb2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1055389675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8740861477583775634, guid: ff13c1b31218d924e8fdf67954038e0f, type: 3}
@@ -1585,7 +1575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1066655181
 Transform:
   m_ObjectHideFlags: 0
@@ -1970,7 +1960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1227646450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2684,7 +2674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1819078158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2711,6 +2701,7 @@ MonoBehaviour:
   velocityRange:
   - 3.5
   - 6
+  spawn: 1
 --- !u!114 &1819078159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2733,8 +2724,9 @@ MonoBehaviour:
   distancePerSecond: 5
   fuelText: {fileID: 2117188380}
   distanceText: {fileID: 2138287348}
-  bgManager: {fileID: 1055389674}
+  bgManagers: []
   spawner: {fileID: 1819078158}
+  gameOverObject: {fileID: 0}
   inputMasks: 
 --- !u!4 &1819078160
 Transform:
@@ -3157,7 +3149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &2001656845
 AudioListener:
   m_ObjectHideFlags: 0

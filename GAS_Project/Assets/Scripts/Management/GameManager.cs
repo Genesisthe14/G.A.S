@@ -78,6 +78,10 @@ public class GameManager : MonoBehaviour
     private GameOverUI gameOverObject;
 
     [SerializeField]
+    [Tooltip("Fuelbar reference")]
+    private FuelBar fuelBar;
+
+    [SerializeField]
     private int[] inputMasks;
 
 
@@ -102,8 +106,9 @@ public class GameManager : MonoBehaviour
                 gameOverObject.GameOver((int)distance);
                 fuel = 0.0f;
             }
-
-            fuelText.text = "Fuel: " + (int)fuel;
+            
+            fuelBar.SetFuel((int)fuel);
+            //fuelText.text = "Fuel: " + (int)fuel;
         }
     }
 
