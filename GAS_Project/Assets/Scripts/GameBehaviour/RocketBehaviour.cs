@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RocketBehaviour : MonoBehaviour
 {
     //amount of fuel that is leaked when the rocket hits a meteor
     private static float leakingFuel = 5.0f;
+
+    [SerializeField]
+    private GameObject damageScreen;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -13,6 +17,26 @@ public class RocketBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("meteor"))
         {
             GameManager.instance.LowerFuel(leakingFuel);
+            damage();
+        }
+    }
+
+    private void damage() 
+    {
+        var color = damageScreen.GetComponent<Image>().color;
+        color.a = 0.8f;
+
+        damageScreen.GetComponent<Image>().color = color;
+    }
+
+    private void Update()
+    {
+        if (damageScreen.GetComponent<Image>().color.a > 0)
+        {
+            var color = damageScreen.GetComponent<Image>().color;
+            color.a -= 0.01f;
+
+            damageScreen.GetComponent<Image>().color = color;
         }
     }
 }

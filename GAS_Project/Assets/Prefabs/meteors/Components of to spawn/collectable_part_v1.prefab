@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8104110183149762145}
   - component: {fileID: 8308293011295099245}
   m_Layer: 7
-  m_Name: collectable_part
+  m_Name: collectable_part_v1
   m_TagString: collect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4849c886b7510144a2812ca4ce98a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fueledScreen: {fileID: 8459390697083789082, guid: 61a85b5841613754daad5c23b3e22b0d, type: 3}
 --- !u!114 &8104110183149762145
 MonoBehaviour:
   m_ObjectHideFlags: 0
