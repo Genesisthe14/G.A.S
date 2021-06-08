@@ -82,6 +82,10 @@ public class GameManager : MonoBehaviour
     private FuelBar fuelBar;
 
     [SerializeField]
+    [Tooltip("Fill reference")]
+    private Image fillColor;
+
+    [SerializeField]
     private int[] inputMasks;
 
 
@@ -106,7 +110,17 @@ public class GameManager : MonoBehaviour
                 gameOverObject.GameOver((int)distance);
                 fuel = 0.0f;
             }
-            
+            if(fuel <= 30f)
+            {
+                if((fuel * 100f) % 3 == 0) 
+                {
+                    Debug.Log("White");
+                    fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
+                } else {
+                    Debug.Log("Purple");
+                    fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
+                }
+            }
             fuelBar.SetFuel((int)fuel);
             //fuelText.text = "Fuel: " + (int)fuel;
         }

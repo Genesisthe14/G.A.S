@@ -9,14 +9,17 @@ public class GameOverUI : MonoBehaviour
 {
     [SerializeField]
     private AudioSource source;
-
+    [SerializeField]
+    private GameObject pause;
     public Text pointsText;
     public void GameOver(int distance) 
     {
         GameManager.instance.ConsumeFuel = false;
         GameManager.instance.Spawner.Spawn = false;
 
+
         gameObject.SetActive(true);
+        pause.SetActive(false);
 
         source.Play();
         Time.timeScale = 0;

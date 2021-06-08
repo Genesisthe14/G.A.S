@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Collect : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject fueledScreen;
-
     //how much fuel is collected when this object is collected
     private static float collectedFuel = 1.0f;
 
@@ -25,13 +22,11 @@ public class Collect : MonoBehaviour
             if(100.0f - GameManager.instance.Fuel < collectedFuel)
             {
                 GameManager.instance.Fuel = 100.0f;
-                heal();
             }
             //otherwise add fuel this object gives
             else
             {
                 GameManager.instance.AddFuel(collectedFuel);
-                heal();
             }
             
             //if the parent only has one child left then destroy parent
@@ -44,23 +39,4 @@ public class Collect : MonoBehaviour
         }
     }
 
-    private void heal() 
-    {
-        Debug.Log("heal");
-        var color = fueledScreen.GetComponent<Image>().color;
-        color.a = 0.8f;
-
-        fueledScreen.GetComponent<Image>().color = color;
-    }
-
-    private void Update()
-    {
-        if (fueledScreen.GetComponent<Image>().color.a > 0)
-        {
-            var color = fueledScreen.GetComponent<Image>().color;
-            color.a -= 0.01f;
-
-            fueledScreen.GetComponent<Image>().color = color;
-        }
-    }
 }
