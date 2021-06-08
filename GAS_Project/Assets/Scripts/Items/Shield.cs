@@ -28,6 +28,14 @@ public class Shield : BuffItem
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+
+        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+        Debug.Log("Shield Collide");
+    }
+
     public override void RestartItem()
     {
         hitpoints = 3;
