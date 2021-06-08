@@ -67,54 +67,7 @@ public class MeteorBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
-        {
-            StartParticle();
-            return;
-        }
-
-        //if the meteor collides with anything else but the weight then don't do anything
-        if (!collision.gameObject.CompareTag("weight")) return;
-
-        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity) return;
-
-        currentNumHits++;
-
-        //if the current number of hits on this meteor is equal to or exceeds 
-        //the number of hits necessary to destroy the meteor
-        if (currentNumHits >= numOfHitsToDestroy)
-        {
-            if (!shatters)
-            {
-                StartParticle();
-                return;
-            }
-            
-            GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
-
-            //list of the meteor pieces
-            List<GameObject> meteorParts = GetChildrenList(shatteredV);
-                
-            //directions the meteor pieces are supposed to fly in
-            Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
-
-            foreach(GameObject part in meteorParts)
-            {
-                if (part.CompareTag("pickup"))
-                {
-                    part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
-                    continue;
-                }
-                
-                Vector2 dir = directions[Random.Range(0,4)];
-                
-                //add impulse to the pieces of the shattered version
-                Vector2 forceVec = dir * force;
-                part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
-            }
-
-            StartParticle();
-        }
+        OnMeteorCollision(collision);
     }
 
     private void StartParticle()
@@ -141,5 +94,119 @@ public class MeteorBehaviour : MonoBehaviour
         }
 
         return listChildren;
+    }
+
+    public void OnMeteorCollision(Collision2D collision)
+    {
+        //if the meteor hit the rocket or shield destroy it without spawning part stones
+        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
+        {
+            StartParticle();
+            return;
+        }
+
+        //if the meteor collides with anything else but the weight then don't do anything
+        if (!collision.gameObject.CompareTag("weight")) return;
+
+        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
+        {
+            GetComponent<Collider2D>().isTrigger = true;
+            return;
+        }
+
+        currentNumHits++;
+
+        //if the current number of hits on this meteor is equal to or exceeds 
+        //the number of hits necessary to destroy the meteor
+        if (currentNumHits >= numOfHitsToDestroy)
+        {
+            if (!shatters)
+            {
+                StartParticle();
+                return;
+            }
+
+            GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
+
+            //list of the meteor pieces
+            List<GameObject> meteorParts = GetChildrenList(shatteredV);
+
+            //directions the meteor pieces are supposed to fly in
+            Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
+
+            foreach (GameObject part in meteorParts)
+            {
+                if (part.CompareTag("pickup"))
+                {
+                    part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
+                    continue;
+                }
+
+                Vector2 dir = directions[Random.Range(0, 4)];
+
+                //add impulse to the pieces of the shattered version
+                Vector2 forceVec = dir * force;
+                part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
+            }
+
+            StartParticle();
+        }
+    }
+
+    public void OnMeteorCollision(Collider2D collision)
+    {
+        //if the meteor hit the rocket or shield destroy it without spawning part stones
+        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
+        {
+            StartParticle();
+            return;
+        }
+
+        //if the meteor collides with anything else but the weight then don't do anything
+        if (!collision.gameObject.CompareTag("weight")) return;
+
+        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
+        {
+            GetComponent<Collider2D>().isTrigger = true;
+            return;
+        }
+
+        currentNumHits++;
+
+        //if the current number of hits on this meteor is equal to or exceeds 
+        //the number of hits necessary to destroy the meteor
+        if (currentNumHits >= numOfHitsToDestroy)
+        {
+            if (!shatters)
+            {
+                StartParticle();
+                return;
+            }
+
+            GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
+
+            //list of the meteor pieces
+            List<GameObject> meteorParts = GetChildrenList(shatteredV);
+
+            //directions the meteor pieces are supposed to fly in
+            Vector2[] directions = { new Vector2(1.0f, 1.0f), new Vector2(1.0f, -1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f, -1.0f) };
+
+            foreach (GameObject part in meteorParts)
+            {
+                if (part.CompareTag("pickup"))
+                {
+                    part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
+                    continue;
+                }
+
+                Vector2 dir = directions[Random.Range(0, 4)];
+
+                //add impulse to the pieces of the shattered version
+                Vector2 forceVec = dir * force;
+                part.GetComponent<Rigidbody2D>().AddForce(forceVec, ForceMode2D.Impulse);
+            }
+
+            StartParticle();
+        }
     }
 }

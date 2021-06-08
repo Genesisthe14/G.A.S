@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4368375947600353820}
   - component: {fileID: 3345701535988447796}
   - component: {fileID: 1172812750030890904}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: meteor_normal
   m_TagString: meteor
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: e714ae0caeb2d8841ba782844d4f7bc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

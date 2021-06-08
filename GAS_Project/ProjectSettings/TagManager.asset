@@ -12,6 +12,7 @@ TagManager:
   - item
   - pickup
   - shield
+  - satellite
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - shatteredParts
   - Item
   - Shield
-  - 
-  - 
+  - 2DPhysicsRaycaster
+  - SpawnLayer
   - 
   - 
   - 

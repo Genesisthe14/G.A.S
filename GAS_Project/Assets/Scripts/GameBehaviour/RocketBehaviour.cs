@@ -39,4 +39,11 @@ public class RocketBehaviour : MonoBehaviour
             damageScreen.GetComponent<Image>().color = color;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+
+        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+    }
 }

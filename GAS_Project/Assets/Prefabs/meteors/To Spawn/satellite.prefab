@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 125504671674098798}
   - component: {fileID: 125504671674098797}
   - component: {fileID: 8897277239723318789}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: satellite
-  m_TagString: Untagged
+  m_TagString: satellite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: d110823bf3b86e947acedf7cd0395408, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
