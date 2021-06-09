@@ -84,11 +84,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Fill reference")]
     private Image fillColor;
+    public ParticleSystem particleBar;
 
     [SerializeField]
     private int[] inputMasks;
 
-
+    
     //instance of the GameManager for the singleton
     private static GameManager _instance;
     public static GameManager instance
@@ -114,10 +115,10 @@ public class GameManager : MonoBehaviour
             {
                 if((fuel * 100f) % 3 == 0) 
                 {
-                    Debug.Log("White");
+                    //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
                 } else {
-                    Debug.Log("Purple");
+                    //Debug.Log("Purple");
                     fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
                 }
             }
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         fuelText.text = "Fuel: " + fuel;
-        distanceText.text = "Distance: " + distance;
+        distanceText.text = distance + " KM";
 
         //store initial values so that percentages stay constant
 
@@ -177,6 +178,11 @@ public class GameManager : MonoBehaviour
         InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
     }
 
+    private void PlayParticle() 
+    {
+        particleBar.Play();
+    }
+
     //Uses substracts fuel from the tank in height of lowerRate
     private IEnumerator UseFuel()
     {
@@ -194,8 +200,14 @@ public class GameManager : MonoBehaviour
     //Raises the distance traveled by the player
     private void RaiseDistance()
     {
+        if(distance >= 100 & !particleBar.isPlaying)
+        {
+            distanceText.color = Color.yellow;
+            PlayParticle();
+        }
+
         distance += distancePerSecond;
-        distanceText.text = "Distance: " + (int)distance;
+        distanceText.text = (int)distance + " KM";
 
         RaiseSpeed();
     }
