@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Shield : BuffItem
-{ 
-    public int hitpoints;
+{
+    [HideInInspector]
+    //save
+    public static int baseHitpoints = 3;
     
+    [SerializeField]
+    private int currentHitPoints = 3;
+
     // Schild wird nach gegebener Menge an hits zerstört
     // Problem: Meteoriten Stoppen 
     // Mögliche Lösung: Bei Impact zerstören oder ablenken
 
+    private void Start()
+    {
+        currentHitPoints = baseHitpoints;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (hitpoints <= 0)
+        if (currentHitPoints <= 0)
         {
             gameObject.SetActive(false);
-            hitpoints = 3;
+            currentHitPoints = baseHitpoints;
         }
     }
 
@@ -24,7 +34,7 @@ public class Shield : BuffItem
     {
         if (collision.gameObject.CompareTag("meteor"))
         {
-            hitpoints--;
+            currentHitPoints--;
         }
     }
 
@@ -38,6 +48,6 @@ public class Shield : BuffItem
 
     public override void RestartItem()
     {
-        hitpoints = 3;
+        currentHitPoints = baseHitpoints;
     }
 }
