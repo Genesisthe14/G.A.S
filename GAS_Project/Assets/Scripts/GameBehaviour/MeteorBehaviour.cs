@@ -175,7 +175,7 @@ public class MeteorBehaviour : MonoBehaviour
 
         //if the current number of hits on this meteor is equal to or exceeds 
         //the number of hits necessary to destroy the meteor
-        if (currentNumHits >= numOfHitsToDestroy)
+        if (currentNumHits >= numOfHitsToDestroy || collision.gameObject.CompareTag("EMP"))
         {
             if (!shatters)
             {
