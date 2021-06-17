@@ -3682,7 +3682,7 @@ GameObject:
   - component: {fileID: 1234643045}
   m_Layer: 8
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: EMP
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3715,6 +3715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a54262449bc4df46948b9ee597fc720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionTimer: 5
 --- !u!212 &1234643047
 SpriteRenderer:
   m_ObjectHideFlags: 0

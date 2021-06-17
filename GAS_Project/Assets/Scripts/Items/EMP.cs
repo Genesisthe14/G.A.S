@@ -5,12 +5,12 @@ using UnityEngine;
 /*
  * Vergrößert EMP Feld bis der Destruction Timer ablaüft, alle ins Feld fliegenden Satelliten und Meteoriten werden zerstört
  * Meteor Behaviour StartParticle wurde zu public Methode geändert
- * TODO: andere public Methode die gleiche Zerstörung wie weight hervorruft.
+ * TODO: benötige andere public Methode die gleiche Zerstörung wie weight hervorruft.
  */
 public class EMP : MonoBehaviour
 {   float maxScale = 20.0f;
     Vector3 size;
-    float destructionTimer;
+    public float destructionTimer;
     // Start is called before the first frame update
     void Start()
     {
