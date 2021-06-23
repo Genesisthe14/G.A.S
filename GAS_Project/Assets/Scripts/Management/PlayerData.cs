@@ -32,29 +32,34 @@ public class PlayerData : MonoBehaviour
 
     //save
     //IDs of the permanent upgrades the player owns
-    private Dictionary<int, string> permanentUpgradeIDsPlayerOwns = new Dictionary<int, string>();
-    public Dictionary<int, string> PermanentUpgradeIDsPlayerOwns
+    private SerializableDictionary<int, string> permanentUpgradeIDsPlayerOwns = new SerializableDictionary<int, string>();
+    public SerializableDictionary<int, string> PermanentUpgradeIDsPlayerOwns
     {
         get { return permanentUpgradeIDsPlayerOwns; }
+        set { permanentUpgradeIDsPlayerOwns = value; }
     }
 
     //save
     //dictionary containing the temporary upgrades the player has bought and how many of them
-    private Dictionary<Upgrade.UpgradeTypes, int> temporaryItemsOwned = new Dictionary<Upgrade.UpgradeTypes, int>();
-    public Dictionary<Upgrade.UpgradeTypes, int> TemporaryItemsOwned
+    private SerializableDictionary<Upgrade.UpgradeTypes, int> temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
+    public SerializableDictionary<Upgrade.UpgradeTypes, int> TemporaryItemsOwned
     {
         get { return temporaryItemsOwned; }
+        set { temporaryItemsOwned = value; }
     }
 
     private void Awake()
     {
-        if(_instance != null)
+        if (_instance != null)
         {
             Destroy(this);
         }
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
+
+        //load the last saved game
+        SaveLoadService.LoadGame();
 
         moneyText.text = "Money: " + currentMoney;
     }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    #region attributes
     [Header("Spawning & Speed")]
     [SerializeField]
     [Tooltip("The amount of fuel substracted per repeatTime")]
@@ -137,7 +138,7 @@ public class GameManager : MonoBehaviour
 
     //Distance the player has covered so far
     private float distance = 0;
-
+    #endregion
 
     private void Awake()
     {
