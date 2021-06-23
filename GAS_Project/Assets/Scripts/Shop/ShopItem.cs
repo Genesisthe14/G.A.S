@@ -85,7 +85,7 @@ public class ShopItem : MonoBehaviour
             if (item.UpgradeNum <= 1) return;
 
             string formerUpgrade = item.UpgradeType.ToString() + (item.UpgradeNum - 1);
-            if (!PlayerData.instance.PermanentUpgradeIDsPlayerOwns.ContainsValue(formerUpgrade))
+            if (!DictContainsValue(formerUpgrade, PlayerData.instance.PermanentUpgradeIDsPlayerOwns))
             {
                 itemDisplay.interactable = false;
                 return;
@@ -98,5 +98,16 @@ public class ShopItem : MonoBehaviour
             itemDisplay.interactable = false;
             return;
         }
+    }
+
+
+    private bool DictContainsValue(string value, SerializableDictionary<int, string> dict)
+    {
+        foreach(string dict_value in dict.Values)
+        {
+            if (dict_value == value) return true;
+        }
+
+        return false;
     }
 }
