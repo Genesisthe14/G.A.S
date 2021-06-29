@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
@@ -14,7 +15,7 @@ public class PlayerData : MonoBehaviour
 
     //save
     //Amount of money the player currently has
-    private int currentMoney = 1000;
+    private int currentMoney = 0;
     public int CurrentMoney
     {
         get { return currentMoney; }
@@ -23,12 +24,11 @@ public class PlayerData : MonoBehaviour
             currentMoney = value;
             if (currentMoney < 0) currentMoney = 0;
 
-            if(moneyText.IsActive()) moneyText.text = "Money: " + currentMoney;
+            if(UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
         }
     }
 
-    [SerializeField]
-    private Text moneyText;
+    private bool firstLoaded = true;
 
     //save
     //IDs of the permanent upgrades the player owns
@@ -53,14 +53,26 @@ public class PlayerData : MonoBehaviour
         if (_instance != null)
         {
             Destroy(this);
+            return;
         }
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
         //load the last saved game
-        SaveLoadService.LoadGame();
+        if (firstLoaded)
+        {
+            SaveLoadService.LoadGame();
+            firstLoaded = false;
+        }
 
-        moneyText.text = "Money: " + currentMoney;
+        SceneManager.sceneLoaded += OnSceneLoaded; 
+    }
+
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(currentMoney);
+        //UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
     }
 }

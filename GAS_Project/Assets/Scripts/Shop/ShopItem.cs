@@ -34,7 +34,7 @@ public class ShopItem : MonoBehaviour
     {
         if(activateOnBuy != null) activateOnBuy.SetActive(false);
         
-        priceText.text = price + " $";
+        priceText.text = price + " ";
 
         string itemName = item.UpgradeType.ToString().ToLower();
 

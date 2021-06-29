@@ -24,24 +24,16 @@ public class GameManager : MonoBehaviour
     private float lowestSpawnInterval = 0.5f;
 
     [SerializeField]
-    [Tooltip("Length of distance needed to be traveled to raise the speed")]
-    private int raiseSpeedDistance = 10;
+    [Tooltip("Length of a section in meters which after the speed of the game is raised")]
+    private int sectionLength = 10;
 
     [SerializeField]
     [Tooltip("Percentage to raise values by")]
     private int raisePercentage = 5;
 
     [SerializeField]
-    [Tooltip("Buffs the player can activate")]
-    private BuffItem[] possibleBuffs;
-    public BuffItem[] PossibleBuffs
-    {
-        get { return possibleBuffs; }
-    }
-
-    [SerializeField]
-    //distance traveled per second
-    private float distancePerSecond = 5.0f;
+    [Tooltip("distance traveled per second")]
+    private float mPerSec = 5.0f;
 
     //Threshold determining on which multiples the speed is raised
     private float raiseIndex = 1.0f;
@@ -53,10 +45,28 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
 
 
-    [Header("Texts & Management")]
+    [Header("Buffs")]
+    [SerializeField]
+    [Tooltip("Buffs the player can activate")]
+    private BuffItem[] possibleBuffs;
+    public BuffItem[] PossibleBuffs
+    {
+        get { return possibleBuffs; }
+    }
+
+
+    [Header("Texts, References & Management")]
     [SerializeField]
     [Tooltip("Text that displays the amount of fuel left")]
     private Text fuelText;
+
+    [SerializeField]
+    [Tooltip("Text that displays the amount of money player has")]
+    private Text moneyText;
+    public Text MoneyText
+    {
+        get { return moneyText; }
+    }
 
     [SerializeField]
     [Tooltip("Text that displays the distance the player has covered")]
@@ -88,6 +98,7 @@ public class GameManager : MonoBehaviour
     public ParticleSystem particleBar;
 
     [SerializeField]
+    [Tooltip("Indices of the layers that shouldn't be regarded when touching the screen")]
     private int[] inputMasks;
 
     
@@ -138,6 +149,13 @@ public class GameManager : MonoBehaviour
 
     //Distance the player has covered so far
     private float distance = 0;
+
+    //money before starting the run
+    private int beforeRunMoney;
+    public int BeforeRunMoney
+    {
+        get { return beforeRunMoney; }
+    }
     #endregion
 
     private void Awake()
@@ -159,11 +177,14 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         fuelText.text = "Fuel: " + fuel;
+        moneyText.text = PlayerData.instance.CurrentMoney + "";
         distanceText.text = distance + " KM";
+
+        beforeRunMoney = PlayerData.instance.CurrentMoney;
 
         //store initial values so that percentages stay constant
 
-        for(int i = 0; i < bgManagers.Length; i++)
+        for (int i = 0; i < bgManagers.Length; i++)
         {
             initialSpeedValues.Add("speedBG" + i, bgManagers[i].Speed);
         }
@@ -171,7 +192,7 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("fuelConsuptionTime", fuelConsuptionTime);
         initialSpeedValues.Add("spawnRateLowerBound", spawner.InvokeTimeRange[0]);
         initialSpeedValues.Add("spawnRateUpperBound", spawner.InvokeTimeRange[1]);
-        initialSpeedValues.Add("distancePerSecond", distancePerSecond);
+        initialSpeedValues.Add("distancePerSecond", mPerSec);
         initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
@@ -207,7 +228,7 @@ public class GameManager : MonoBehaviour
             PlayParticle();
         }
 
-        distance += distancePerSecond;
+        distance += mPerSec;
         distanceText.text = (int)distance + " KM";
 
         RaiseSpeed();
@@ -219,7 +240,7 @@ public class GameManager : MonoBehaviour
     private void RaiseSpeed()
     {
         //if the distance exceeds the next multiple of raiseDistance then raise speed
-        if (distance >= raiseSpeedDistance * raiseIndex)
+        if (distance >= sectionLength * raiseIndex)
         {
             raiseIndex += increaseIndexAmount;
 
@@ -237,7 +258,7 @@ public class GameManager : MonoBehaviour
             }
 
             //raise the distance traveled per second
-            distancePerSecond += initialSpeedValues["distancePerSecond"] * raisePercentage / 100.0f;
+            mPerSec += initialSpeedValues["distancePerSecond"] * raisePercentage / 100.0f;
 
 
             //raise velocity of spawned objects
