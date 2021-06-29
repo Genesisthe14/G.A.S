@@ -34,6 +34,7 @@ public class GameOverUI : MonoBehaviour
 
     public void MainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("UIGaS");
     }
 }

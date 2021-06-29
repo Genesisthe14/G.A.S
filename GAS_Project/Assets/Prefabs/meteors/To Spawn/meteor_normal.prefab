@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4368375947600353820}
   - component: {fileID: 3345701535988447796}
   - component: {fileID: 1172812750030890904}
+  - component: {fileID: 7801696206787422534}
   m_Layer: 11
   m_Name: meteor_normal
   m_TagString: meteor
@@ -127,9 +128,11 @@ MonoBehaviour:
   shatters: 1
   destroyParent: 0
   numOfHitsToDestroy: 1
-  shatteredVersion: {fileID: 4185555129323697962, guid: dd91b906245a51b4e9f17d213457983d, type: 3}
   force: 15000
   minVelocity: 18
+  shatteredVersion: {fileID: 4185555129323697962, guid: dd91b906245a51b4e9f17d213457983d, type: 3}
+  coinPrefab: {fileID: 6069357223404238032, guid: dd0d7cd38187f0d489ff4edadc8ee78f, type: 3}
+  numCoinsToSpawn: 10
 --- !u!114 &3505464232009619412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5139,3 +5142,16 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &7801696206787422534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766510746232566130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbc3a1a89c26504c8a3974b1219aab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: 10

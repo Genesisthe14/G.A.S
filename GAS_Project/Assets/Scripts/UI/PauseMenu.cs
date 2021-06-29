@@ -30,6 +30,8 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
+
+        PlayerData.instance.CurrentMoney = GameManager.instance.BeforeRunMoney;
         SceneManager.LoadScene("UIGaS");
     }
 

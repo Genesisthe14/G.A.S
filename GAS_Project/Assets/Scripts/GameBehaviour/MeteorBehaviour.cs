@@ -25,20 +25,29 @@ public class MeteorBehaviour : MonoBehaviour
     [Tooltip("Number of hits the meteor needs to be destroyed")]
     private int numOfHitsToDestroy = 1;
 
-    //Number of times this meteor has been hit
-    private int currentNumHits = 0;
-
-    [SerializeField]
-    [Tooltip("Shattered version of this GameObject as prefab")]
-    private GameObject shatteredVersion = null;
-
     [SerializeField]
     [Tooltip("Force applied to the shattered parts of the meteor when it is hit")]
     private int force = 1;
 
     [SerializeField]
+    [Tooltip("Minimum Velocity the meteor needs to be hit with to shatter")]
     private float minVelocity = 18.0f;
+    
+    [SerializeField]
+    [Tooltip("Shattered version of this GameObject as prefab")]
+    private GameObject shatteredVersion = null;
 
+    [SerializeField]
+    [Tooltip("Prefab of the coin to spawn")]
+    private GameObject coinPrefab;
+
+    [SerializeField]
+    [Tooltip("How many coins to spawn")]
+    private int numCoinsToSpawn = 5;
+    
+    //Number of times this meteor has been hit
+    private int currentNumHits = 0;
+    
     //ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed
     private ParticleSystem particle;
 
@@ -74,6 +83,7 @@ public class MeteorBehaviour : MonoBehaviour
     {
         particle.Play();
         explosionSound.Play();
+        
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().simulated = false;
         GetComponent<PolygonCollider2D>().enabled = false;
@@ -120,6 +130,18 @@ public class MeteorBehaviour : MonoBehaviour
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
         {
+            if (GetComponent<GiveMoney>() != null)
+            {
+                for (int i = 0; i < numCoinsToSpawn; i++)
+                {
+                    GameObject coin = Instantiate(coinPrefab);
+
+                    coin.transform.position = transform.position;
+                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().AddMoney() / numCoinsToSpawn;
+                    coin.GetComponent<MoveCoins>().StartWaitTime = Random.Range(0.1f, 0.8f);
+                }
+            }
+
             if (!shatters)
             {
                 StartParticle();
@@ -177,6 +199,18 @@ public class MeteorBehaviour : MonoBehaviour
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
         {
+            if (GetComponent<GiveMoney>() != null)
+            {
+                for(int i = 0; i < numCoinsToSpawn; i++)
+                {
+                    GameObject coin = Instantiate(coinPrefab);
+
+                    coin.transform.position = transform.position;
+                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().AddMoney() / numCoinsToSpawn;
+                    coin.GetComponent<MoveCoins>().StartWaitTime = Random.Range(0.1f, 0.8f);
+                }
+            }
+
             if (!shatters)
             {
                 StartParticle();

@@ -9,6 +9,10 @@ public class RocketBehaviour : MonoBehaviour
     private static float leakingFuel = 5.0f;
 
     [SerializeField]
+    [Tooltip("Reference to the shield buff")]
+    private GameObject shield;
+
+    [SerializeField]
     private GameObject damageScreen;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -16,12 +20,14 @@ public class RocketBehaviour : MonoBehaviour
         //if the rocket hits a meteor then substract fuel
         if (collision.gameObject.CompareTag("meteor"))
         {
+            if (shield.activeInHierarchy) return;
+
             GameManager.instance.LowerFuel(leakingFuel);
-            damage();
+            Damage();
         }
     }
 
-    private void damage() 
+    private void Damage() 
     {
         var color = damageScreen.GetComponent<Image>().color;
         color.a = 0.8f;
