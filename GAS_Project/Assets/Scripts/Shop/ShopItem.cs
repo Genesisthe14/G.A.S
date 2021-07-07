@@ -50,7 +50,6 @@ public class ShopItem : MonoBehaviour
         item.UpgradeFeature();
 
         Debug.Log("Item bought: " + item.UpgradeType.ToString() + " "+item.UpgradeNum);
-        Debug.Log(PlayerData.instance.PermanentUpgradeIDsPlayerOwns.Count);
 
         PlayerData.instance.CurrentMoney -= price;
 
@@ -101,7 +100,7 @@ public class ShopItem : MonoBehaviour
     }
 
 
-    private bool DictContainsValue(string value, SerializableDictionary<int, string> dict)
+    private bool DictContainsValue(string value, SerializableDictionary<string, string> dict)
     {
         foreach(string dict_value in dict.Values)
         {

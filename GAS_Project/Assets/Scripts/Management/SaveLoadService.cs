@@ -55,6 +55,8 @@ public class SaveLoadService : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.LogError(e.Message);
+            Debug.LogError(e.GetType());
             Debug.LogError(e.StackTrace);
             // Im Fehlerfall leeren Datensatz zurückliefern:
             Debug.LogError("Game was not loaded!");

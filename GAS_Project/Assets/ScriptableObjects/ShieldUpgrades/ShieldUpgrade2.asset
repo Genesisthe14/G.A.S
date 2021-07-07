@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65d57d5b00d6414facde5585089d53a, type: 3}
   m_Name: ShieldUpgrade2
   m_EditorClassIdentifier: 
-  upgradeID: 1
+  upgradeID: shield_2
   upgradeNum: 2
   isPermanentUpgrade: 1
   upgradeType: 0

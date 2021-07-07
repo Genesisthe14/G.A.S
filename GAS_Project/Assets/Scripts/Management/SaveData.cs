@@ -15,10 +15,19 @@ public class SaveData
         get { return intSaveData; }
     }
 
+    //Contains all sata which needs to be saved and is of type float
+    //string describes what this float is used for
+    [SerializeField]
+    private SerializableDictionary<string, float> floatSaveData;
+    public SerializableDictionary<string, float> FloatSaveData
+    {
+        get { return floatSaveData; }
+    }
+
     //IDs of the permanent upgrades the player owns
     [SerializeField]
-    private SerializableDictionary<int, string> permanentUpgradeIDsPlayerOwns;
-    public SerializableDictionary<int, string> PermanentUpgradeIDsPlayerOwns
+    private SerializableDictionary<string, string> permanentUpgradeIDsPlayerOwns;
+    public SerializableDictionary<string, string> PermanentUpgradeIDsPlayerOwns
     {
         get { return permanentUpgradeIDsPlayerOwns; }
     }
@@ -36,11 +45,17 @@ public class SaveData
     public SaveData()
     {
         intSaveData = new SerializableDictionary<string, int>();
-        permanentUpgradeIDsPlayerOwns = new SerializableDictionary<int, string>();
+        floatSaveData = new SerializableDictionary<string, float>();
+        permanentUpgradeIDsPlayerOwns = new SerializableDictionary<string, string>();
         temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
+
 
         intSaveData.Add("shield_baseHitpoints", Shield.baseHitpoints);
         intSaveData.Add("currentMoney", PlayerData.instance.CurrentMoney);
+        intSaveData.Add("magnetSize", MagnetField.FieldSize);
+
+        floatSaveData.Add("leakingFuel", RocketBehaviour.LeakingFuel);
+        floatSaveData.Add("fuelLevel", GameManager.StartFuel);
 
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
         temporaryItemsOwned = PlayerData.instance.TemporaryItemsOwned;
@@ -50,10 +65,14 @@ public class SaveData
     //the calling SaveData
     public void SetData()
     {
-        PlayerData.instance.CurrentMoney = intSaveData["currentMoney"];
         PlayerData.instance.PermanentUpgradeIDsPlayerOwns = permanentUpgradeIDsPlayerOwns;
         PlayerData.instance.TemporaryItemsOwned = temporaryItemsOwned;
 
-        Shield.baseHitpoints = intSaveData["shield_baseHitpoints"];
+        MagnetField.FieldSize = intSaveData["magnetSize"];
+        Shield.baseHitpoints = intSaveData["shield_baseHitpoints"];        
+        PlayerData.instance.CurrentMoney = intSaveData["currentMoney"];
+
+        RocketBehaviour.LeakingFuel = floatSaveData["leakingFuel"];
+        GameManager.StartFuel = floatSaveData["fuelLevel"];
     }
 }

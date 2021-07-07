@@ -6,7 +6,12 @@ using UnityEngine.UI;
 public class RocketBehaviour : MonoBehaviour
 {
     //amount of fuel that is leaked when the rocket hits a meteor
-    private static float leakingFuel = 5.0f;
+    private static float leakingFuel = 10.0f;
+    public static float LeakingFuel
+    {
+        get { return leakingFuel; }
+        set { leakingFuel = value; }
+    }
 
     [SerializeField]
     [Tooltip("Reference to the shield buff")]
@@ -21,6 +26,8 @@ public class RocketBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("meteor"))
         {
             if (shield.activeInHierarchy) return;
+
+            Debug.Log(LeakingFuel);
 
             GameManager.instance.LowerFuel(leakingFuel);
             Damage();

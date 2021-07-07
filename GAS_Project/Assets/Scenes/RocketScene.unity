@@ -444,7 +444,7 @@ RectTransform:
   - {fileID: 1601888758}
   - {fileID: 2075741221}
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -742,85 +742,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &229202804
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 229202805}
-  - component: {fileID: 229202807}
-  - component: {fileID: 229202806}
-  m_Layer: 5
-  m_Name: FuelText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &229202805
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229202804}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2007048260}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -66}
-  m_SizeDelta: {x: 1000, y: 80}
-  m_Pivot: {x: 0, y: 0.5}
---- !u!114 &229202806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229202804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 92
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Fuel: '
---- !u!222 &229202807
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229202804}
-  m_CullTransparentMesh: 1
 --- !u!1 &250958538
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +778,7 @@ RectTransform:
   - {fileID: 1667229838}
   - {fileID: 62325048}
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2745,7 +2666,7 @@ RectTransform:
   - {fileID: 149363006}
   - {fileID: 1325461675}
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3903,7 +3824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1292415854
 Transform:
   m_ObjectHideFlags: 0
@@ -3933,7 +3854,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -1.21}
   serializedVersion: 2
-  m_Radius: 13
+  m_Radius: 10
 --- !u!114 &1292415856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3948,6 +3869,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullSpeed: 3
   lifetime: 20
+  field: {fileID: 1292415855}
 --- !u!1 &1293838888
 GameObject:
   m_ObjectHideFlags: 0
@@ -9678,7 +9600,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10444,11 +10366,11 @@ RectTransform:
   m_Children:
   - {fileID: 2108956400}
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -324.9, y: -65.997}
+  m_AnchoredPosition: {x: -324.90002, y: -65.99701}
   m_SizeDelta: {x: 466.65, y: 79.995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1776626789
@@ -10982,15 +10904,14 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 299061284}
-  - {fileID: 229202805}
   - {fileID: 2119334746}
   - {fileID: 2092393875}
   - {fileID: 739857202}
   - {fileID: 99297903}
   - {fileID: 250958539}
   - {fileID: 1489246197}
-  - {fileID: 1928125201}
   - {fileID: 1776626788}
+  - {fileID: 1928125201}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11325,7 +11246,7 @@ RectTransform:
   - {fileID: 423624931}
   - {fileID: 791892475}
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -11505,13 +11426,12 @@ MonoBehaviour:
   fuelConsuptionTime: 1
   limitFuelConsumptionTime: 0.2
   lowestSpawnInterval: 0.5
-  sectionLength: 600
+  sectionLength: 300
   raisePercentage: 5
   mPerSec: 5
   possibleBuffs:
   - {fileID: 1292415856}
   - {fileID: 1791867485}
-  fuelText: {fileID: 229202806}
   moneyText: {fileID: 1776626789}
   distanceText: {fileID: 299061285}
   bgManagers:
@@ -11523,6 +11443,7 @@ MonoBehaviour:
   fillColor: {fileID: 423624932}
   particleBar: {fileID: 1364255592}
   inputMasks: 0000000005000000
+  shieldObj: {fileID: 1791867482}
 --- !u!4 &2110865606
 Transform:
   m_ObjectHideFlags: 0
@@ -11603,7 +11524,7 @@ RectTransform:
   m_LocalScale: {x: 0.3078, y: 0.3078, z: 0.3078}
   m_Children: []
   m_Father: {fileID: 2007048260}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
