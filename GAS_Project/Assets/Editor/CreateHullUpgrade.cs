@@ -1,25 +1,26 @@
-using UnityEditor;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
 
-public class CreateShieldUpgrade : MonoBehaviour
+public class CreateHullUpgrade : MonoBehaviour
 {
     //Definition eines neuen Buttons mit der dazugehoerigen Methode
-    [MenuItem("Assets/Create/ShieldUpgrade")]
+    [MenuItem("Assets/Create/HullUpgrade")]
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/ShieldUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/HullUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "ShieldUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "HullUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
-        ScriptableObject asset = ScriptableObject.CreateInstance(typeof(ShieldUpgrade));
+        ScriptableObject asset = ScriptableObject.CreateInstance(typeof(HullUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/ShieldUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/HullUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern

@@ -57,10 +57,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Texts, References & Management")]
     [SerializeField]
-    [Tooltip("Text that displays the amount of fuel left")]
-    private Text fuelText;
-
-    [SerializeField]
     [Tooltip("Text that displays the amount of money player has")]
     private Text moneyText;
     public Text MoneyText
@@ -95,11 +91,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Fill reference")]
     private Image fillColor;
+    
     public ParticleSystem particleBar;
 
     [SerializeField]
     [Tooltip("Indices of the layers that shouldn't be regarded when touching the screen")]
     private int[] inputMasks;
+
+    [SerializeField]
+    [Tooltip("Object representing the Shield")]
+    private GameObject shieldObj;
 
     
     //instance of the GameManager for the singleton
@@ -109,23 +110,32 @@ public class GameManager : MonoBehaviour
         get { return _instance; }
     }
 
-    //Total amount of fuel
-    private float fuel = 100;
-    public float Fuel
+    //Amount of fuel the player starts with
+    private static float startFuel = 100;
+    public static float StartFuel
     {
-        get { return fuel; }
+        get { return startFuel; }
+        set { startFuel = value; }
+    }
+
+    //Total amount of fuel
+    private float currentFuel;
+    public float CurrentFuel
+    {
+        get { return currentFuel; }
         set 
         { 
-            fuel = value;
+            currentFuel = value;
 
-            if(fuel <= 0.0f)
+            if(currentFuel <= 0.0f)
             {
                 gameOverObject.GameOver((int)distance);
-                fuel = 0.0f;
+                currentFuel = 0.0f;
             }
-            if(fuel <= 30f)
+            
+            if(currentFuel <= 30f)
             {
-                if((fuel * 100f) % 3 == 0) 
+                if((currentFuel * 100f) % 3 == 0) 
                 {
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
@@ -134,8 +144,12 @@ public class GameManager : MonoBehaviour
                     fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
                 }
             }
-            fuelBar.SetFuel((int)fuel);
-            //fuelText.text = "Fuel: " + (int)fuel;
+            else
+            {
+                fillColor.GetComponent<Image>().color = new Color32(159, 0, 158, 255);
+            }
+
+            fuelBar.SetFuel((int)currentFuel);
         }
     }
 
@@ -176,7 +190,8 @@ public class GameManager : MonoBehaviour
         //set the static singleton instance to this object
         _instance = this;
 
-        fuelText.text = "Fuel: " + fuel;
+        currentFuel = startFuel;
+
         moneyText.text = PlayerData.instance.CurrentMoney + "";
         distanceText.text = distance + " KM";
 
@@ -198,6 +213,12 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(UseFuel());
         InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(2)) Refuel();
+        if (Input.GetMouseButtonDown(1)) ActivateShield();
     }
 
     private void PlayParticle() 
@@ -292,12 +313,45 @@ public class GameManager : MonoBehaviour
     //Lowers the fuel by lowerRate
     public void LowerFuel(float lower)
     {
-        Fuel -= lower;
+        CurrentFuel -= lower;
     }
 
     //Adds the specified amount of fuel to the current fuel left
     public void AddFuel(float addedFuel)
     {
-        Fuel += addedFuel;
+        CurrentFuel += addedFuel;
+    }
+
+    public void Refuel()
+    {
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] <= 0)
+        {
+            Debug.Log("Can't Refuel");
+            return;
+        }
+
+        int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] - 1;
+        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.REFUEL);
+
+        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, tempNum);
+
+        CurrentFuel = startFuel;
+        Debug.Log("Refueled");
+    }
+
+    public void ActivateShield()
+    {
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] <= 0)
+        {
+            Debug.Log("No shields available");
+            return;
+        }
+
+        int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] - 1;
+        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.NUMSHIELDS);
+
+        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
+
+        shieldObj.SetActive(true);
     }
 }

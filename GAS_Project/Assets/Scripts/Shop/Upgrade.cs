@@ -6,8 +6,8 @@ public class Upgrade : ScriptableObject
 {
     [SerializeField]
     [Tooltip("Unique ID of the upgrade")]
-    private int upgradeID;
-    public int UpgradeID
+    private string upgradeID;
+    public string UpgradeID
     {
         get { return upgradeID; }
     }
@@ -36,7 +36,7 @@ public class Upgrade : ScriptableObject
         get { return upgradeType; }
     }
 
-    public enum UpgradeTypes { SHIELD, FUELTANK, ROCKETHULL}
+    public enum UpgradeTypes { SHIELD, FUELTANK, ROCKETHULL, MAGNET, HULL, REFUEL, NUMSHIELDS}
 
     public virtual void UpgradeFeature()
     {
