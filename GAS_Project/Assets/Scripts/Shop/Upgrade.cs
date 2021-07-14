@@ -36,7 +36,7 @@ public class Upgrade : ScriptableObject
         get { return upgradeType; }
     }
 
-    public enum UpgradeTypes { SHIELD, FUELTANK, ROCKETHULL, MAGNET, HULL, REFUEL, NUMSHIELDS}
+    public enum UpgradeTypes { SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART}
 
     public virtual void UpgradeFeature()
     {

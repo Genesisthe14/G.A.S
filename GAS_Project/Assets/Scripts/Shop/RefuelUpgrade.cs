@@ -18,6 +18,6 @@ public class RefuelUpgrade : Upgrade
             PlayerData.instance.TemporaryItemsOwned.Add(UpgradeTypes.REFUEL, tempNum);
         }
 
-        Debug.Log("Refuel: "+PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.REFUEL]);
+        Debug.Log("Refuels: "+PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.REFUEL]);
     }
 }

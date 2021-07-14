@@ -86,7 +86,8 @@ public class ShopItem : MonoBehaviour
             string formerUpgrade = item.UpgradeType.ToString() + (item.UpgradeNum - 1);
             if (!DictContainsValue(formerUpgrade, PlayerData.instance.PermanentUpgradeIDsPlayerOwns))
             {
-                itemDisplay.interactable = false;
+                //itemDisplay.interactable = false;
+                gameObject.SetActive(false);
                 return;
             }
         }

@@ -15,4 +15,4 @@ MonoBehaviour:
   upgradeID: magnet_1
   upgradeNum: 1
   isPermanentUpgrade: 1
-  upgradeType: 3
+  upgradeType: 2

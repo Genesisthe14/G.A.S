@@ -15,4 +15,4 @@ MonoBehaviour:
   upgradeID: hull_2
   upgradeNum: 2
   isPermanentUpgrade: 1
-  upgradeType: 4
+  upgradeType: 3

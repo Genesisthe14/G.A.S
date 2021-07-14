@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,35 @@ using UnityEngine.UI;
 
 public class RocketBehaviour : MonoBehaviour
 {
+    //Number of headstarts the player has
+    private static int numOfHeadstarts = 0;
+    public static int NumOfHeadstarts
+    {
+        get { return numOfHeadstarts; }
+        set { numOfHeadstarts = value; }
+    }
+
+    //Whether a headstart is active or not
+    private static bool isHeadstartActive = false;
+    public static bool IsHeadstartActive
+    {
+        get { return isHeadstartActive; }
+        set 
+        { 
+            isHeadstartActive = value;
+            OnHeadstartActiveEvent.Invoke(isHeadstartActive);
+        }
+    }
+
+    //factor by which the game should be sped up if headstart is active
+    private static float headstartSpeedFactor = 10.0f;
+    public static float HeadstartSpeedFactor
+    {
+        get { return headstartSpeedFactor; }
+    }
+
+    private static Action<bool> OnHeadstartActiveEvent = null;
+    
     //amount of fuel that is leaked when the rocket hits a meteor
     private static float leakingFuel = 10.0f;
     public static float LeakingFuel
@@ -18,14 +48,51 @@ public class RocketBehaviour : MonoBehaviour
     private GameObject shield;
 
     [SerializeField]
+    [Tooltip("Aura shown when Headstart is active")]
+    private GameObject headstartAura;
+
+    [SerializeField]
     private GameObject damageScreen;
+
+    private void Awake()
+    {
+        OnHeadstartActiveEvent += OnHeadstartActive;
+        CheckIfHeadstartAvailable();
+    }
+
+    private void OnDestroy()
+    {
+        OnHeadstartActiveEvent -= OnHeadstartActive;
+    }
+
+    private void CheckIfHeadstartAvailable()
+    {
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART] <= 0)
+        {
+            Debug.Log("No Headstart available");
+            return;
+        }
+
+        int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART] - 1;
+        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.HEADSTART);
+
+        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, tempNum);
+
+        IsHeadstartActive = true;
+        Debug.Log("Headstart activated");
+    }
+
+    private void OnHeadstartActive(bool isActive)
+    {
+        headstartAura.SetActive(isActive);
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //if the rocket hits a meteor then substract fuel
         if (collision.gameObject.CompareTag("meteor"))
         {
-            if (shield.activeInHierarchy) return;
+            if (shield.activeInHierarchy || IsHeadstartActive) return;
 
             Debug.Log(LeakingFuel);
 
