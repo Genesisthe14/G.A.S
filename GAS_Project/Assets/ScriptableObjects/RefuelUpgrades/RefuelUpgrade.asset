@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651327cc9e34d8f43a003db22a37967c, type: 3}
   m_Name: RefuelUpgrade
   m_EditorClassIdentifier: 
-  upgradeID: RefuelUpgrade
+  upgradeID: refuel_upgrade
   upgradeNum: 1
   isPermanentUpgrade: 0
-  upgradeType: 5
+  upgradeType: 4

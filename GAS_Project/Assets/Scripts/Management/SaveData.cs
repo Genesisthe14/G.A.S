@@ -53,6 +53,8 @@ public class SaveData
         intSaveData.Add("shield_baseHitpoints", Shield.baseHitpoints);
         intSaveData.Add("currentMoney", PlayerData.instance.CurrentMoney);
         intSaveData.Add("magnetSize", MagnetField.FieldSize);
+        intSaveData.Add("numFuelUpgrades", FuelBar.CurrentNumFuelUpgrades);
+        intSaveData.Add("numOfHeadstarts", RocketBehaviour.NumOfHeadstarts);
 
         floatSaveData.Add("leakingFuel", RocketBehaviour.LeakingFuel);
         floatSaveData.Add("fuelLevel", GameManager.StartFuel);
@@ -71,6 +73,8 @@ public class SaveData
         MagnetField.FieldSize = intSaveData["magnetSize"];
         Shield.baseHitpoints = intSaveData["shield_baseHitpoints"];        
         PlayerData.instance.CurrentMoney = intSaveData["currentMoney"];
+        FuelBar.CurrentNumFuelUpgrades = intSaveData["numFuelUpgrades"];
+        RocketBehaviour.NumOfHeadstarts = intSaveData["numOfHeadstarts"];
 
         RocketBehaviour.LeakingFuel = floatSaveData["leakingFuel"];
         GameManager.StartFuel = floatSaveData["fuelLevel"];

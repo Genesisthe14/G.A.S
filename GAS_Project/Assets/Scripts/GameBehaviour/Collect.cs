@@ -19,9 +19,9 @@ public class Collect : MonoBehaviour
 
             //if the difference between the full fuel tank and the current fuel is
             //smaller than the fuel collected than set current fuel to full
-            if(100.0f - GameManager.instance.CurrentFuel < collectedFuel)
+            if(GameManager.StartFuel - GameManager.instance.CurrentFuel < collectedFuel)
             {
-                GameManager.instance.CurrentFuel = 100.0f;
+                GameManager.instance.CurrentFuel = GameManager.StartFuel;
             }
             //otherwise add fuel this object gives
             else

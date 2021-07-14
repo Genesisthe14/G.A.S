@@ -109,16 +109,16 @@ public class MeteorBehaviour : MonoBehaviour
     public void OnMeteorCollision(Collision2D collision)
     {
         //if the meteor hit the rocket or shield destroy it without spawning part stones
-        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
+        if (!RocketBehaviour.IsHeadstartActive && (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield")))
         {
             StartParticle();
             return;
         }
 
         //if the meteor collides with anything else but the weight then don't do anything
-        if (!collision.gameObject.CompareTag("weight")) return;
+        if (!RocketBehaviour.IsHeadstartActive && !collision.gameObject.CompareTag("weight")) return;
 
-        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
+        if (!RocketBehaviour.IsHeadstartActive && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity )
         {
             GetComponent<Collider2D>().isTrigger = true;
             return;
@@ -178,16 +178,16 @@ public class MeteorBehaviour : MonoBehaviour
     public void OnMeteorCollision(Collider2D collision)
     {
         //if the meteor hit the rocket or shield destroy it without spawning part stones
-        if (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield"))
+        if (!RocketBehaviour.IsHeadstartActive && (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield")))
         {
             StartParticle();
             return;
         }
 
         //if the meteor collides with anything else but the weight then don't do anything
-        if (!collision.gameObject.CompareTag("weight")) return;
+        if (!RocketBehaviour.IsHeadstartActive && !collision.gameObject.CompareTag("weight")) return;
 
-        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
+        if (!RocketBehaviour.IsHeadstartActive && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
         {
             GetComponent<Collider2D>().isTrigger = true;
             return;

@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldUpgrade : Upgrade
+public class FuelCapacityUpgrade : Upgrade
 {
-    private static int[] shieldUpgradeStrengths = { 5, 8, 12};
+    private static int[] capacityUpgrades = { 150, 200, 250 };
 
     public override void UpgradeFeature()
     {
         PlayerData.instance.PermanentUpgradeIDsPlayerOwns.Add(UpgradeID, UpgradeType.ToString() + UpgradeNum);
-        Shield.baseHitpoints = shieldUpgradeStrengths[UpgradeNum - 1];
+        GameManager.StartFuel = capacityUpgrades[UpgradeNum - 1];
+        FuelBar.CurrentNumFuelUpgrades++;
     }
 }

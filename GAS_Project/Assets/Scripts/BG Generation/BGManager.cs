@@ -75,7 +75,7 @@ public class BGManager : MonoBehaviour
     {
         foreach(GameObject bgObj in bgObjects)
         {
-            bgObj.transform.position += Vector3.down * Time.deltaTime * speed;
+            bgObj.transform.position += Vector3.down * Time.deltaTime * (RocketBehaviour.IsHeadstartActive ? (speed + RocketBehaviour.HeadstartSpeedFactor) : speed);
         }
 
         CheckDespawn();
@@ -95,6 +95,7 @@ public class BGManager : MonoBehaviour
             GameObject nextBG = Instantiate(bgObject);
             nextBG.transform.parent = containerObject;
             nextBG.GetComponent<SpriteRenderer>().sprite = bgSprites[bgSpriteIndex++];
+            nextBG.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
 
             Vector3 nextBGPos = nextBG.transform.position;
             nextBGPos.y = ySpawnOffset;

@@ -62,6 +62,7 @@ public class PlayerData : MonoBehaviour
         temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
         temporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, 0);
         temporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, 0);
+        temporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, 0);
 
         //load the last saved game
         if (firstLoaded)

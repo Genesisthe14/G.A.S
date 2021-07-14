@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private float raiseIndex = 1.0f;
 
     //How much the threshold for multiples is raised everytime
-    private float increaseIndexAmount = 2.0f;
+    private float increaseIndexAmount = 1.0f;
 
     //Dictionary with initial values of the properties that are raised when the speed of the game should increase
     private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     public ParticleSystem particleBar;
 
     [SerializeField]
-    [Tooltip("Indices of the layers that shouldn't be regarded when touching the screen")]
+    [Tooltip("Indices of the layers that can trigger events like touching the screen")]
     private int[] inputMasks;
 
     [SerializeField]
@@ -163,13 +163,33 @@ public class GameManager : MonoBehaviour
 
     //Distance the player has covered so far
     private float distance = 0;
-
-    //money before starting the run
-    private int beforeRunMoney;
-    public int BeforeRunMoney
+    public float Distance
     {
-        get { return beforeRunMoney; }
+        get { return distance; }
+        set 
+        { 
+            distance = value;
+            if (RocketBehaviour.IsHeadstartActive)
+            {
+                //if the speed has increased by about 40% (which is reached after raising the speed 
+                //by 10% 4-times) then stop the headstart
+                if(distance >= sectionLength * (increaseIndexAmount * 4))
+                {
+                    RocketBehaviour.IsHeadstartActive = false;
+                }
+            }
+        }
     }
+    
+    [SerializeField]
+    private Dictionary<string, int> beforeRun = new Dictionary<string, int>();
+    public Dictionary<string, int> BeforeRun
+    {
+        get { return beforeRun; }
+    }
+
+    //time between raising the distance the player traveled
+    private float[] timeIntervalDistance = { 1.0f, 0.1f };
     #endregion
 
     private void Awake()
@@ -183,19 +203,23 @@ public class GameManager : MonoBehaviour
         }
 
         Camera.main.eventMask = LayerMask.GetMask(eventMask.ToArray());
+
+        //store the initial values of certain attributes to restore them if the player exits the
+        //game via the pause menu
+        beforeRun.Add("currentMoney", PlayerData.instance.CurrentMoney);
+        beforeRun.Add("numShields", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS]);
+        beforeRun.Add("refuels", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL]);
+        beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
     }
 
     private void Start()
     {
-        //set the static singleton instance to this object
         _instance = this;
 
         currentFuel = startFuel;
 
         moneyText.text = PlayerData.instance.CurrentMoney + "";
         distanceText.text = distance + " KM";
-
-        beforeRunMoney = PlayerData.instance.CurrentMoney;
 
         //store initial values so that percentages stay constant
 
@@ -212,13 +236,14 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
         StartCoroutine(UseFuel());
-        InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
+        StartCoroutine(RaiseDistance());
+        //InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(2)) Refuel();
-        if (Input.GetMouseButtonDown(1)) ActivateShield();
+        if (Input.GetMouseButtonDown(1)) RocketBehaviour.IsHeadstartActive = true; //ActivateShield();
     }
 
     private void PlayParticle() 
@@ -231,7 +256,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (consumeFuel)
+            if (consumeFuel && !RocketBehaviour.IsHeadstartActive)
             {
                 LowerFuel(lowerRate);            
                 yield return new WaitForSecondsRealtime(fuelConsuptionTime);
@@ -241,18 +266,29 @@ public class GameManager : MonoBehaviour
     }
 
     //Raises the distance traveled by the player
-    private void RaiseDistance()
+    private IEnumerator RaiseDistance()
     {
-        if(distance >= 100 & !particleBar.isPlaying)
+        while (true)
         {
-            distanceText.color = Color.yellow;
-            PlayParticle();
+            if (PauseMenu.GamePaused)
+            {
+                yield return null;
+                continue;
+            }
+
+            yield return new WaitForSecondsRealtime(RocketBehaviour.IsHeadstartActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
+
+            if(distance >= 100 & !particleBar.isPlaying)
+            {
+                distanceText.color = Color.yellow;
+                PlayParticle();
+            }
+
+            Distance += mPerSec;
+            distanceText.text = (int)distance + " KM";
+
+            RaiseSpeed();
         }
-
-        distance += mPerSec;
-        distanceText.text = (int)distance + " KM";
-
-        RaiseSpeed();
     }
 
     //Raises the speed of the game by changing the bg speed, lowering the time between 
@@ -268,7 +304,7 @@ public class GameManager : MonoBehaviour
             //raise speed bg
             for (int i = 0; i < bgManagers.Length; i++)
             {
-                bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 35.0f;
+                bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 10.0f;
             }
 
             //raise lowering rate of fuel
