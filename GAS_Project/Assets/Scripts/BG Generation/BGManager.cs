@@ -75,7 +75,7 @@ public class BGManager : MonoBehaviour
     {
         foreach(GameObject bgObj in bgObjects)
         {
-            bgObj.transform.position += Vector3.down * Time.deltaTime * (RocketBehaviour.IsHeadstartActive ? (speed + RocketBehaviour.HeadstartSpeedFactor) : speed);
+            bgObj.transform.position += Vector3.down * Time.deltaTime * (RocketBehaviour.IsWarpActive ? (speed + RocketBehaviour.CurrentWarpSpeedFactor) : speed);
         }
 
         CheckDespawn();

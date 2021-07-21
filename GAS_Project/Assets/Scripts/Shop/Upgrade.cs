@@ -36,7 +36,15 @@ public class Upgrade : ScriptableObject
         get { return upgradeType; }
     }
 
-    public enum UpgradeTypes { SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART}
+    [SerializeField]
+    [Tooltip("Name of this Upgrade/Item")]
+    private string upgradeName = "";
+    public string UpgradeName
+    {
+        get { return upgradeName; }
+    }
+
+    public enum UpgradeTypes { SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART, REFUELAMOUNT}
 
     public virtual void UpgradeFeature()
     {

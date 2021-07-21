@@ -30,17 +30,23 @@ public class ShopItem : MonoBehaviour
     [Tooltip("Item which should only be shown when this item was bought")]
     private GameObject activateOnBuy = null;
 
+    //Action that is Invoked when an Item is bought
+    private static Action ItemBought = null;
+
     private void Awake()
     {
         if(activateOnBuy != null) activateOnBuy.SetActive(false);
         
         priceText.text = price + " ";
 
-        string itemName = item.UpgradeType.ToString().ToLower();
+        itemNameText.text = item.UpgradeName;
 
-        itemName = char.ToUpper(itemName[0]) + itemName.Substring(1);
+        ItemBought += UpdateActiveStateItem;
+    }
 
-        itemNameText.text = itemName + " Upgrade " + item.UpgradeNum;
+    private void OnDestroy()
+    {
+        ItemBought -= UpdateActiveStateItem;
     }
 
     public void BuyItem()
@@ -49,11 +55,11 @@ public class ShopItem : MonoBehaviour
         
         item.UpgradeFeature();
 
-        Debug.Log("Item bought: " + item.UpgradeType.ToString() + " "+item.UpgradeNum);
+        Debug.Log("Item bought: " + item.UpgradeName);
 
         PlayerData.instance.CurrentMoney -= price;
 
-        UpdateActiveStateItem();
+        ItemBought.Invoke();
     }
 
     private void OnEnable()
@@ -81,7 +87,20 @@ public class ShopItem : MonoBehaviour
             }
 
             //if previous update was obtained if is not first update
-            if (item.UpgradeNum <= 1) return;
+            if (item.UpgradeNum <= 1)
+            {
+                //check if player has enough money to buy otherwise set inactive
+                if (price > PlayerData.instance.CurrentMoney)
+                {
+                    itemDisplay.interactable = false;
+                }
+                else
+                {
+                    itemDisplay.interactable = true;
+                }
+
+                return;
+            }
 
             string formerUpgrade = item.UpgradeType.ToString() + (item.UpgradeNum - 1);
             if (!DictContainsValue(formerUpgrade, PlayerData.instance.PermanentUpgradeIDsPlayerOwns))
@@ -96,7 +115,10 @@ public class ShopItem : MonoBehaviour
         if(price > PlayerData.instance.CurrentMoney)
         {
             itemDisplay.interactable = false;
-            return;
+        }
+        else
+        {
+            itemDisplay.interactable = true;
         }
     }
 

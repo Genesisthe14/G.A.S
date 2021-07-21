@@ -12,8 +12,12 @@ public class Homescreen : MonoBehaviour
 
     public void QuitGame () 
     {
-        Debug.Log("I quited le Game, only available in actual builded Game");
         SaveLoadService.SaveGame();
         Application.Quit();
+    }
+
+    public void DeleteSaveFile()
+    {
+        SaveLoadService.DeleteSaveFile();
     }
 }

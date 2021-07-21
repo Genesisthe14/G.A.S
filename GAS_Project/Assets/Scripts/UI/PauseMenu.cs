@@ -36,8 +36,10 @@ public class PauseMenu : MonoBehaviour
         ReplaceInTemporaryItems(Upgrade.UpgradeTypes.NUMSHIELDS, GameManager.instance.BeforeRun["numShields"]);
         ReplaceInTemporaryItems(Upgrade.UpgradeTypes.REFUEL, GameManager.instance.BeforeRun["refuels"]);
         ReplaceInTemporaryItems(Upgrade.UpgradeTypes.HEADSTART, GameManager.instance.BeforeRun["headstarts"]);
+
+        RocketBehaviour.CurrentWarpSpeedFactor = 0.0f;
         
-        RocketBehaviour.IsHeadstartActive = false;
+        RocketBehaviour.isWarpActive = false;
         
         SceneManager.LoadScene("UIGaS");
     }

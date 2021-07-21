@@ -16,3 +16,4 @@ MonoBehaviour:
   upgradeNum: 3
   isPermanentUpgrade: 1
   upgradeType: 3
+  upgradeName: Hull 3
