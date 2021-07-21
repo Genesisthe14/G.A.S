@@ -16,3 +16,4 @@ MonoBehaviour:
   upgradeNum: 2
   isPermanentUpgrade: 1
   upgradeType: 0
+  upgradeName: Shield Upgrade 2

@@ -16,3 +16,4 @@ MonoBehaviour:
   upgradeNum: 1
   isPermanentUpgrade: 0
   upgradeType: 4
+  upgradeName: Refuel

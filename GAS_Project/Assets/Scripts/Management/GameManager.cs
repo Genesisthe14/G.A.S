@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Percentage to raise values by")]
-    private int raisePercentage = 5;
+    private int raisePercentage = 5; //raise when headstart?
 
     [SerializeField]
     [Tooltip("distance traveled per second")]
@@ -111,11 +111,19 @@ public class GameManager : MonoBehaviour
     }
 
     //Amount of fuel the player starts with
-    private static float startFuel = 100;
+    private static float startFuel = 100.0f;
     public static float StartFuel
     {
         get { return startFuel; }
         set { startFuel = value; }
+    }
+
+    //how many % the fuel is filled up if refuel is hit
+    private static float refuelPercent = 20.0f;
+    public static float RefuelPercent
+    {
+        get { return refuelPercent; }
+        set { refuelPercent = value; }
     }
 
     //Total amount of fuel
@@ -127,9 +135,12 @@ public class GameManager : MonoBehaviour
         { 
             currentFuel = value;
 
+            if (currentFuel > startFuel) currentFuel = startFuel;
+
             if(currentFuel <= 0.0f)
             {
-                gameOverObject.GameOver((int)distance);
+                isGameOver = true;
+                gameOverObject.GameOver();
                 currentFuel = 0.0f;
             }
             
@@ -167,21 +178,31 @@ public class GameManager : MonoBehaviour
     {
         get { return distance; }
         set 
-        { 
+        {
+            float temp = Mathf.Abs(distance - value);
+
             distance = value;
-            if (RocketBehaviour.IsHeadstartActive)
+
+            if (RocketBehaviour.IsWarpActive)
             {
-                //if the speed has increased by about 40% (which is reached after raising the speed 
-                //by 10% 4-times) then stop the headstart
-                if(distance >= sectionLength * (increaseIndexAmount * 4))
+                headstartDistanceCounter += temp;
+
+                //if the speed has increased by about 30% (which is reached after traveling 900km) then stop the headstart
+                if (headstartDistanceCounter >= headstartLength && RocketBehaviour.CurrentWarpSpeedFactor >= RocketBehaviour.TargetWarpSpeedFactor)
                 {
-                    RocketBehaviour.IsHeadstartActive = false;
+                    RocketBehaviour.IsWarpActive = false;
+                    headstartDistanceCounter = 0.0f;
                 }
             }
         }
     }
-    
+
     [SerializeField]
+    private float headstartDistanceCounter = 0.0f;
+
+    private float headstartLength = 500.0f;
+    
+
     private Dictionary<string, int> beforeRun = new Dictionary<string, int>();
     public Dictionary<string, int> BeforeRun
     {
@@ -189,7 +210,9 @@ public class GameManager : MonoBehaviour
     }
 
     //time between raising the distance the player traveled
-    private float[] timeIntervalDistance = { 1.0f, 0.1f };
+    private float[] timeIntervalDistance = { 1.0f, 0.05f };
+
+    private bool isGameOver = false;
     #endregion
 
     private void Awake()
@@ -237,13 +260,12 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(UseFuel());
         StartCoroutine(RaiseDistance());
-        //InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(2)) Refuel();
-        if (Input.GetMouseButtonDown(1)) RocketBehaviour.IsHeadstartActive = true; //ActivateShield();
+        if (Input.GetMouseButtonDown(1)) RocketBehaviour.IsWarpActive = true; //ActivateShield();
     }
 
     private void PlayParticle() 
@@ -256,7 +278,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (consumeFuel && !RocketBehaviour.IsHeadstartActive)
+            if (consumeFuel)
             {
                 LowerFuel(lowerRate);            
                 yield return new WaitForSecondsRealtime(fuelConsuptionTime);
@@ -270,13 +292,13 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (PauseMenu.GamePaused)
+            if (PauseMenu.GamePaused || isGameOver)
             {
                 yield return null;
                 continue;
             }
 
-            yield return new WaitForSecondsRealtime(RocketBehaviour.IsHeadstartActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
+            yield return new WaitForSecondsRealtime(RocketBehaviour.IsWarpActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
 
             if(distance >= 100 & !particleBar.isPlaying)
             {
@@ -284,7 +306,7 @@ public class GameManager : MonoBehaviour
                 PlayParticle();
             }
 
-            Distance += mPerSec;
+            if(!isGameOver)Distance += mPerSec;
             distanceText.text = (int)distance + " KM";
 
             RaiseSpeed();
@@ -371,13 +393,13 @@ public class GameManager : MonoBehaviour
 
         PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, tempNum);
 
-        CurrentFuel = startFuel;
+        CurrentFuel += startFuel / 100.0f * refuelPercent;
         Debug.Log("Refueled");
     }
 
     public void ActivateShield()
     {
-        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] <= 0)
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] <= 0 || shieldObj.activeInHierarchy)
         {
             Debug.Log("No shields available");
             return;
@@ -389,5 +411,11 @@ public class GameManager : MonoBehaviour
         PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
 
         shieldObj.SetActive(true);
+    }
+
+    public void ActivateWarp()
+    {
+        if (!RocketBehaviour.IsWarpActive) RocketBehaviour.IsWarpActive = true;
+        else Debug.Log("Warp Already Active");
     }
 }

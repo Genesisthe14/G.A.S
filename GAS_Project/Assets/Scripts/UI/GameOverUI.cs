@@ -9,10 +9,13 @@ public class GameOverUI : MonoBehaviour
 {
     [SerializeField]
     private AudioSource source;
+    
     [SerializeField]
     private GameObject pause;
+    
     public Text pointsText;
-    public void GameOver(int distance) 
+    
+    public void GameOver() 
     {
         GameManager.instance.ConsumeFuel = false;
         GameManager.instance.Spawner.Spawn = false;
@@ -23,7 +26,9 @@ public class GameOverUI : MonoBehaviour
 
         source.Play();
         Time.timeScale = 0;
-        pointsText.text = distance.ToString() + " KM";
+
+        int distance = (int)GameManager.instance.Distance;
+        pointsText.text = distance + " KM";
     }
 
     public void Restart() 
