@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Percentage to raise values by")]
-    private int raisePercentage = 5;
+    private int raisePercentage = 5; //raise when headstart?
 
     [SerializeField]
     [Tooltip("distance traveled per second")]
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private float raiseIndex = 1.0f;
 
     //How much the threshold for multiples is raised everytime
-    private float increaseIndexAmount = 2.0f;
+    private float increaseIndexAmount = 1.0f;
 
     //Dictionary with initial values of the properties that are raised when the speed of the game should increase
     private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
@@ -56,10 +56,6 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Texts, References & Management")]
-    [SerializeField]
-    [Tooltip("Text that displays the amount of fuel left")]
-    private Text fuelText;
-
     [SerializeField]
     [Tooltip("Text that displays the amount of money player has")]
     private Text moneyText;
@@ -95,11 +91,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Fill reference")]
     private Image fillColor;
+    
     public ParticleSystem particleBar;
 
     [SerializeField]
-    [Tooltip("Indices of the layers that shouldn't be regarded when touching the screen")]
+    [Tooltip("Indices of the layers that can trigger events like touching the screen")]
     private int[] inputMasks;
+
+    [SerializeField]
+    [Tooltip("Object representing the Shield")]
+    private GameObject shieldObj;
 
     
     //instance of the GameManager for the singleton
@@ -109,23 +110,43 @@ public class GameManager : MonoBehaviour
         get { return _instance; }
     }
 
-    //Total amount of fuel
-    private float fuel = 100;
-    public float Fuel
+    //Amount of fuel the player starts with
+    private static float startFuel = 100.0f;
+    public static float StartFuel
     {
-        get { return fuel; }
+        get { return startFuel; }
+        set { startFuel = value; }
+    }
+
+    //how many % the fuel is filled up if refuel is hit
+    private static float refuelPercent = 20.0f;
+    public static float RefuelPercent
+    {
+        get { return refuelPercent; }
+        set { refuelPercent = value; }
+    }
+
+    //Total amount of fuel
+    private float currentFuel;
+    public float CurrentFuel
+    {
+        get { return currentFuel; }
         set 
         { 
-            fuel = value;
+            currentFuel = value;
 
-            if(fuel <= 0.0f)
+            if (currentFuel > startFuel) currentFuel = startFuel;
+
+            if(currentFuel <= 0.0f)
             {
-                gameOverObject.GameOver((int)distance);
-                fuel = 0.0f;
+                isGameOver = true;
+                gameOverObject.GameOver();
+                currentFuel = 0.0f;
             }
-            if(fuel <= 30f)
+            
+            if(currentFuel <= 30f)
             {
-                if((fuel * 100f) % 3 == 0) 
+                if((currentFuel * 100f) % 3 == 0) 
                 {
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
@@ -134,8 +155,12 @@ public class GameManager : MonoBehaviour
                     fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
                 }
             }
-            fuelBar.SetFuel((int)fuel);
-            //fuelText.text = "Fuel: " + (int)fuel;
+            else
+            {
+                fillColor.GetComponent<Image>().color = new Color32(159, 0, 158, 255);
+            }
+
+            fuelBar.SetFuel((int)currentFuel);
         }
     }
 
@@ -149,13 +174,45 @@ public class GameManager : MonoBehaviour
 
     //Distance the player has covered so far
     private float distance = 0;
-
-    //money before starting the run
-    private int beforeRunMoney;
-    public int BeforeRunMoney
+    public float Distance
     {
-        get { return beforeRunMoney; }
+        get { return distance; }
+        set 
+        {
+            float temp = Mathf.Abs(distance - value);
+
+            distance = value;
+
+            if (RocketBehaviour.IsWarpActive)
+            {
+                headstartDistanceCounter += temp;
+
+                //if the speed has increased by about 30% (which is reached after traveling 900km) then stop the headstart
+                if (headstartDistanceCounter >= headstartLength && RocketBehaviour.CurrentWarpSpeedFactor >= RocketBehaviour.TargetWarpSpeedFactor)
+                {
+                    RocketBehaviour.IsWarpActive = false;
+                    headstartDistanceCounter = 0.0f;
+                }
+            }
+        }
     }
+
+    [SerializeField]
+    private float headstartDistanceCounter = 0.0f;
+
+    private float headstartLength = 500.0f;
+    
+
+    private Dictionary<string, int> beforeRun = new Dictionary<string, int>();
+    public Dictionary<string, int> BeforeRun
+    {
+        get { return beforeRun; }
+    }
+
+    //time between raising the distance the player traveled
+    private float[] timeIntervalDistance = { 1.0f, 0.05f };
+
+    private bool isGameOver = false;
     #endregion
 
     private void Awake()
@@ -169,18 +226,23 @@ public class GameManager : MonoBehaviour
         }
 
         Camera.main.eventMask = LayerMask.GetMask(eventMask.ToArray());
+
+        //store the initial values of certain attributes to restore them if the player exits the
+        //game via the pause menu
+        beforeRun.Add("currentMoney", PlayerData.instance.CurrentMoney);
+        beforeRun.Add("numShields", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS]);
+        beforeRun.Add("refuels", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL]);
+        beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
     }
 
     private void Start()
     {
-        //set the static singleton instance to this object
         _instance = this;
 
-        fuelText.text = "Fuel: " + fuel;
+        currentFuel = startFuel;
+
         moneyText.text = PlayerData.instance.CurrentMoney + "";
         distanceText.text = distance + " KM";
-
-        beforeRunMoney = PlayerData.instance.CurrentMoney;
 
         //store initial values so that percentages stay constant
 
@@ -197,7 +259,13 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
         StartCoroutine(UseFuel());
-        InvokeRepeating(nameof(RaiseDistance), 1.0f, 1.0f);
+        StartCoroutine(RaiseDistance());
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(2)) Refuel();
+        if (Input.GetMouseButtonDown(1)) RocketBehaviour.IsWarpActive = true; //ActivateShield();
     }
 
     private void PlayParticle() 
@@ -220,18 +288,29 @@ public class GameManager : MonoBehaviour
     }
 
     //Raises the distance traveled by the player
-    private void RaiseDistance()
+    private IEnumerator RaiseDistance()
     {
-        if(distance >= 100 & !particleBar.isPlaying)
+        while (true)
         {
-            distanceText.color = Color.yellow;
-            PlayParticle();
+            if (PauseMenu.GamePaused || isGameOver)
+            {
+                yield return null;
+                continue;
+            }
+
+            yield return new WaitForSecondsRealtime(RocketBehaviour.IsWarpActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
+
+            if(distance >= 100 & !particleBar.isPlaying)
+            {
+                distanceText.color = Color.yellow;
+                PlayParticle();
+            }
+
+            if(!isGameOver)Distance += mPerSec;
+            distanceText.text = (int)distance + " KM";
+
+            RaiseSpeed();
         }
-
-        distance += mPerSec;
-        distanceText.text = (int)distance + " KM";
-
-        RaiseSpeed();
     }
 
     //Raises the speed of the game by changing the bg speed, lowering the time between 
@@ -247,7 +326,7 @@ public class GameManager : MonoBehaviour
             //raise speed bg
             for (int i = 0; i < bgManagers.Length; i++)
             {
-                bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 35.0f;
+                bgManagers[i].Speed += initialSpeedValues["speedBG"+i] * raisePercentage / 10.0f;
             }
 
             //raise lowering rate of fuel
@@ -292,12 +371,51 @@ public class GameManager : MonoBehaviour
     //Lowers the fuel by lowerRate
     public void LowerFuel(float lower)
     {
-        Fuel -= lower;
+        CurrentFuel -= lower;
     }
 
     //Adds the specified amount of fuel to the current fuel left
     public void AddFuel(float addedFuel)
     {
-        Fuel += addedFuel;
+        CurrentFuel += addedFuel;
+    }
+
+    public void Refuel()
+    {
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] <= 0)
+        {
+            Debug.Log("Can't Refuel");
+            return;
+        }
+
+        int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] - 1;
+        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.REFUEL);
+
+        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, tempNum);
+
+        CurrentFuel += startFuel / 100.0f * refuelPercent;
+        Debug.Log("Refueled");
+    }
+
+    public void ActivateShield()
+    {
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] <= 0 || shieldObj.activeInHierarchy)
+        {
+            Debug.Log("No shields available");
+            return;
+        }
+
+        int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] - 1;
+        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.NUMSHIELDS);
+
+        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
+
+        shieldObj.SetActive(true);
+    }
+
+    public void ActivateWarp()
+    {
+        if (!RocketBehaviour.IsWarpActive) RocketBehaviour.IsWarpActive = true;
+        else Debug.Log("Warp Already Active");
     }
 }

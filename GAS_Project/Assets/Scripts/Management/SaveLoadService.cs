@@ -55,9 +55,40 @@ public class SaveLoadService : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.LogError(e.Message);
+            Debug.LogError(e.GetType());
             Debug.LogError(e.StackTrace);
-            // Im Fehlerfall leeren Datensatz zurückliefern:
             Debug.LogError("Game was not loaded!");
+            return;
+        }
+    }
+
+    public static void DeleteSaveFile()
+    {
+        try
+        {
+            // Pfad aus Standardpfad und Dateiname zusammensetzen:
+            string path = Application.persistentDataPath + "/" + FILENAME;
+
+            //falls keine zuvor gespeicherte Datei gefunden werden kann return ohne etwas zu laden
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                Debug.Log("Save File deleted");
+                return;
+            }
+            else
+            {
+                Debug.Log("There is no file to delete");
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+            Debug.LogError(e.GetType());
+            Debug.LogError(e.StackTrace);
+            Debug.LogError("Save file wasn't deleted");
             return;
         }
     }

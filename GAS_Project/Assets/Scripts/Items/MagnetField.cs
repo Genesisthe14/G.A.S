@@ -8,14 +8,25 @@ using UnityEngine;
 //funzt noch nicht
 public class MagnetField : BuffItem
 {
+    private static int fieldSize = 13;
+    public static int FieldSize
+    {
+        get { return fieldSize; }
+        set { fieldSize = value; }
+    }
+    
     public int pullSpeed;
     public float lifetime;
 
+    [SerializeField]
+    [Tooltip("Collider representing the magnetfield")]
+    private CircleCollider2D field;
+
     private Coroutine destoryRoutine;
 
-    private void OnEnable()
+    private void Awake()
     {
-        destoryRoutine = StartCoroutine(DestorySequence());
+        field.radius = fieldSize;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,19 +36,5 @@ public class MagnetField : BuffItem
             Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
             collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
         }
-    }
-        
-    private IEnumerator DestorySequence()
-    {
-        yield return new WaitForSecondsRealtime(lifetime);
-
-        gameObject.SetActive(false);
-    }
-
-    public override void RestartItem()
-    {
-        StopCoroutine(destoryRoutine);
-
-        destoryRoutine = StartCoroutine(DestorySequence());
     }
 }

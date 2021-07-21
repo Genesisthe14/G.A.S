@@ -25,4 +25,9 @@ public class UpdateShopDisplay : MonoBehaviour
 
         moneyText.text = "Money: " + PlayerData.instance.CurrentMoney;
     }
+
+    public void AddMoney()
+    {
+        PlayerData.instance.CurrentMoney += 10000;
+    }
 }

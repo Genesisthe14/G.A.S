@@ -21,7 +21,7 @@ public class RocketControls : MonoBehaviour, IDragHandler
     {
         if (!GameManager.instance.ConsumeFuel) return;
         
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//Input.GetTouch(0).position
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//Input.GetTouch(0).position // raus
 
         if (!(touchPos.x <= xRightBound && touchPos.x >= xLeftBound)) return;
         if (!(touchPos.y <= yUpBound && touchPos.y >= yDownBound)) return;

@@ -72,9 +72,18 @@ public class Spawner : MonoBehaviour
             Vector2 spawnPos = new Vector2(Random.Range(xSpawn[0], xSpawn[1]), Random.Range(ySpawn[0], ySpawn[1]));
             GameObject temp = Instantiate(spawnObject, spawnPos, spawnObject.transform.rotation);
 
-            temp.GetComponent<Rigidbody2D>().velocity = Vector2.down * Random.Range(velocityRange[0], velocityRange[1]);
+            float velocityMultiplier = Random.Range(velocityRange[0], velocityRange[1]);
 
-            yield return new WaitForSecondsRealtime(Random.Range(invokeTimeRange[0], invokeTimeRange[1]));
+            velocityMultiplier += RocketBehaviour.IsWarpActive ? RocketBehaviour.CurrentWarpSpeedFactor : 0.0f;
+
+            temp.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocityMultiplier;
+
+
+            float invokeTime = Random.Range(invokeTimeRange[0], invokeTimeRange[1]);
+
+            invokeTime -= RocketBehaviour.IsWarpActive ? 1.0f : 0.0f;
+
+            yield return new WaitForSecondsRealtime(invokeTime < 0.0f ? 0.0f : invokeTime);
         }
     }
 }

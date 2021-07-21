@@ -24,7 +24,7 @@ public class PlayerData : MonoBehaviour
             currentMoney = value;
             if (currentMoney < 0) currentMoney = 0;
 
-            if(UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
+            if(UpdateShopDisplay.instance  != null && UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
         }
     }
 
@@ -32,8 +32,8 @@ public class PlayerData : MonoBehaviour
 
     //save
     //IDs of the permanent upgrades the player owns
-    private SerializableDictionary<int, string> permanentUpgradeIDsPlayerOwns = new SerializableDictionary<int, string>();
-    public SerializableDictionary<int, string> PermanentUpgradeIDsPlayerOwns
+    private SerializableDictionary<string, string> permanentUpgradeIDsPlayerOwns = new SerializableDictionary<string, string>();
+    public SerializableDictionary<string, string> PermanentUpgradeIDsPlayerOwns
     {
         get { return permanentUpgradeIDsPlayerOwns; }
         set { permanentUpgradeIDsPlayerOwns = value; }
@@ -59,20 +59,16 @@ public class PlayerData : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
+        temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
+        temporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, 0);
+        temporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, 0);
+        temporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, 0);
+
         //load the last saved game
         if (firstLoaded)
         {
             SaveLoadService.LoadGame();
             firstLoaded = false;
         }
-
-        SceneManager.sceneLoaded += OnSceneLoaded; 
-    }
-
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log(currentMoney);
-        //UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
     }
 }

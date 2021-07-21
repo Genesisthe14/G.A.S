@@ -129,7 +129,7 @@ MonoBehaviour:
   destroyParent: 0
   numOfHitsToDestroy: 1
   force: 15000
-  minVelocity: 18
+  minVelocity: 12
   shatteredVersion: {fileID: 4185555129323697962, guid: dd91b906245a51b4e9f17d213457983d, type: 3}
   coinPrefab: {fileID: 6069357223404238032, guid: dd0d7cd38187f0d489ff4edadc8ee78f, type: 3}
   numCoinsToSpawn: 10

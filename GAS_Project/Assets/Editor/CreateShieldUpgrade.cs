@@ -12,7 +12,7 @@ public class CreateShieldUpgrade : MonoBehaviour
         if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/ShieldUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets", "ShieldUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "ShieldUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
