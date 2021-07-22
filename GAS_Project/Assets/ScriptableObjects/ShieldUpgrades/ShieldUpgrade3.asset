@@ -15,5 +15,5 @@ MonoBehaviour:
   upgradeID: shield_3
   upgradeNum: 3
   isPermanentUpgrade: 1
-  upgradeType: 0
+  upgradeType: 1
   upgradeName: Shield Upgrade 3

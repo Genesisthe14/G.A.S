@@ -15,5 +15,5 @@ MonoBehaviour:
   upgradeID: headstart_upgrade
   upgradeNum: 1
   isPermanentUpgrade: 0
-  upgradeType: 6
+  upgradeType: 7
   upgradeName: Warp
