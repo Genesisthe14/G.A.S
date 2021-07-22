@@ -631,7 +631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &676534549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -748,6 +748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 0}
+  pause: {fileID: 0}
   pointsText: {fileID: 1003926781}
 --- !u!114 &760319175
 MonoBehaviour:
@@ -1641,6 +1642,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9b4b2101827624484c16b987e626e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shield: {fileID: 0}
+  damageScreen: {fileID: 0}
 --- !u!60 &1079415472
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2718,15 +2721,19 @@ MonoBehaviour:
   fuelConsuptionTime: 0.5
   limitFuelConsumptionTime: 0.5
   lowestSpawnInterval: 1
-  raiseSpeedDistance: 10
+  sectionLength: 10
   raisePercentage: 5
+  mPerSec: 5
   possibleBuffs: []
-  distancePerSecond: 5
   fuelText: {fileID: 2117188380}
+  moneyText: {fileID: 0}
   distanceText: {fileID: 2138287348}
   bgManagers: []
   spawner: {fileID: 1819078158}
   gameOverObject: {fileID: 0}
+  fuelBar: {fileID: 0}
+  fillColor: {fileID: 0}
+  particleBar: {fileID: 0}
   inputMasks: 
 --- !u!4 &1819078160
 Transform:
