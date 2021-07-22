@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4668193652777874423, guid: 2f5117454a025ef41b3155d0f566ae04, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6426761097513178575, guid: 2f5117454a025ef41b3155d0f566ae04, type: 3}
       propertyPath: m_FontData.m_Font
@@ -1427,7 +1427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2909857604552340197, guid: 57bbdcc996969a24fbe9d8e19a8dbabb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018133351356693845, guid: 57bbdcc996969a24fbe9d8e19a8dbabb, type: 3}
       propertyPath: m_Pivot.x
@@ -4125,7 +4125,7 @@ PrefabInstance:
       objectReference: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
     - target: {fileID: 563791109247699738, guid: 32e1925db9cc4254c80fcac4fc5a5a18, type: 3}
       propertyPath: m_Name
-      value: Start Screen
+      value: BG
       objectReference: {fileID: 0}
     - target: {fileID: 563791109247699738, guid: 32e1925db9cc4254c80fcac4fc5a5a18, type: 3}
       propertyPath: m_IsActive
