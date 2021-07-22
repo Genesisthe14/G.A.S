@@ -769,7 +769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c4dcde8bf25bf49b8984e1939a048f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyText: {fileID: 243139871}
 --- !u!4 &839261575
 Transform:
   m_ObjectHideFlags: 0
@@ -1250,7 +1249,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 04c7e0d1d3839264494d86fe1207e9f4, type: 2}
     - target: {fileID: 7822845740121819647, guid: 39835688127e9ea45a7bec58fbc9c319, type: 3}
       propertyPath: price
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7822845740121819647, guid: 39835688127e9ea45a7bec58fbc9c319, type: 3}
       propertyPath: activateOnBuy
