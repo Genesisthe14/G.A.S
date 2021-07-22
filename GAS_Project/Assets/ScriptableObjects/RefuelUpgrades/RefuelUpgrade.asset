@@ -15,5 +15,5 @@ MonoBehaviour:
   upgradeID: refuel_upgrade
   upgradeNum: 1
   isPermanentUpgrade: 0
-  upgradeType: 4
+  upgradeType: 5
   upgradeName: Refuel
