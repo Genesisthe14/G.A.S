@@ -15,5 +15,5 @@ MonoBehaviour:
   upgradeID: fuel_capacity2
   upgradeNum: 2
   isPermanentUpgrade: 1
-  upgradeType: 1
+  upgradeType: 2
   upgradeName: Fueltank 2

@@ -15,5 +15,5 @@ MonoBehaviour:
   upgradeID: refuel_amount1
   upgradeNum: 1
   isPermanentUpgrade: 1
-  upgradeType: 7
+  upgradeType: 8
   upgradeName: Refuel Efficiency 1
