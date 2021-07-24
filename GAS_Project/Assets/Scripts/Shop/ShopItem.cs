@@ -9,6 +9,10 @@ public class ShopItem : MonoBehaviour
     [SerializeField]
     [Tooltip("Item that can be bought when this shopitem is clicked")]
     private Upgrade item;
+    public Upgrade Item
+    {
+        get { return item; }
+    }
 
     [SerializeField]
     [Tooltip("Text that displays the item name")]
@@ -19,25 +23,32 @@ public class ShopItem : MonoBehaviour
     private Text priceText;
 
     [SerializeField]
-    [Tooltip("Price of this shop item")]
-    private int price;
-
-    [SerializeField]
-    [Tooltip("Button depicting this item")]
-    private Button itemDisplay;
+    [Tooltip("Button to buy this item")]
+    private Button buyButton;
+    public Button BuyButton
+    {
+        get { return buyButton; }
+    }
 
     [SerializeField]
     [Tooltip("Item which should only be shown when this item was bought")]
     private GameObject activateOnBuy = null;
+    public GameObject ActivateOnBuy
+    {
+        get { return activateOnBuy; }
+    }
 
     //Action that is Invoked when an Item is bought
     private static Action ItemBought = null;
+
+    //Limit for how many boosters the player can have of each type
+    private int BuyLimitBoosters = 3;
 
     private void Awake()
     {
         if(activateOnBuy != null) activateOnBuy.SetActive(false);
         
-        priceText.text = price + " ";
+        priceText.text = item.Price + " ";
 
         itemNameText.text = item.UpgradeName;
 
@@ -51,13 +62,41 @@ public class ShopItem : MonoBehaviour
 
     public void BuyItem()
     {
-        if (price > PlayerData.instance.CurrentMoney) return;
-        
+        if (item.Price > PlayerData.instance.CurrentMoney) return;
+
+        if (!item.IsPermanentUpgrade)
+        {
+            if(PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] >= 3)
+            {
+                PlayerData.instance.CurrentMoney -= item.Price;
+                SelectionScreen.instance.SetBoosterTaken(item.UpgradeType);
+
+                return;
+            }
+
+            item.UpgradeFeature();
+
+            Debug.Log("Item bought: " + item.UpgradeName);
+
+            PlayerData.instance.CurrentMoney -= item.Price;
+
+            if (activateOnBuy != null)
+            {        
+                SelectionScreen.instance.SetBoosterTaken(item.UpgradeType);
+
+                if (PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] < 3) return;
+            
+                activateOnBuy.SetActive(true);
+                gameObject.SetActive(false);
+            }
+
+        }
+
         item.UpgradeFeature();
 
         Debug.Log("Item bought: " + item.UpgradeName);
 
-        PlayerData.instance.CurrentMoney -= price;
+        PlayerData.instance.CurrentMoney -= item.Price;
 
         ItemBought.Invoke();
     }
@@ -75,7 +114,7 @@ public class ShopItem : MonoBehaviour
             //check if not already obtained
             if (PlayerData.instance.PermanentUpgradeIDsPlayerOwns.ContainsKey(item.UpgradeID))
             {
-                itemDisplay.interactable = false;
+                buyButton.interactable = false;
 
                 if (activateOnBuy != null)
                 {
@@ -86,22 +125,22 @@ public class ShopItem : MonoBehaviour
                 return;
             }
 
-            //if previous update was obtained if is not first update
             if (item.UpgradeNum <= 1)
             {
                 //check if player has enough money to buy otherwise set inactive
-                if (price > PlayerData.instance.CurrentMoney)
+                if (item.Price > PlayerData.instance.CurrentMoney)
                 {
-                    itemDisplay.interactable = false;
+                    buyButton.interactable = false;
                 }
                 else
                 {
-                    itemDisplay.interactable = true;
+                    buyButton.interactable = true;
                 }
 
                 return;
             }
 
+            //if previous update was obtained if is not first update
             string formerUpgrade = item.UpgradeType.ToString() + (item.UpgradeNum - 1);
             if (!DictContainsValue(formerUpgrade, PlayerData.instance.PermanentUpgradeIDsPlayerOwns))
             {
@@ -112,13 +151,13 @@ public class ShopItem : MonoBehaviour
         }
 
         //check if player has enough money to buy otherwise set inactive
-        if(price > PlayerData.instance.CurrentMoney)
+        if (item.Price > PlayerData.instance.CurrentMoney)
         {
-            itemDisplay.interactable = false;
+            buyButton.interactable = false;
         }
         else
         {
-            itemDisplay.interactable = true;
+            buyButton.interactable = true;
         }
     }
 

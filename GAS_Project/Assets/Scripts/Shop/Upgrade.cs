@@ -44,6 +44,14 @@ public class Upgrade : ScriptableObject
         get { return upgradeName; }
     }
 
+    [SerializeField]
+    [Tooltip("Price of the Upgrade")]
+    private int price = 0;
+    public int Price
+    {
+        get { return price; }
+    }
+
     public enum UpgradeTypes { NONE, SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART, REFUELAMOUNT}
 
     public virtual void UpgradeFeature()

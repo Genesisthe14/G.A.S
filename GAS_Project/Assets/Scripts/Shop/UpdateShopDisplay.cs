@@ -23,7 +23,7 @@ public class UpdateShopDisplay : MonoBehaviour
     {
         _instance = this;
 
-        moneyText.text = "Money: " + PlayerData.instance.CurrentMoney;
+        moneyText.text = "" + PlayerData.instance.CurrentMoney;
     }
 
     public void AddMoney()

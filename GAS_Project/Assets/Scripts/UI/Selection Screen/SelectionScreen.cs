@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SelectionScreen : MonoBehaviour
 {
     //Booster Items the player takes with him
-    private static Upgrade.UpgradeTypes[] boostersTaken = new Upgrade.UpgradeTypes[2];
+    private static Upgrade.UpgradeTypes[] boostersTaken = { Upgrade.UpgradeTypes.NONE, Upgrade.UpgradeTypes.NONE };
     public static Upgrade.UpgradeTypes[] BoostersTaken
     {
         get { return boostersTaken; }
@@ -15,50 +15,93 @@ public class SelectionScreen : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("Booster Slots that tell what items the player has currently selected")]
-    private BoosterSlot[] boosterSlots;
+    [Tooltip("All boosters the Player can buy")]
+    private Upgrade[] boosters;
 
     [SerializeField]
-    [Tooltip("Start game button")]
-    private Button startGameButton;
+    [Tooltip("All Shopitem instances for boosters")]
+    private ShopItem[] allBoosterShopItems;
 
-    //Whether the selected Boosters are valid
-    private static bool boostsValid = false;
-    public static bool BoostsValid
+    //index of the current booster slot
+    private static int boosterIndex = 0;
+
+    private static SelectionScreen _instance;
+    public static SelectionScreen instance
     {
-        get { return boostsValid; }
+        get { return _instance; }
     }
-
-    public static Action OnBoosterAvailability = null;
 
     private void Awake()
     {
-        OnBoosterAvailability += CheckAvailabilityBoosters;
+        _instance = this;
     }
 
-    private void OnDestroy()
+    public void SetBoosterTaken(Upgrade.UpgradeTypes boost)
     {
-        OnBoosterAvailability -= CheckAvailabilityBoosters;
+        if (boostersTaken[boosterIndex] == boost) return;
+        
+        boostersTaken[boosterIndex] = boost;
+
+        Debug.Log(boostersTaken[boosterIndex]);
+        boosterIndex++;
+
+        UpdateSelectScreen();
+
+        //if both slots occupied then disable buy option for last one with Action
+        //make new class for booster buy options that has attribute with what should be enabled 
+        //if slots full
     }
 
-    private void CheckAvailabilityBoosters()
-    {
-        foreach(BoosterSlot slot in boosterSlots)
+    private void UpdateSelectScreen()
+    {        
+        foreach(ShopItem shop in allBoosterShopItems)
         {
-            if (!slot.IsValid)
+            if(shop.Item.Price > PlayerData.instance.CurrentMoney)
             {
-                startGameButton.interactable = false;
-                boostsValid = false;
-                return;
+                shop.BuyButton.interactable = false;
+            }
+            
+            //if two slots are already set
+            if (boosterIndex >= boostersTaken.Length)
+            {
+                foreach(Upgrade.UpgradeTypes type in boostersTaken)
+                {
+                    if(type != shop.Item.UpgradeType)
+                    {
+                        shop.BuyButton.interactable = false;
+                    }
+                }
             }
         }
-
-        startGameButton.interactable = true;
-        boostsValid = true;
     }
 
-    public static void SwitchBoosterTaken(int index, Upgrade.UpgradeTypes boost)
+    public void ResetBoostersTaken()
     {
-        boostersTaken[index] = boost;
+        for(int i = 0; i < boostersTaken.Length; i++)
+        {
+            PlayerData.instance.CurrentMoney += SearchForBooster(boostersTaken[i]);
+
+            boostersTaken[i] = Upgrade.UpgradeTypes.NONE;
+        }
+
+        foreach(ShopItem item in allBoosterShopItems)
+        {
+            item.ActivateOnBuy.SetActive(false);
+            item.gameObject.SetActive(true);
+        }
+
+        boosterIndex = 0;
+
+        //Update boosters displayed with Action
+    }
+
+    private int SearchForBooster(Upgrade.UpgradeTypes type)
+    {
+        foreach(Upgrade up in boosters)
+        {
+            if (up.UpgradeType == type) return up.Price;
+        }
+
+        return 0;
     }
 }
