@@ -16,4 +16,5 @@ MonoBehaviour:
   upgradeNum: 1
   isPermanentUpgrade: 1
   upgradeType: 2
-  upgradeName: Fueltank 1
+  upgradeName: Tank
+  price: 100

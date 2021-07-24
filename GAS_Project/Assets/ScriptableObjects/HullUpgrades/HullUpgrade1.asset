@@ -17,3 +17,4 @@ MonoBehaviour:
   isPermanentUpgrade: 1
   upgradeType: 4
   upgradeName: Hull 1
+  price: 100
