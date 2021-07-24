@@ -42,7 +42,7 @@ public class ShopItem : MonoBehaviour
     private static Action ItemBought = null;
 
     //Limit for how many boosters the player can have of each type
-    private int BuyLimitBoosters = 3;
+    private int buyLimitBoosters = 3;
 
     private void Awake()
     {
@@ -66,11 +66,13 @@ public class ShopItem : MonoBehaviour
 
         if (!item.IsPermanentUpgrade)
         {
-            if(PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] >= 3)
+            if(PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] >= buyLimitBoosters)
             {
                 PlayerData.instance.CurrentMoney -= item.Price;
                 SelectionScreen.instance.SetBoosterTaken(item.UpgradeType);
 
+                activateOnBuy.SetActive(true);
+                gameObject.SetActive(false);
                 return;
             }
 
@@ -84,12 +86,13 @@ public class ShopItem : MonoBehaviour
             {        
                 SelectionScreen.instance.SetBoosterTaken(item.UpgradeType);
 
-                if (PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] < 3) return;
+                if (PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] < buyLimitBoosters) return;
             
                 activateOnBuy.SetActive(true);
                 gameObject.SetActive(false);
             }
 
+            return;
         }
 
         item.UpgradeFeature();
