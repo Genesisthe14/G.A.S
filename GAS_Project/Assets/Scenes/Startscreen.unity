@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4668193652777874423, guid: 2f5117454a025ef41b3155d0f566ae04, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6426761097513178575, guid: 2f5117454a025ef41b3155d0f566ae04, type: 3}
       propertyPath: m_FontData.m_Font
@@ -11087,7 +11087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &1572802635587749692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16230,7 +16230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &4347036073705729052
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16976,7 +16976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4804840786522630322
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18180,7 +18180,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 3eec8a8af38cb1b43832162fbe30c29d, type: 2}
   itemNameText: {fileID: 1360663259273315393}
   priceText: {fileID: 1414467653647501390}
-  buyButton: {fileID: 0}
+  buyButton: {fileID: 5447486867573241421}
   activateOnBuy: {fileID: 8006802111441415446}
 --- !u!114 &5447486867573241421
 MonoBehaviour:
