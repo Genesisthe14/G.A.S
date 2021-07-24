@@ -7,7 +7,7 @@ public class Homescreen : MonoBehaviour
 {
     public void StartGame () 
     {
-        if(SelectionScreen.BoostsValid)SceneManager.LoadScene("RocketScene");
+        SceneManager.LoadScene("RocketScene");
     }
 
     public void QuitGame () 

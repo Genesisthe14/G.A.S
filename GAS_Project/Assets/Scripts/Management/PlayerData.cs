@@ -15,7 +15,7 @@ public class PlayerData : MonoBehaviour
 
     //save
     //Amount of money the player currently has
-    private int currentMoney = 0;
+    private int currentMoney = 100000;
     public int CurrentMoney
     {
         get { return currentMoney; }
@@ -24,7 +24,7 @@ public class PlayerData : MonoBehaviour
             currentMoney = value;
             if (currentMoney < 0) currentMoney = 0;
 
-            if(UpdateShopDisplay.instance  != null && UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "Money: " + currentMoney;
+            if(UpdateShopDisplay.instance  != null && UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "" + currentMoney;
         }
     }
 

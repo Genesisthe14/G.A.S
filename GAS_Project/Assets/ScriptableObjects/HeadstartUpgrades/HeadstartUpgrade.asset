@@ -16,4 +16,5 @@ MonoBehaviour:
   upgradeNum: 1
   isPermanentUpgrade: 0
   upgradeType: 7
-  upgradeName: Warp
+  upgradeName: Hyperjump
+  price: 1000
