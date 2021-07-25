@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
+//Class the determines the behaviour of the meteors in the scene
+
 public class MeteorBehaviour : MonoBehaviour
 {
+    [Tooltip("PlayableDircetor that plays the explosion sound")]
     public PlayableDirector explosionSound;
 
     [SerializeField]
@@ -51,6 +54,7 @@ public class MeteorBehaviour : MonoBehaviour
     //ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed
     private ParticleSystem particle;
 
+    //Whether the particle effect started playing already
     private bool particleStartedPlaying = false;
 
     private void Awake()
@@ -60,10 +64,13 @@ public class MeteorBehaviour : MonoBehaviour
 
     private void Update()
     {
+        //if the particle effect is not playing but has been played at least once
         if (particle.isStopped && particleStartedPlaying)
         {
             particleStartedPlaying = false;
 
+            //if this is the last child of the parent destory the parent 
+            //and this object with it
             if (destroyParent && gameObject.transform.parent.childCount == 1)
             {
                 Destroy(gameObject.transform.parent.gameObject);
@@ -79,6 +86,8 @@ public class MeteorBehaviour : MonoBehaviour
         OnMeteorCollision(collision);
     }
 
+    //Start playing the particle effect and disable 
+    //physics simulation and sprite
     public void StartParticle()
     {
         particle.Play();
@@ -91,7 +100,7 @@ public class MeteorBehaviour : MonoBehaviour
         particleStartedPlaying = true;
     }
 
-    //returns all children of a gameobject
+    //Returns a list of all children of the given gameobject
     public static List<GameObject> GetChildrenList(GameObject parent)
     {
         if (parent.transform.childCount <= 0) return null;
@@ -118,12 +127,14 @@ public class MeteorBehaviour : MonoBehaviour
         //if the meteor collides with anything else but the weight then don't do anything
         if (!RocketBehaviour.IsWarpActive && !collision.gameObject.CompareTag("weight")) return;
 
+        //if the velocity of the destructor is lower the the minimum velocity then let it pass through the meteor
         if (!RocketBehaviour.IsWarpActive && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity )
         {
             GetComponent<Collider2D>().isTrigger = true;
             return;
         }
 
+        //raise number of hits on this meteor
         currentNumHits++;
 
         //if the current number of hits on this meteor is equal to or exceeds 
@@ -132,22 +143,27 @@ public class MeteorBehaviour : MonoBehaviour
         {
             if (GetComponent<GiveMoney>() != null)
             {
+                //spawn the same amount of coin prefabs as numCoinsToSpawn
                 for (int i = 0; i < numCoinsToSpawn; i++)
                 {
                     GameObject coin = Instantiate(coinPrefab);
 
                     coin.transform.position = transform.position;
-                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().AddMoney() / numCoinsToSpawn;
+                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().Money / numCoinsToSpawn;
+                    
+                    //wait a random amount of time to move the coins to their target position
                     coin.GetComponent<MoveCoins>().StartWaitTime = Random.Range(0.1f, 0.8f);
                 }
             }
 
+            //if this metor doesn't shatter then just play the particle effect
             if (!shatters)
             {
                 StartParticle();
                 return;
             }
 
+            //instatniate the shattered version of this meteor
             GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
 
             //list of the meteor pieces
@@ -158,11 +174,11 @@ public class MeteorBehaviour : MonoBehaviour
 
             foreach (GameObject part in meteorParts)
             {
-                if (part.CompareTag("pickup"))
+                /*if (part.CompareTag("pickup"))
                 {
                     part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
                     continue;
-                }
+                }*/
 
                 Vector2 dir = directions[Random.Range(0, 4)];
 
@@ -187,6 +203,7 @@ public class MeteorBehaviour : MonoBehaviour
         //if the meteor collides with anything else but the weight then don't do anything
         if (!RocketBehaviour.IsWarpActive && !collision.gameObject.CompareTag("weight")) return;
 
+        //if the destructors velocity is smaller then the minimum velocity then pass through the meteor
         if (!RocketBehaviour.IsWarpActive && collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
         {
             GetComponent<Collider2D>().isTrigger = true;
@@ -199,6 +216,7 @@ public class MeteorBehaviour : MonoBehaviour
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
         {
+            //spawn the same amount of coins as numCoinsToSpawn
             if (GetComponent<GiveMoney>() != null)
             {
                 for(int i = 0; i < numCoinsToSpawn; i++)
@@ -206,17 +224,19 @@ public class MeteorBehaviour : MonoBehaviour
                     GameObject coin = Instantiate(coinPrefab);
 
                     coin.transform.position = transform.position;
-                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().AddMoney() / numCoinsToSpawn;
+                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().Money / numCoinsToSpawn;
                     coin.GetComponent<MoveCoins>().StartWaitTime = Random.Range(0.1f, 0.8f);
                 }
             }
 
+            //if the meteor doesn't shatter the just play the particle effect
             if (!shatters)
             {
                 StartParticle();
                 return;
             }
 
+            //instantiate the shattered version of the meteor
             GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
 
             //list of the meteor pieces
@@ -227,11 +247,11 @@ public class MeteorBehaviour : MonoBehaviour
 
             foreach (GameObject part in meteorParts)
             {
-                if (part.CompareTag("pickup"))
+                /*if (part.CompareTag("pickup"))
                 {
                     part.GetComponent<ItemPickup>().ChosenBuff = Random.Range(0, GameManager.instance.PossibleBuffs.Length);
                     continue;
-                }
+                }*/
 
                 Vector2 dir = directions[Random.Range(0, 4)];
 
