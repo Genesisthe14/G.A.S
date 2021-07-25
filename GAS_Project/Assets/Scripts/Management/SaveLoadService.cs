@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+//Class responsible for saving and loading 
+
 public class SaveLoadService : MonoBehaviour
 {
     private const string FILENAME = "knock_it_rocket.save";
@@ -63,6 +65,7 @@ public class SaveLoadService : MonoBehaviour
         }
     }
 
+    //Deletes the current save file
     public static void DeleteSaveFile()
     {
         try

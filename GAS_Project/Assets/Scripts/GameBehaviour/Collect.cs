@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class responsible for making the player able to collect fuel
+
 public class Collect : MonoBehaviour
 {
     //how much fuel is collected when this object is collected

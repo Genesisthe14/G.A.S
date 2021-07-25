@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that is used to save the game state between sessions
+
 [Serializable]
 public class SaveData
 {
