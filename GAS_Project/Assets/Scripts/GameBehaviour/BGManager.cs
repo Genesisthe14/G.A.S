@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that manages the instantiation of bg sprites
+//and moves them to create the illusion of upward movement for the rocket
+
 public class BGManager : MonoBehaviour
 {
     [SerializeField]
@@ -30,6 +33,7 @@ public class BGManager : MonoBehaviour
     }
 
     [SerializeField]
+    [Tooltip("The number of the order the bgs of this manager should take")]
     private int orderInLayer = 0;
 
     //Index of the next sprite to use

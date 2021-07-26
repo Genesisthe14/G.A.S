@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     }
 
     //how many % the fuel is filled up if refuel is hit
-    private static float refuelPercent = 20.0f;
+    private static float refuelPercent = 10.0f;
     public static float RefuelPercent
     {
         get { return refuelPercent; }
@@ -207,7 +207,12 @@ public class GameManager : MonoBehaviour
     private float headstartDistanceCounter = 0.0f;
 
     //Distance for which the headstart is active after activation 
-    private static float headstartLength = 500.0f;
+    private static float headstartLength = 400.0f;
+    public static float HeadstartLength
+    {
+        get { return headstartLength; }
+        set { headstartLength = value; }
+    }
     
     //Values the player had before a run and that need to be restored if he
     //abandons the run

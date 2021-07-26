@@ -10,17 +10,17 @@ public class CreateFuelCapacityUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/FuelCapacityUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/PermanentUpgrades/FuelCapacityUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "FuelCapacityUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/PermanentUpgrades", "FuelCapacityUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(FuelCapacityUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/FuelCapacityUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/PermanentUpgrades/FuelCapacityUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern

@@ -10,17 +10,17 @@ public class CreateHullUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/HullUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/PermanentUpgrades/HullUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "HullUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/PermanentUpgrades", "HullUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(HullUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/HullUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/PermanentUpgrades/HullUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern
