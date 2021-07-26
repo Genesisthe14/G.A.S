@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class that is responsible for updating the displayed money in
+//the shop
+
 public class UpdateShopDisplay : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("Text which displays the amount of money the player owns")]
     private Text moneyText;
     public Text MoneyText
     {
@@ -26,8 +30,10 @@ public class UpdateShopDisplay : MonoBehaviour
         moneyText.text = "" + PlayerData.instance.CurrentMoney;
     }
 
+    //For test purposes
+    //adds 100.000 credits to the players money
     public void AddMoney()
     {
-        PlayerData.instance.CurrentMoney += 10000;
+        PlayerData.instance.CurrentMoney += 100000;
     }
 }

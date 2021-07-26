@@ -10,17 +10,17 @@ public class CreateHeadstartUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/HeadstartUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Boosters/HeadstartUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "HeadstartUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/Boosters", "HeadstartUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(HeadstartUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/HeadstartUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Boosters/HeadstartUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern

@@ -18,7 +18,7 @@ public class PlayerData : MonoBehaviour
 
     //save
     //Amount of money the player currently has
-    private int currentMoney = 100000;
+    private int currentMoney = 0;
     public int CurrentMoney
     {
         get { return currentMoney; }

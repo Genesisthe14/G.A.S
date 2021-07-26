@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e74bd6c97946b498e417db01313003, type: 3}
-  m_Name: MagnetUpgrade3
+  m_Script: {fileID: 11500000, guid: 9b385dee4f8e93946a2f8d40c6e464be, type: 3}
+  m_Name: HeadstartLengthUpgrade1
   m_EditorClassIdentifier: 
-  upgradeID: magnet_3
-  upgradeNum: 3
+  upgradeID: headstart_length_1
+  upgradeNum: 1
   isPermanentUpgrade: 1
-  upgradeType: 3
-  upgradeName: Magnet 3
+  upgradeType: 9
+  upgradeName: Hyperjump Upgrade
   price: 1000

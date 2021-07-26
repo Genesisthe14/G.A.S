@@ -52,7 +52,7 @@ public class Upgrade : ScriptableObject
         get { return price; }
     }
 
-    public enum UpgradeTypes { NONE, SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART, REFUELAMOUNT}
+    public enum UpgradeTypes { NONE, SHIELD, FUELTANK, MAGNET, HULL, REFUEL, NUMSHIELDS, HEADSTART, REFUELAMOUNT, HEADSTARTLENGTH}
 
     public virtual void UpgradeFeature()
     {

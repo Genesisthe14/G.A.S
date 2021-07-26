@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class that depicts the items that can be bought in the shop
+//and on the selection screen
+
 public class ShopItem : MonoBehaviour
 {
     [SerializeField]
@@ -48,24 +51,31 @@ public class ShopItem : MonoBehaviour
     {
         if(activateOnBuy != null) activateOnBuy.SetActive(false);
         
-        priceText.text = item.Price + " ";
-
+        //Set the texts that are supposed to show the important info of this shop item
+        priceText.text = item.Price + "";
         itemNameText.text = item.UpgradeName;
 
-        ItemBought += UpdateActiveStateItem;
+        if(item.IsPermanentUpgrade)
+            ItemBought += UpdateActiveStateItem;
     }
 
     private void OnDestroy()
     {
-        ItemBought -= UpdateActiveStateItem;
+        if (item.IsPermanentUpgrade)
+            ItemBought -= UpdateActiveStateItem;
     }
 
+    //Buy the item depicted with this shop item
     public void BuyItem()
     {
+        //if the player doesn't have enough money than don't do anything and return
         if (item.Price > PlayerData.instance.CurrentMoney) return;
 
+        //if this shop item is a booster
         if (!item.IsPermanentUpgrade)
         {
+            //if the player has already reached the limit of boosters then don't add a new booster
+            //just equip it
             if(PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] >= buyLimitBoosters)
             {
                 PlayerData.instance.CurrentMoney -= item.Price;
@@ -76,16 +86,20 @@ public class ShopItem : MonoBehaviour
                 return;
             }
 
+            //Add the booster 
             item.UpgradeFeature();
 
             Debug.Log("Item bought: " + item.UpgradeName);
 
+            //substract the money
             PlayerData.instance.CurrentMoney -= item.Price;
 
             if (activateOnBuy != null)
             {        
                 SelectionScreen.instance.SetBoosterTaken(item.UpgradeType);
 
+                //if the number of the boost of this shop item is still below the buy limit
+                //then don't activate the object that is displayed when the buy limit is reached
                 if (PlayerData.instance.TemporaryItemsOwned[item.UpgradeType] < buyLimitBoosters) return;
             
                 activateOnBuy.SetActive(true);
@@ -109,6 +123,7 @@ public class ShopItem : MonoBehaviour
         UpdateActiveStateItem();
     }
 
+    //Update the active state of this shop item
     private void UpdateActiveStateItem()
     {
         //if permanent update and 
@@ -164,7 +179,7 @@ public class ShopItem : MonoBehaviour
         }
     }
 
-
+    //Check if the given serializable dictionary contains the given string
     private bool DictContainsValue(string value, SerializableDictionary<string, string> dict)
     {
         foreach(string dict_value in dict.Values)

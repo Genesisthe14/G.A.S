@@ -10,17 +10,17 @@ public class CreateMagnetUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/MagnetUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/PermanentUpgrades/MagnetUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "MagnetUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/PermanentUpgrades", "MagnetUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(MagnetUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/MagnetUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/PermanentUpgrades/MagnetUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern
