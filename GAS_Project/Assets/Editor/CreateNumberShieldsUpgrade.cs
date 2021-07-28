@@ -10,17 +10,17 @@ public class CreateNumberShieldsUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/NumberShieldsUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/Boosters/NumberShieldsUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "NumberShieldsUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/Boosters", "NumberShieldsUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(NumberShieldsUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/NumberShieldsUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/Boosters/NumberShieldsUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern

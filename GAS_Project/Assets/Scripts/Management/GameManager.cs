@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class that manages the majority of the games flow and functionality
+
 public class GameManager : MonoBehaviour
 {
     #region attributes
@@ -29,16 +31,20 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Percentage to raise values by")]
-    private int raisePercentage = 5; //raise when headstart?
+    //raise when the speed between milestones should be raised more
+    private int raisePercentage = 5; 
 
     [SerializeField]
     [Tooltip("distance traveled per second")]
     private float mPerSec = 5.0f;
 
-    //Threshold determining on which multiples the speed is raised
+    //Index telling on what multiple of sectionLength the speed is currently raised
     private float raiseIndex = 1.0f;
 
-    //How much the threshold for multiples is raised everytime
+    //Tells how much the target multiple is raised on every raise speed
+    //Raise if the speed should be raised on different multiples
+    //e.g. with raiseIndex 1 and sectionLength 10 it would be every 10 meters
+    //with raise Index 3 it would be every 30 meters
     private float increaseIndexAmount = 1.0f;
 
     //Dictionary with initial values of the properties that are raised when the speed of the game should increase
@@ -91,8 +97,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Fill reference")]
     private Image fillColor;
-    
-    public ParticleSystem particleBar;
 
     [SerializeField]
     [Tooltip("Indices of the layers that can trigger events like touching the screen")]
@@ -101,6 +105,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Object representing the Shield")]
     private GameObject shieldObj;
+
+    public ParticleSystem particleBar;
 
     
     //instance of the GameManager for the singleton
@@ -119,7 +125,7 @@ public class GameManager : MonoBehaviour
     }
 
     //how many % the fuel is filled up if refuel is hit
-    private static float refuelPercent = 20.0f;
+    private static float refuelPercent = 10.0f;
     public static float RefuelPercent
     {
         get { return refuelPercent; }
@@ -187,7 +193,7 @@ public class GameManager : MonoBehaviour
             {
                 headstartDistanceCounter += temp;
 
-                //if the speed has increased by about 30% (which is reached after traveling 900km) then stop the headstart
+                //if the warp has covered headstarLength distance then stop the headstart
                 if (headstartDistanceCounter >= headstartLength && RocketBehaviour.CurrentWarpSpeedFactor >= RocketBehaviour.TargetWarpSpeedFactor)
                 {
                     RocketBehaviour.IsWarpActive = false;
@@ -197,12 +203,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
+    //Attribute that keeps track of how much distance the warp has already covered
     private float headstartDistanceCounter = 0.0f;
 
-    private float headstartLength = 500.0f;
+    //Distance for which the headstart is active after activation 
+    private static float headstartLength = 400.0f;
+    public static float HeadstartLength
+    {
+        get { return headstartLength; }
+        set { headstartLength = value; }
+    }
     
-
+    //Values the player had before a run and that need to be restored if he
+    //abandons the run
     private Dictionary<string, int> beforeRun = new Dictionary<string, int>();
     public Dictionary<string, int> BeforeRun
     {
@@ -212,6 +225,7 @@ public class GameManager : MonoBehaviour
     //time between raising the distance the player traveled
     private float[] timeIntervalDistance = { 1.0f, 0.05f };
 
+    //Whether the player has lost or not
     private bool isGameOver = false;
     #endregion
 
@@ -243,9 +257,10 @@ public class GameManager : MonoBehaviour
 
         moneyText.text = PlayerData.instance.CurrentMoney + "";
         distanceText.text = distance + " KM";
-
+        
+        
+        //Save all initial values of attributes that are supposed to be raised over time
         //store initial values so that percentages stay constant
-
         for (int i = 0; i < bgManagers.Length; i++)
         {
             initialSpeedValues.Add("speedBG" + i, bgManagers[i].Speed);
@@ -258,16 +273,12 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
+        //Start using fuel and raising distance traveled
         StartCoroutine(UseFuel());
         StartCoroutine(RaiseDistance());
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(2)) Refuel();
-        if (Input.GetMouseButtonDown(1)) RocketBehaviour.IsWarpActive = true; //ActivateShield();
-    }
-
+    //Playes the Particleeffect stored in particleBar
     private void PlayParticle() 
     {
         particleBar.Play();
@@ -292,12 +303,15 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
+            //If the game is paused or over don't raise the distance anymore
             if (PauseMenu.GamePaused || isGameOver)
             {
                 yield return null;
                 continue;
             }
 
+            //use different time intervals to wait to raise distance based on whether
+            //the warp is active or not
             yield return new WaitForSecondsRealtime(RocketBehaviour.IsWarpActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
 
             if(distance >= 100 & !particleBar.isPlaying)
@@ -306,9 +320,11 @@ public class GameManager : MonoBehaviour
                 PlayParticle();
             }
 
+            //Raise distance and adjust distance text
             if(!isGameOver)Distance += mPerSec;
             distanceText.text = (int)distance + " KM";
 
+            //raise the speed of the game
             RaiseSpeed();
         }
     }
@@ -380,14 +396,17 @@ public class GameManager : MonoBehaviour
         CurrentFuel += addedFuel;
     }
 
+    //Function that allows the player to use a Refuel booster if he still owns at least one
     public void Refuel()
     {
+        //if the player has not refuel booster left do nothing
         if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] <= 0)
         {
             Debug.Log("Can't Refuel");
             return;
         }
 
+        //substract one refuel booster form the total the player has
         int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] - 1;
         PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.REFUEL);
 
@@ -397,14 +416,17 @@ public class GameManager : MonoBehaviour
         Debug.Log("Refueled");
     }
 
+    //Activates the shield of the player if he is in possesion of at least one
     public void ActivateShield()
     {
+        //if the player has no shield left or it is already active don't do anything
         if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] <= 0 || shieldObj.activeInHierarchy)
         {
             Debug.Log("No shields available");
             return;
         }
 
+        //substract one from the total amount of shields the player owns
         int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] - 1;
         PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.NUMSHIELDS);
 
@@ -413,6 +435,7 @@ public class GameManager : MonoBehaviour
         shieldObj.SetActive(true);
     }
 
+    //Activates the warp if the player owns at least one
     public void ActivateWarp()
     {
         if (!RocketBehaviour.IsWarpActive) RocketBehaviour.IsWarpActive = true;

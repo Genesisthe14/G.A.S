@@ -9,17 +9,17 @@ public class CreateShieldUpgrade : MonoBehaviour
     static void CreateAsset()
     {
         //Gibt es einen Unterordner "Inventory Items" im Project Browser?
-        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/ShieldUpgrades"))
+        if (!AssetDatabase.IsValidFolder("Assets/ScriptableObjects/PermanentUpgrades/ShieldUpgrades"))
         {
             //Wenn nicht, dann erstellen wir diesen
-            AssetDatabase.CreateFolder("Assets/ScriptableObjects", "ShieldUpgrades");
+            AssetDatabase.CreateFolder("Assets/ScriptableObjects/PermanentUpgrades", "ShieldUpgrades");
         }
 
         //Neue Instanz von InventoryItem erstellen
         ScriptableObject asset = ScriptableObject.CreateInstance(typeof(ShieldUpgrade));
 
         //Aus der erstellten Instanz ein Asset im Project Browser erstellen
-        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/ShieldUpgrades/" +
+        AssetDatabase.CreateAsset(asset, "Assets/ScriptableObjects/PermanentUpgrades/ShieldUpgrades/" +
         "New InventoryItem " + System.Guid.NewGuid() + ".asset");
 
         //Alle ungesicherten Asset-Aenderungen speichern

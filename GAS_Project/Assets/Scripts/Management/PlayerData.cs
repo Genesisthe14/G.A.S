@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//Class that contains most value affect the player directly
+//like the amount of money he owns or what items and upgrádes
+
 public class PlayerData : MonoBehaviour
 {
     //instance of player data
@@ -15,7 +18,7 @@ public class PlayerData : MonoBehaviour
 
     //save
     //Amount of money the player currently has
-    private int currentMoney = 100000;
+    private int currentMoney = 0;
     public int CurrentMoney
     {
         get { return currentMoney; }
@@ -24,7 +27,9 @@ public class PlayerData : MonoBehaviour
             currentMoney = value;
             if (currentMoney < 0) currentMoney = 0;
 
-            if(UpdateShopDisplay.instance  != null && UpdateShopDisplay.instance.MoneyText != null) UpdateShopDisplay.instance.MoneyText.text = "" + currentMoney;
+            //If UpdateShopDisplay has an instance and the money text is assigned then update the money text
+            if(UpdateShopDisplay.instance != null && UpdateShopDisplay.instance.MoneyText != null) 
+                UpdateShopDisplay.instance.MoneyText.text = "" + currentMoney;
         }
     }
 
@@ -59,6 +64,7 @@ public class PlayerData : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
 
+        //Initialize the temporary items/boosters dictionary
         temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
         temporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, 0);
         temporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, 0);

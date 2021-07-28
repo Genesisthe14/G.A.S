@@ -41,7 +41,7 @@ public class PauseMenu : MonoBehaviour
         
         RocketBehaviour.isWarpActive = false;
         
-        SceneManager.LoadScene("UIGaS");
+        SceneManager.LoadScene("Startscreen");
     }
 
     public void Quit()

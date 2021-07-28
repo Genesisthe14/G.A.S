@@ -78,6 +78,15 @@ public class SerializableDictionary<TKey, TValue> : SerializableDictionary, ISer
 
     public bool ContainsKey(TKey key) => KeyPositions.ContainsKey(key);
 
+    public bool ReplaceValue(TKey key, TValue value)
+    {
+        if (!ContainsKey(key)) return false;
+
+        if (!Remove(key)) return false;
+        Add(key, value);
+
+        return true;
+    }
 
     public bool Remove (TKey key) {
         if (KeyPositions.TryGetValue(key, out uint index)) {

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that is used to save the game state between sessions
+
 [Serializable]
 public class SaveData
 {
@@ -10,35 +12,19 @@ public class SaveData
     //string describes what this int is used for
     [SerializeField]
     private SerializableDictionary<string, int> intSaveData;
-    public SerializableDictionary<string, int> IntSaveData
-    {
-        get { return intSaveData; }
-    }
 
     //Contains all sata which needs to be saved and is of type float
     //string describes what this float is used for
     [SerializeField]
     private SerializableDictionary<string, float> floatSaveData;
-    public SerializableDictionary<string, float> FloatSaveData
-    {
-        get { return floatSaveData; }
-    }
 
     //IDs of the permanent upgrades the player owns
     [SerializeField]
     private SerializableDictionary<string, string> permanentUpgradeIDsPlayerOwns;
-    public SerializableDictionary<string, string> PermanentUpgradeIDsPlayerOwns
-    {
-        get { return permanentUpgradeIDsPlayerOwns; }
-    }
 
     //dictionary containing the temporary upgrades the player has bought and how many of them
     [SerializeField]
     private SerializableDictionary<Upgrade.UpgradeTypes, int> temporaryItemsOwned;
-    public SerializableDictionary<Upgrade.UpgradeTypes, int> TemporaryItemsOwned
-    {
-        get { return temporaryItemsOwned; }
-    }
 
     //Constructor that initializes the attributes of SaveData with values 
     //that are supposed to be saved
@@ -59,6 +45,7 @@ public class SaveData
         floatSaveData.Add("leakingFuel", RocketBehaviour.LeakingFuel);
         floatSaveData.Add("fuelLevel", GameManager.StartFuel);
         floatSaveData.Add("refuelAmount", GameManager.RefuelPercent);
+        floatSaveData.Add("headstartLength", GameManager.HeadstartLength);
 
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
         temporaryItemsOwned = PlayerData.instance.TemporaryItemsOwned;
@@ -80,5 +67,6 @@ public class SaveData
         RocketBehaviour.LeakingFuel = floatSaveData["leakingFuel"];
         GameManager.StartFuel = floatSaveData["fuelLevel"];
         GameManager.RefuelPercent = floatSaveData["refuelAmount"];
+        GameManager.HeadstartLength = floatSaveData["headstartLength"];
     }
 }
