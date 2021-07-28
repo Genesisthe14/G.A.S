@@ -4098,7 +4098,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullSpeed: 3
-  lifetime: 20
   field: {fileID: 1292415855}
 --- !u!1 &1293838888
 GameObject:
@@ -11035,7 +11034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d055f8b9858c01a4e908cd4a58894ca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHitPoints: 3
 --- !u!212 &1791867486
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11948,10 +11946,9 @@ MonoBehaviour:
   gameOverObject: {fileID: 0}
   fuelBar: {fileID: 213089117}
   fillColor: {fileID: 423624932}
-  particleBar: {fileID: 1364255592}
   inputMasks: 0000000005000000
   shieldObj: {fileID: 1791867482}
-  headstartDistanceCounter: 0
+  particleBar: {fileID: 1364255592}
 --- !u!4 &2110865606
 Transform:
   m_ObjectHideFlags: 0
@@ -12000,7 +11997,6 @@ MonoBehaviour:
   velocityRange:
   - 3
   - 5
-  spawn: 1
 --- !u!1 &2119334745
 GameObject:
   m_ObjectHideFlags: 0
