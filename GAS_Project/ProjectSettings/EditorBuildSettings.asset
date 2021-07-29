@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Startscreen.unity
+    path: Assets/Scenes/Startscreen_Charlien.unity
     guid: dca94d65a8bfee444ae8d7a32831d945
   - enabled: 1
     path: Assets/Scenes/RocketScene.unity
