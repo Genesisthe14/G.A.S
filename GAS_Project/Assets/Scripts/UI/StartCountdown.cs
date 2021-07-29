@@ -21,12 +21,10 @@ public class StartCountdown : MonoBehaviour
     {
         int countdown = 3;
 
-        countdownText.text = "" + countdown;
-
         while(countdown > 0)
         {
-            yield return new WaitForSecondsRealtime(1.0f);
             countdownText.text = "" + countdown--;
+            yield return new WaitForSecondsRealtime(1.0f);
         }
 
         countdownText.enabled = false;

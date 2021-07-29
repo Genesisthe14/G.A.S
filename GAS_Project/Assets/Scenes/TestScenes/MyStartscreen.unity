@@ -3373,6 +3373,8 @@ MonoBehaviour:
   itemNameText: {fileID: 649378889}
   priceText: {fileID: 227174105}
   buyButton: {fileID: 275645015}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 1858742205}
 --- !u!114 &272878951
 MonoBehaviour:
@@ -4413,6 +4415,8 @@ MonoBehaviour:
   itemNameText: {fileID: 1603264622}
   priceText: {fileID: 1159026378}
   buyButton: {fileID: 239677756}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 1736513301}
 --- !u!1 &327602890
 GameObject:
@@ -6073,7 +6077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &405223375
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8021,6 +8025,8 @@ MonoBehaviour:
   itemNameText: {fileID: 1631601492}
   priceText: {fileID: 733978052}
   buyButton: {fileID: 2124869665}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 2026377533}
 --- !u!114 &591082869
 MonoBehaviour:
@@ -12325,6 +12331,8 @@ MonoBehaviour:
   itemNameText: {fileID: 1275566179}
   priceText: {fileID: 276412709}
   buyButton: {fileID: 872212552}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 1711761503}
 --- !u!114 &872212552
 MonoBehaviour:
@@ -14216,6 +14224,8 @@ MonoBehaviour:
   itemNameText: {fileID: 637966077}
   priceText: {fileID: 599680085}
   buyButton: {fileID: 1065420058}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 605413827}
 --- !u!114 &1065420058
 MonoBehaviour:
@@ -23349,6 +23359,8 @@ MonoBehaviour:
   itemNameText: {fileID: 354946428}
   priceText: {fileID: 1820898709}
   buyButton: {fileID: 1701331429}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 108657533}
 --- !u!114 &1701331429
 MonoBehaviour:
@@ -24098,6 +24110,8 @@ MonoBehaviour:
   itemNameText: {fileID: 1036322822}
   priceText: {fileID: 1131942476}
   buyButton: {fileID: 385188743}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 1837683843}
 --- !u!224 &1736513303
 RectTransform:
@@ -25410,6 +25424,8 @@ MonoBehaviour:
   itemNameText: {fileID: 88149705}
   priceText: {fileID: 266149777}
   buyButton: {fileID: 1078856094}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 1041486936}
 --- !u!224 &1837683845
 RectTransform:
@@ -25547,6 +25563,8 @@ MonoBehaviour:
   itemNameText: {fileID: 467797548}
   priceText: {fileID: 309946254}
   buyButton: {fileID: 1458265668}
+  availableDisplay: []
+  unavailableDisplay: []
   activateOnBuy: {fileID: 591082867}
 --- !u!114 &1858742207
 MonoBehaviour:

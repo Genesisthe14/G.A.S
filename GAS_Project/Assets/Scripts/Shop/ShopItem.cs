@@ -34,6 +34,14 @@ public class ShopItem : MonoBehaviour
     }
 
     [SerializeField]
+    [Tooltip("GameObject that displays availability")]
+    private GameObject[] availableDisplay;
+
+    [SerializeField]
+    [Tooltip("GameObject that displays unavailability")]
+    private GameObject[] unavailableDisplay;
+
+    [SerializeField]
     [Tooltip("Item which should only be shown when this item was bought")]
     private GameObject activateOnBuy = null;
     public GameObject ActivateOnBuy
@@ -137,6 +145,8 @@ public class ShopItem : MonoBehaviour
             if (PlayerData.instance.PermanentUpgradeIDsPlayerOwns.ContainsKey(item.UpgradeID))
             {
                 buyButton.interactable = false;
+                Deactivate(availableDisplay);
+                Activate(unavailableDisplay);
 
                 if (activateOnBuy != null)
                 {
@@ -153,10 +163,14 @@ public class ShopItem : MonoBehaviour
                 if (item.Price > PlayerData.instance.CurrentMoney)
                 {
                     buyButton.interactable = false;
+                    Deactivate(availableDisplay);
+                    Activate(unavailableDisplay);
                 }
                 else
                 {
                     buyButton.interactable = true;
+                    Activate(availableDisplay);
+                    Deactivate(unavailableDisplay);
                 }
 
                 return;
@@ -176,10 +190,32 @@ public class ShopItem : MonoBehaviour
         if (item.Price > PlayerData.instance.CurrentMoney)
         {
             buyButton.interactable = false;
+            Deactivate(availableDisplay);
+            Activate(unavailableDisplay);
         }
         else
         {
             buyButton.interactable = true;
+            Activate(availableDisplay);
+            Deactivate(unavailableDisplay);
+        }
+    }
+
+    //Deactivate all objects in the array
+    private void Deactivate(GameObject[] array)
+    {
+        foreach(GameObject avail in array)
+        {
+            avail.SetActive(false);
+        }
+    }
+
+    //Activate all objects in the array
+    private void Activate(GameObject[] array)
+    {
+        foreach (GameObject avail in array)
+        {
+            avail.SetActive(true);
         }
     }
 
