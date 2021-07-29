@@ -10,7 +10,7 @@ public class DestructorBehaviour : MonoBehaviour
     [Tooltip("Shade to darken the sprite to if the destructor is too slow to destroy the meteor")]
     private Color darkerShade;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
 

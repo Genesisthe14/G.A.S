@@ -34,6 +34,14 @@ public class ShopItem : MonoBehaviour
     }
 
     [SerializeField]
+    [Tooltip("GameObject that displays availability")]
+    private GameObject[] availableDisplay;
+
+    [SerializeField]
+    [Tooltip("GameObject that displays unavailability")]
+    private GameObject[] unavailableDisplay;
+
+    [SerializeField]
     [Tooltip("Item which should only be shown when this item was bought")]
     private GameObject activateOnBuy = null;
     public GameObject ActivateOnBuy
@@ -42,10 +50,14 @@ public class ShopItem : MonoBehaviour
     }
 
     //Action that is Invoked when an Item is bought
-    private static Action ItemBought = null;
+    private static Action updateShopDisplayEvent = null;
+    public static Action UpdateShopDisplayEvent
+    {
+        get { return updateShopDisplayEvent; }
+    }
 
     //Limit for how many boosters the player can have of each type
-    private int buyLimitBoosters = 3;
+    private int buyLimitBoosters = 100;
 
     private void Awake()
     {
@@ -56,13 +68,13 @@ public class ShopItem : MonoBehaviour
         itemNameText.text = item.UpgradeName;
 
         if(item.IsPermanentUpgrade)
-            ItemBought += UpdateActiveStateItem;
+            updateShopDisplayEvent += UpdateActiveStateItem;
     }
 
     private void OnDestroy()
     {
         if (item.IsPermanentUpgrade)
-            ItemBought -= UpdateActiveStateItem;
+            updateShopDisplayEvent -= UpdateActiveStateItem;
     }
 
     //Buy the item depicted with this shop item
@@ -115,7 +127,7 @@ public class ShopItem : MonoBehaviour
 
         PlayerData.instance.CurrentMoney -= item.Price;
 
-        ItemBought.Invoke();
+        updateShopDisplayEvent.Invoke();
     }
 
     private void OnEnable()
@@ -133,6 +145,8 @@ public class ShopItem : MonoBehaviour
             if (PlayerData.instance.PermanentUpgradeIDsPlayerOwns.ContainsKey(item.UpgradeID))
             {
                 buyButton.interactable = false;
+                Deactivate(availableDisplay);
+                Activate(unavailableDisplay);
 
                 if (activateOnBuy != null)
                 {
@@ -149,10 +163,14 @@ public class ShopItem : MonoBehaviour
                 if (item.Price > PlayerData.instance.CurrentMoney)
                 {
                     buyButton.interactable = false;
+                    Deactivate(availableDisplay);
+                    Activate(unavailableDisplay);
                 }
                 else
                 {
                     buyButton.interactable = true;
+                    Activate(availableDisplay);
+                    Deactivate(unavailableDisplay);
                 }
 
                 return;
@@ -172,10 +190,32 @@ public class ShopItem : MonoBehaviour
         if (item.Price > PlayerData.instance.CurrentMoney)
         {
             buyButton.interactable = false;
+            Deactivate(availableDisplay);
+            Activate(unavailableDisplay);
         }
         else
         {
             buyButton.interactable = true;
+            Activate(availableDisplay);
+            Deactivate(unavailableDisplay);
+        }
+    }
+
+    //Deactivate all objects in the array
+    private void Deactivate(GameObject[] array)
+    {
+        foreach(GameObject avail in array)
+        {
+            avail.SetActive(false);
+        }
+    }
+
+    //Activate all objects in the array
+    private void Activate(GameObject[] array)
+    {
+        foreach (GameObject avail in array)
+        {
+            avail.SetActive(true);
         }
     }
 

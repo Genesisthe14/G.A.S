@@ -12,6 +12,14 @@ public class Spawner : MonoBehaviour
     private SerializableDictionary<string, GameObject> spawnObjects;
 
     [SerializeField]
+    [Tooltip("Dictionary of propabilities of the spawn objects with the index of the float array in propabilities list as value")]
+    private SerializableDictionary<string, int> spawnObjectsPropabilities;
+    
+    [SerializeField]
+    [Tooltip("List of propabilities of the spawn objects")]
+    private List<FloatList> propabilities;
+    
+    [SerializeField]
     [Tooltip("Timerange for the intervals in which the spawn objects can be spawned")]
     private float[] invokeTimeRange = new float[2];
     public float[] InvokeTimeRange
@@ -34,8 +42,28 @@ public class Spawner : MonoBehaviour
     {
         get { return velocityRange; }
     }
-        
+
+    [SerializeField]
+    [Tooltip("Total amount of spawn objects allowed in the scene")]
+    private int totalAmountSpawnObjects = 5;
+
+
+    //Current amount of spawn objects in the scene
+    [SerializeField]
+    private int currentAmountSpawnObjects = 0;
+    public int CurrentAmountSpawnObjects
+    {
+        get { return currentAmountSpawnObjects; }
+        set 
+        { 
+            currentAmountSpawnObjects = value;
+            if (currentAmountSpawnObjects < 0) currentAmountSpawnObjects = 0;
+            if (currentAmountSpawnObjects > totalAmountSpawnObjects) currentAmountSpawnObjects = totalAmountSpawnObjects;
+        }
+    } 
+
     //Whether objects should spawn or not
+    [SerializeField]
     private bool spawn = true;
     public bool Spawn
     {
@@ -54,7 +82,7 @@ public class Spawner : MonoBehaviour
         while (true)
         {
             //if spawn is false then don't spawn anything and continue to the next iteration
-            if (!spawn)
+            if (!spawn || currentAmountSpawnObjects >= totalAmountSpawnObjects)
             {
                 yield return null;
                 continue;
@@ -62,28 +90,29 @@ public class Spawner : MonoBehaviour
             
             /*
              * item meteor = 10%
-             * normal meteor = 55%
-             * satellite = 35%
+             * normal meteor = 50%
+             * satellite = 40%
              */
             
             GameObject spawnObject = null;
+            currentAmountSpawnObjects++;
 
             int randomNum = Random.Range(0, 100);
 
             //select the spawn object to spawn based on the random number
             //generated above
-            if (randomNum < 10)
+            foreach(string spawnObID in spawnObjectsPropabilities.Keys)
             {
-                spawnObject = spawnObjects["item_meteor"];
+                List<float> propability = propabilities[spawnObjectsPropabilities[spawnObID]].floatList;
+
+                if(randomNum >= propability[0] && randomNum < propability[1])
+                {
+                    spawnObject = spawnObjects[spawnObID];
+                    break;
+                }
             }
-            else if (randomNum >= 5 && randomNum < 45)
-            {
-                spawnObject = spawnObjects["satellite"];
-            }
-            else if (randomNum >= 45 && randomNum < 100)
-            {
-                spawnObject = spawnObjects["normal_meteor"];
-            }
+
+            //spawnObject = spawnObjects["satellite"];
 
             //Generate the random spawn position with the boundaries for x and y position
             Vector2 spawnPos = new Vector2(Random.Range(xSpawn[0], xSpawn[1]), Random.Range(ySpawn[0], ySpawn[1]));
@@ -105,5 +134,11 @@ public class Spawner : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(invokeTime < 0.0f ? 0.0f : invokeTime);
         }
+    }
+
+    [System.Serializable]
+    public struct FloatList
+    {
+        public List<float> floatList;
     }
 }

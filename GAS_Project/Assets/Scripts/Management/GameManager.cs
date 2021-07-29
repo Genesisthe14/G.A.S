@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Whether the fuel consumption should be stopped
-    private bool consumeFuel = true;
+    private bool consumeFuel = false;
     public bool ConsumeFuel
     {
         get { return consumeFuel; }
@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             //If the game is paused or over don't raise the distance anymore
-            if (PauseMenu.GamePaused || isGameOver)
+            if (PauseMenu.GamePaused || isGameOver || !spawner.Spawn)
             {
                 yield return null;
                 continue;
@@ -412,6 +412,8 @@ public class GameManager : MonoBehaviour
 
         PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, tempNum);
 
+        BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.REFUEL);
+
         CurrentFuel += startFuel / 100.0f * refuelPercent;
         Debug.Log("Refueled");
     }
@@ -431,6 +433,8 @@ public class GameManager : MonoBehaviour
         PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.NUMSHIELDS);
 
         PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
+
+        BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.NUMSHIELDS);
 
         shieldObj.SetActive(true);
     }

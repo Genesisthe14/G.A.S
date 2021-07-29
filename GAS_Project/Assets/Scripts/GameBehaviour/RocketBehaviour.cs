@@ -29,7 +29,7 @@ public class RocketBehaviour : MonoBehaviour
         get { return isWarpActive; }
         set 
         { 
-            if (value) isWarpActive = value;
+            //if (value) isWarpActive = value;
             
             //start the counting down of current warp speed factor and if that at 0 then set false
             
@@ -38,7 +38,7 @@ public class RocketBehaviour : MonoBehaviour
     }
 
     //factor by which the game should be sped up if headstart is active
-    private static float currentWarpSpeedFactor = 0.0f;
+    public static float currentWarpSpeedFactor = 0.0f;
     public static float CurrentWarpSpeedFactor
     {
         get { return currentWarpSpeedFactor; }
@@ -83,6 +83,9 @@ public class RocketBehaviour : MonoBehaviour
     [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
     private GameObject damageScreen;
 
+    //Attribute that stores the ease warp coroutine
+    private Coroutine easeWarp = null;
+
     private void Awake()
     {
         //subscribe to the OnWarpActive Event so that OnWarpActive is executed 
@@ -104,8 +107,20 @@ public class RocketBehaviour : MonoBehaviour
         //the warp isn't active anymore so deactivate the protective aura and slow down the rocket
         else
         {
-            WarpAura.SetActive(false);
-            StartCoroutine(EaseWarp());
+            if (WarpAura.activeInHierarchy)
+            {
+                WarpAura.SetActive(false);
+
+                if (easeWarp != null)
+                    StopCoroutine(easeWarp);
+                
+                easeWarp = StartCoroutine(EaseWarp());
+            }
+            else
+            {
+                //isWarpActive = false;
+                Debug.Log("hey");
+            }
         }
     }
 
@@ -113,12 +128,14 @@ public class RocketBehaviour : MonoBehaviour
     private void CheckIfWarpAvailable()
     {
         //if the player has no more warps or the warp is active but currently slowing down the don't activate the warp
-        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART] <= 0 || (isWarpActive && !WarpAura.activeInHierarchy))
+        if (PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART] <= 0 || isWarpActive)
         {
             Debug.Log("No Hyperjump available");
-            if(!(isWarpActive && !WarpAura.activeInHierarchy)) IsWarpActive = false;
+            //if(!isWarpActive) IsWarpActive = false;
             return;
         }
+
+        isWarpActive = true;
 
         //Activate the protective aura of the warp
         WarpAura.SetActive(true);
@@ -129,8 +146,13 @@ public class RocketBehaviour : MonoBehaviour
 
         PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, tempNum);
 
+        BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.HEADSTART);
+
         //Start to accelerate the rocket to simulate warp
-        StartCoroutine(EaseWarp());
+        if(easeWarp != null)
+            StopCoroutine(easeWarp);
+        
+        easeWarp = StartCoroutine(EaseWarp());
 
         Debug.Log("Headstart activated");
     }
@@ -141,15 +163,29 @@ public class RocketBehaviour : MonoBehaviour
         //slow Warp down
         if(currentWarpSpeedFactor > 0.0f)
         {
+            int toggleAura = 10;
+
             while (currentWarpSpeedFactor > 0.0f)
             {
                 //deccelerates twice as fast as it accelerates
                 currentWarpSpeedFactor -= easeValue * 2.0f;
+
+
+                if(currentWarpSpeedFactor % toggleAura == 0)
+                {
+                    WarpAura.SetActive(!WarpAura.activeInHierarchy);
+
+                    if (currentWarpSpeedFactor < 30) toggleAura = 3;
+                    else if (currentWarpSpeedFactor < 60) toggleAura = 7;
+                }
+
+
                 yield return new WaitForSecondsRealtime(waitTime);
             }
 
             currentWarpSpeedFactor = 0.0f;
             isWarpActive = false;
+            WarpAura.SetActive(false);
         }
         //speed Warp up
         else if(currentWarpSpeedFactor <= 0.0f)
@@ -171,7 +207,20 @@ public class RocketBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("meteor"))
         {
             //if the shield or the warp is active then don't take damage
-            if (shield.activeInHierarchy || IsWarpActive) return;
+            if (shield.activeInHierarchy || isWarpActive) return;
+
+            GameManager.instance.LowerFuel(leakingFuel);
+            Damage();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //if the rocket hits a meteor then substract fuel
+        if (collision.gameObject.CompareTag("meteor"))
+        {
+            //if the shield or the warp is active then don't take damage
+            if (shield.activeInHierarchy || isWarpActive) return;
 
             GameManager.instance.LowerFuel(leakingFuel);
             Damage();
@@ -202,6 +251,27 @@ public class RocketBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+
+        if (collision.CompareTag("meteor"))
+        {
+            GameManager.instance.LowerFuel(leakingFuel);
+            Damage();
+        }
+
+        //rocket collided with meteor or satellite while they were in trigger mode
+        //therefore activate meteor collision function for satellite/meteor
+        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+
+        if (collision.CompareTag("meteor"))
+        {
+            GameManager.instance.LowerFuel(leakingFuel);
+            Damage();
+        }
 
         //rocket collided with meteor or satellite while they were in trigger mode
         //therefore activate meteor collision function for satellite/meteor
