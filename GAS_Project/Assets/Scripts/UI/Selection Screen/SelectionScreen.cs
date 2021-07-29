@@ -68,6 +68,8 @@ public class SelectionScreen : MonoBehaviour
             else amountBeforeBuy.Add(up.UpgradeType, PlayerData.instance.TemporaryItemsOwned[up.UpgradeType]);
         }
 
+        ResetBoostersTaken(true);
+
         //Update the selection screen
         UpdateSelectScreen();
     }

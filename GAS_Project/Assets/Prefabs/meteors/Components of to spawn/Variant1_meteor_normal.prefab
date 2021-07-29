@@ -138,6 +138,10 @@ PrefabInstance:
       value: 5.93
       objectReference: {fileID: 0}
     - target: {fileID: 3505464232009619412, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+      propertyPath: substract
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505464232009619412, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: destroyParent
       value: 1
       objectReference: {fileID: 0}
@@ -200,7 +204,7 @@ PrefabInstance:
     - target: {fileID: 6022457960825028982, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: particle
       value: 
-      objectReference: {fileID: 7221449842801897759}
+      objectReference: {fileID: 0}
     - target: {fileID: 6022457960825028982, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: shatters
       value: 0
@@ -271,10 +275,5 @@ PrefabInstance:
 --- !u!1 &2594394834081245630 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3766510746232566130, guid: d4935354d9b097649beada1972ff6e92, type: 3}
-  m_PrefabInstance: {fileID: 1172186916551350476}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7221449842801897759 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8391278770667301331, guid: d4935354d9b097649beada1972ff6e92, type: 3}
   m_PrefabInstance: {fileID: 1172186916551350476}
   m_PrefabAsset: {fileID: 0}

@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class Despwan : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Whether this object should substract from the total number of objects")]
+    private bool substract = true;
+    
     //x boundaries that mark how wide the screen is
     private static float[] xLimits = { -3.4f, 3.4f};
 
@@ -28,7 +32,13 @@ public class Despwan : MonoBehaviour
         //if this object goes beyond the screen boundaries then destory it
         if(currentPos.x < xLimits[0] || currentPos.x > xLimits[1] || currentPos.y < yLimit)
         {
+            if(substract) GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (gameObject.CompareTag("shatterParent")) GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
     }
 }

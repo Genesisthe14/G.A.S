@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4849c886b7510144a2812ca4ce98a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fueledScreen: {fileID: 8459390697083789082, guid: 61a85b5841613754daad5c23b3e22b0d, type: 3}
 --- !u!114 &8104110183149762145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59376314ac8bf1f42b79a206938913ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  substract: 0
 --- !u!60 &8308293011295099245
 PolygonCollider2D:
   m_ObjectHideFlags: 0

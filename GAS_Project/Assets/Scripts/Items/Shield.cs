@@ -50,6 +50,15 @@ public class Shield : BuffItem
         Debug.Log("Shield Collide");
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+
+        //if a meteor/satellite in trigger mode hits the shield tell the meteor to destroy itself
+        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+        Debug.Log("Shield Collide");
+    }
+
     //Restarts the shield so it has full hitpoints again
     public override void RestartItem()
     {

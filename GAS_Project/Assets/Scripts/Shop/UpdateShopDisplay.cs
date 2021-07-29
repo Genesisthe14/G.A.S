@@ -35,5 +35,6 @@ public class UpdateShopDisplay : MonoBehaviour
     public void AddMoney()
     {
         PlayerData.instance.CurrentMoney += 100000;
+        ShopItem.UpdateShopDisplayEvent.Invoke();
     }
 }

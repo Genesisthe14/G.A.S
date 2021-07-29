@@ -28,6 +28,16 @@ public class MagnetField : BuffItem
         field.radius = fieldSize;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //as long as a shard stays in the magnets range pull it towards the rocket
+        if (collision.gameObject.CompareTag("collect"))
+        {
+            Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         //as long as a shard stays in the magnets range pull it towards the rocket

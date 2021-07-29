@@ -8,20 +8,13 @@ using UnityEngine;
  * TODO: benötige andere public Methode die gleiche Zerstörung wie weight hervorruft.
  */
 public class EMP : MonoBehaviour
-{   float maxScale = 20.0f;
+{   
+    float maxScale = 20.0f;
+    
     Vector3 size;
+    
     public float destructionTimer;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
     void FixedUpdate()
     {
         StartCoroutine(BiggerEMP());

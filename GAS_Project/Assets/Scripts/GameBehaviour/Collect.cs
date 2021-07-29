@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Collect : MonoBehaviour
 {
     //how much fuel is collected when this object is collected
-    private static float collectedFuel = 1.0f;
+    private static float collectedFuel = 2.0f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

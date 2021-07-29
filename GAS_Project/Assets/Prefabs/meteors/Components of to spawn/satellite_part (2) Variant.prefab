@@ -116,7 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3405430401581007109, guid: f8ebaf52f28b5a94694f1753967a9126, type: 3}
       propertyPath: m_Name
-      value: satellite_part (2)
+      value: satellite_part (2) Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104110183149762145, guid: f8ebaf52f28b5a94694f1753967a9126, type: 3}
+      propertyPath: substract
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8308293011295099245, guid: f8ebaf52f28b5a94694f1753967a9126, type: 3}

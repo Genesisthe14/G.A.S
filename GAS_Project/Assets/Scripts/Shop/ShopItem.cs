@@ -42,10 +42,14 @@ public class ShopItem : MonoBehaviour
     }
 
     //Action that is Invoked when an Item is bought
-    private static Action ItemBought = null;
+    private static Action updateShopDisplayEvent = null;
+    public static Action UpdateShopDisplayEvent
+    {
+        get { return updateShopDisplayEvent; }
+    }
 
     //Limit for how many boosters the player can have of each type
-    private int buyLimitBoosters = 3;
+    private int buyLimitBoosters = 100;
 
     private void Awake()
     {
@@ -56,13 +60,13 @@ public class ShopItem : MonoBehaviour
         itemNameText.text = item.UpgradeName;
 
         if(item.IsPermanentUpgrade)
-            ItemBought += UpdateActiveStateItem;
+            updateShopDisplayEvent += UpdateActiveStateItem;
     }
 
     private void OnDestroy()
     {
         if (item.IsPermanentUpgrade)
-            ItemBought -= UpdateActiveStateItem;
+            updateShopDisplayEvent -= UpdateActiveStateItem;
     }
 
     //Buy the item depicted with this shop item
@@ -115,7 +119,7 @@ public class ShopItem : MonoBehaviour
 
         PlayerData.instance.CurrentMoney -= item.Price;
 
-        ItemBought.Invoke();
+        updateShopDisplayEvent.Invoke();
     }
 
     private void OnEnable()
