@@ -58,6 +58,11 @@ public class SelectionScreen : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(2)) EmptyBoosters();
+    }
+
     private void OnEnable()
     {
         //if the selection screen is entered by the player 
@@ -169,8 +174,8 @@ public class SelectionScreen : MonoBehaviour
                 Debug.Log("Before: "+PlayerData.instance.TemporaryItemsOwned[boostersTaken[i]]);
 
                 PlayerData.instance.CurrentMoney += SearchForBoosterPrice(boostersTaken[i]) * differenceOwned;
-                PlayerData.instance.TemporaryItemsOwned.Remove(boostersTaken[i]);
-                PlayerData.instance.TemporaryItemsOwned.Add(boostersTaken[i], amountBeforeBuy[boostersTaken[i]]);
+
+                PlayerData.instance.TemporaryItemsOwned.ReplaceValue(boostersTaken[i], amountBeforeBuy[boostersTaken[i]]);
 
                 Debug.Log("After: "+PlayerData.instance.TemporaryItemsOwned[boostersTaken[i]]);
             }
@@ -217,5 +222,15 @@ public class SelectionScreen : MonoBehaviour
         }
 
         return 0;
+    }
+
+    //set boosters player has to zero
+    public void EmptyBoosters()
+    {
+        foreach(Upgrade.UpgradeTypes booster in PlayerData.instance.TemporaryItemsOwned.Keys)
+        {
+            PlayerData.instance.TemporaryItemsOwned.ReplaceValue(booster, 0);
+            Debug.Log(PlayerData.instance.TemporaryItemsOwned[booster]);
+        }
     }
 }

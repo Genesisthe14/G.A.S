@@ -33,9 +33,9 @@ public class PauseMenu : MonoBehaviour
         GamePaused = false;
 
         PlayerData.instance.CurrentMoney = GameManager.instance.BeforeRun["currentMoney"];
-        ReplaceInTemporaryItems(Upgrade.UpgradeTypes.NUMSHIELDS, GameManager.instance.BeforeRun["numShields"]);
-        ReplaceInTemporaryItems(Upgrade.UpgradeTypes.REFUEL, GameManager.instance.BeforeRun["refuels"]);
-        ReplaceInTemporaryItems(Upgrade.UpgradeTypes.HEADSTART, GameManager.instance.BeforeRun["headstarts"]);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.NUMSHIELDS, GameManager.instance.BeforeRun["numShields"]);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.REFUEL, GameManager.instance.BeforeRun["refuels"]);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.HEADSTART, GameManager.instance.BeforeRun["headstarts"]);
 
         RocketBehaviour.CurrentWarpSpeedFactor = 0.0f;
         
@@ -49,11 +49,5 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Quit game");
         SaveLoadService.SaveGame();
         Application.Quit();
-    }
-
-    private void ReplaceInTemporaryItems(Upgrade.UpgradeTypes itemToReplace, int replaceValue)
-    {
-        PlayerData.instance.TemporaryItemsOwned.Remove(itemToReplace);
-        PlayerData.instance.TemporaryItemsOwned.Add(itemToReplace, replaceValue);
     }
 }

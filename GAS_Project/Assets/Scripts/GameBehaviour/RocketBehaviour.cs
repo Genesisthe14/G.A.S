@@ -142,9 +142,7 @@ public class RocketBehaviour : MonoBehaviour
 
         //Remove one warp from the number of warps the player owns
         int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART] - 1;
-        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.HEADSTART);
-
-        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, tempNum);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.HEADSTART, tempNum);
 
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.HEADSTART);
 

@@ -13,9 +13,7 @@ public class RefuelUpgrade : Upgrade
         else
         {
             int tempNum = PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.REFUEL] + 1;
-            PlayerData.instance.TemporaryItemsOwned.Remove(UpgradeTypes.REFUEL);
-
-            PlayerData.instance.TemporaryItemsOwned.Add(UpgradeTypes.REFUEL, tempNum);
+            PlayerData.instance.TemporaryItemsOwned.ReplaceValue(UpgradeTypes.REFUEL, tempNum);
         }
 
         Debug.Log("Refuels: "+PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.REFUEL]);

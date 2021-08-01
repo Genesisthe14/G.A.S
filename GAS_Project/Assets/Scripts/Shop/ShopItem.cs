@@ -57,7 +57,7 @@ public class ShopItem : MonoBehaviour
     }
 
     //Limit for how many boosters the player can have of each type
-    private int buyLimitBoosters = 100;
+    private int buyLimitBoosters = 3;
 
     private void Awake()
     {
