@@ -17,4 +17,4 @@ MonoBehaviour:
   isPermanentUpgrade: 1
   upgradeType: 3
   upgradeName: Magnet
-  price: 100
+  price: 200

@@ -17,4 +17,4 @@ MonoBehaviour:
   isPermanentUpgrade: 0
   upgradeType: 7
   upgradeName: Hyperjump
-  price: 1000
+  price: 500

@@ -17,4 +17,4 @@ MonoBehaviour:
   isPermanentUpgrade: 1
   upgradeType: 2
   upgradeName: Tank
-  price: 100
+  price: 200

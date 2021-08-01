@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65d57d5b00d6414facde5585089d53a, type: 3}
-  m_Name: ShieldUpgrade3
+  m_Script: {fileID: 11500000, guid: 01e74bd6c97946b498e417db01313003, type: 3}
+  m_Name: MagnetUpgrade5
   m_EditorClassIdentifier: 
-  upgradeID: shield_3
-  upgradeNum: 3
+  upgradeID: magnet_5
+  upgradeNum: 5
   isPermanentUpgrade: 1
-  upgradeType: 1
-  upgradeName: Shield Upgrade
-  price: 1000
+  upgradeType: 3
+  upgradeName: Magnet
+  price: 3000

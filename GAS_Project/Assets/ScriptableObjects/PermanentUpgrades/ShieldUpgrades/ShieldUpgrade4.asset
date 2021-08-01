@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b5dccc1a1d3784fa2d380cfc2b0afc, type: 3}
-  m_Name: HullUpgrade1
+  m_Script: {fileID: 11500000, guid: a65d57d5b00d6414facde5585089d53a, type: 3}
+  m_Name: ShieldUpgrade4
   m_EditorClassIdentifier: 
-  upgradeID: hull_1
-  upgradeNum: 1
+  upgradeID: shield_4
+  upgradeNum: 4
   isPermanentUpgrade: 1
-  upgradeType: 4
-  upgradeName: Hull
-  price: 200
+  upgradeType: 1
+  upgradeName: Shield Upgrade
+  price: 1750

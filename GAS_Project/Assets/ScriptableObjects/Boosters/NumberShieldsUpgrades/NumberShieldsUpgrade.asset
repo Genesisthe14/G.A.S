@@ -17,4 +17,4 @@ MonoBehaviour:
   isPermanentUpgrade: 0
   upgradeType: 6
   upgradeName: Shield
-  price: 300
+  price: 100
