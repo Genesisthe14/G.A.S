@@ -38,14 +38,13 @@ public class GameManager : MonoBehaviour
     [Tooltip("distance traveled per second")]
     private float mPerSec = 5.0f;
 
+    //Tells how much the target multiple is raised on every raise speed
+    [SerializeField]
+    [Tooltip("Raise if the speed should be raised on different multiples. E.g. with raiseIndex 1 and sectionLength 10 it would be every 10 meters. With raise Index 3 it would be every 30 meters")]
+    private float increaseIndexAmount = 1.0f;
+
     //Index telling on what multiple of sectionLength the speed is currently raised
     private float raiseIndex = 1.0f;
-
-    //Tells how much the target multiple is raised on every raise speed
-    //Raise if the speed should be raised on different multiples
-    //e.g. with raiseIndex 1 and sectionLength 10 it would be every 10 meters
-    //with raise Index 3 it would be every 30 meters
-    private float increaseIndexAmount = 1.0f;
 
     //Dictionary with initial values of the properties that are raised when the speed of the game should increase
     private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();

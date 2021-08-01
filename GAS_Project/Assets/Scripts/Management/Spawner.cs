@@ -63,7 +63,6 @@ public class Spawner : MonoBehaviour
     } 
 
     //Whether objects should spawn or not
-    [SerializeField]
     private bool spawn = true;
     public bool Spawn
     {
