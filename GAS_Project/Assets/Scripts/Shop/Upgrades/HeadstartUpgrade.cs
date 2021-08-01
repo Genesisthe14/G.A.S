@@ -13,9 +13,7 @@ public class HeadstartUpgrade : Upgrade
         else
         {
             int tempNum = PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.HEADSTART] + 1;
-            PlayerData.instance.TemporaryItemsOwned.Remove(UpgradeTypes.HEADSTART);
-
-            PlayerData.instance.TemporaryItemsOwned.Add(UpgradeTypes.HEADSTART, tempNum);
+            PlayerData.instance.TemporaryItemsOwned.ReplaceValue(UpgradeTypes.HEADSTART, tempNum);
         }
 
         Debug.Log("Headstarts: " + PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.HEADSTART]);

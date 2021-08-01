@@ -82,7 +82,11 @@ public class SerializableDictionary<TKey, TValue> : SerializableDictionary, ISer
     {
         if (!ContainsKey(key)) return false;
 
-        if (!Remove(key)) return false;
+        if (!Remove(key))
+        {
+            Debug.LogError("SerializableDictionary doesn't contain key");
+            return false;
+        }
         Add(key, value);
 
         return true;

@@ -408,9 +408,7 @@ public class GameManager : MonoBehaviour
 
         //substract one refuel booster form the total the player has
         int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL] - 1;
-        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.REFUEL);
-
-        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.REFUEL, tempNum);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.REFUEL, tempNum);
 
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.REFUEL);
 
@@ -430,9 +428,7 @@ public class GameManager : MonoBehaviour
 
         //substract one from the total amount of shields the player owns
         int tempNum = PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS] - 1;
-        PlayerData.instance.TemporaryItemsOwned.Remove(Upgrade.UpgradeTypes.NUMSHIELDS);
-
-        PlayerData.instance.TemporaryItemsOwned.Add(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
+        PlayerData.instance.TemporaryItemsOwned.ReplaceValue(Upgrade.UpgradeTypes.NUMSHIELDS, tempNum);
 
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.NUMSHIELDS);
 

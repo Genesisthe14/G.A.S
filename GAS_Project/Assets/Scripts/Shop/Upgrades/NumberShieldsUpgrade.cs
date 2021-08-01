@@ -13,9 +13,7 @@ public class NumberShieldsUpgrade : Upgrade
         else
         {
             int tempNum = PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.NUMSHIELDS] + 1;
-            PlayerData.instance.TemporaryItemsOwned.Remove(UpgradeTypes.NUMSHIELDS);
-
-            PlayerData.instance.TemporaryItemsOwned.Add(UpgradeTypes.NUMSHIELDS, tempNum);
+            PlayerData.instance.TemporaryItemsOwned.ReplaceValue(UpgradeTypes.NUMSHIELDS, tempNum);
         }
 
         Debug.Log("Number Shields: "+ PlayerData.instance.TemporaryItemsOwned[UpgradeTypes.NUMSHIELDS]);
