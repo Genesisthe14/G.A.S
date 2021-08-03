@@ -27,14 +27,15 @@ public class MagnetField : BuffItem
     {
         field.radius = fieldSize;
     }
-
+    //!!!Kann vermutlich entfernt werden
+    //Note: Delta Time geaddet
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //as long as a shard stays in the magnets range pull it towards the rocket
         if (collision.gameObject.CompareTag("collect"))
         {
             Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed*Time.deltaTime;
         }
     }
 
@@ -44,7 +45,7 @@ public class MagnetField : BuffItem
         if (collision.gameObject.CompareTag("collect"))
         {
             Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed * Time.deltaTime;
         }
     }
 }
