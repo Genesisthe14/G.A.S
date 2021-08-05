@@ -20,4 +20,10 @@ public class Homescreen : MonoBehaviour
     {
         SaveLoadService.DeleteSaveFile();
     }
+
+    //Loads the booster selection screen
+    public void LoadBoosterSelectionScreen()
+    {
+        SceneManager.LoadScene("BoosterSelection");
+    }
 }
