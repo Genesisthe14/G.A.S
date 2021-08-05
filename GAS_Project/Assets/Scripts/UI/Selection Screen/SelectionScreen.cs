@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 //Class that implements the functionality of the selection screen
@@ -30,10 +31,17 @@ public class SelectionScreen : MonoBehaviour
     private Text totalCoins;
 
     [SerializeField]
-    [Tooltip("List of all dictionaries containing the icons for the correct slots")]
+    [Tooltip("Dictionaries containing the icons for the first slot")]
+    private SerializableDictionary<Upgrade.UpgradeTypes, GameObject> firstSlotIcons = null;
+
+    [SerializeField]
+    [Tooltip("Dictionaries containing the icons for the first slot")]
+    private SerializableDictionary<Upgrade.UpgradeTypes, GameObject> secondSlotIcons = null;
+    
+    //List of all dictionaries containing the icons for the correct slots
     //index of lists is number slot and upgrade type is key for correct GameObject to activate
     private List<SerializableDictionary<Upgrade.UpgradeTypes, GameObject>> slotIcons = null;
-
+    
     //The amount the player had of each booster before he entered the selection screen
     private Dictionary<Upgrade.UpgradeTypes, int> amountBeforeBuy = new Dictionary<Upgrade.UpgradeTypes, int>();
 
@@ -56,6 +64,11 @@ public class SelectionScreen : MonoBehaviour
         {
             amountBeforeBuy.Add(up.UpgradeType, 0);
         }
+
+        slotIcons = new List<SerializableDictionary<Upgrade.UpgradeTypes, GameObject>>{ firstSlotIcons, secondSlotIcons };
+
+        slotIcons[0][boostersTaken[0]].SetActive(true);
+        slotIcons[1][boostersTaken[1]].SetActive(true);
     }
 
     private void Update()
@@ -232,5 +245,11 @@ public class SelectionScreen : MonoBehaviour
             PlayerData.instance.TemporaryItemsOwned.ReplaceValue(booster, 0);
             Debug.Log(PlayerData.instance.TemporaryItemsOwned[booster]);
         }
+    }
+
+    //Loads the start screen
+    public void LoadStartScreen()
+    {
+        SceneManager.LoadScene("Startscreen");
     }
 }

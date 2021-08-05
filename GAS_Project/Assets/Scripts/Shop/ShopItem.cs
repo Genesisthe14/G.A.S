@@ -35,11 +35,11 @@ public class ShopItem : MonoBehaviour
 
     [SerializeField]
     [Tooltip("GameObject that displays availability")]
-    private GameObject[] availableDisplay;
+    private GameObject[] availableDisplay = null;
 
     [SerializeField]
     [Tooltip("GameObject that displays unavailability")]
-    private GameObject[] unavailableDisplay;
+    private GameObject[] unavailableDisplay = null;
 
     [SerializeField]
     [Tooltip("Item which should only be shown when this item was bought")]
@@ -204,6 +204,8 @@ public class ShopItem : MonoBehaviour
     //Deactivate all objects in the array
     private void Deactivate(GameObject[] array)
     {
+        if (array == null) return;
+
         foreach(GameObject avail in array)
         {
             avail.SetActive(false);
@@ -213,6 +215,8 @@ public class ShopItem : MonoBehaviour
     //Activate all objects in the array
     private void Activate(GameObject[] array)
     {
+        if (array == null) return;
+
         foreach (GameObject avail in array)
         {
             avail.SetActive(true);
