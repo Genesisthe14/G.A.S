@@ -40,7 +40,7 @@ public class Homescreen : MonoBehaviour
 
     public void QuitGame () 
     {
-        SaveLoadService.SaveGame();
+        Debug.Log("Quet");
         Application.Quit();
     }
 
