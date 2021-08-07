@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 //Class that contains most value affect the player directly
 //like the amount of money he owns or what items and upgrádes
@@ -75,6 +71,25 @@ public class PlayerData : MonoBehaviour
         {
             SaveLoadService.LoadGame();
             firstLoaded = false;
+        }
+
+        Application.wantsToQuit += OnApplicationQuitting;
+    }
+
+    static bool OnApplicationQuitting()
+    {
+        Debug.Log("Quat");
+        SaveLoadService.SaveGame();
+        Application.wantsToQuit -= OnApplicationQuitting;
+        return true;
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause && !GameManager.InRun)
+        {
+            Debug.Log("Poose");
+            SaveLoadService.SaveGame();
         }
     }
 }

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Playables;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -20,6 +17,7 @@ public class GameOverUI : MonoBehaviour
         GameManager.instance.ConsumeFuel = false;
         GameManager.instance.Spawner.Spawn = false;
 
+        GameManager.InRun = false;
 
         gameObject.SetActive(true);
         pause.SetActive(false);
@@ -55,5 +53,6 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1;
         SelectionScreen.instance.EmptyBoosters();
         SelectionScreen.instance.ResetBoostersTaken(true);
+        GameManager.InRun = false;
     }
 }

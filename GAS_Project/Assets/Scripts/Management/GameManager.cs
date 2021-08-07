@@ -226,6 +226,14 @@ public class GameManager : MonoBehaviour
 
     //Whether the player has lost or not
     private bool isGameOver = false;
+
+    //if the player is in a run
+    private static bool inRun = false;
+    public static bool InRun
+    {
+        get { return inRun; }
+        set { inRun = value; }
+    }
     #endregion
 
     private void Awake()
@@ -251,6 +259,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _instance = this;
+        inRun = true;
 
         currentFuel = startFuel;
 

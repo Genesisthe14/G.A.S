@@ -54,7 +54,9 @@ public class PauseMenu : MonoBehaviour
         
         RocketBehaviour.isWarpActive = false;
         RocketBehaviour.CurrentWarpSpeedFactor = 0.0f;
-        
+
+        GameManager.InRun = false;
+
         SceneManager.LoadScene("Startscreen");
     }
 
