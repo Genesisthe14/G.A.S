@@ -21,7 +21,13 @@ public class UFO : MonoBehaviour
     [Tooltip("Speed of the Ufo")]
     private float speed = 15.0f;
 
+    [SerializeField]
+    [Tooltip("Whether the ufo shoudl fly in zig zag or use random way points")]
+    private bool waypoints = true;
+
     Tween t;
+
+    private Vector3 startMoveVec = new Vector3(-1, -1, 0);
 
     private void Start()
     {
@@ -29,6 +35,41 @@ public class UFO : MonoBehaviour
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
             .OnComplete( () => Debug.Log("Puff") );
+    }
+
+    private IEnumerator MoveUfoZigZag()
+    {
+        bool exit = false;
+
+        while (!exit)
+        {        
+            bool stop = true;
+            bool leftBorder = startMoveVec.x == -1 ? true : false;
+            t = transform.DOMove(transform.position + startMoveVec * 100, speed)
+                .OnUpdate(() => CheckIfUfoOnBorder(leftBorder, out exit))
+                .OnKill(() => stop = false);
+
+            yield return new WaitUntil(() => !stop);
+        }
+
+        Destroy(gameObject);
+    }
+
+    private void CheckIfUfoOnBorder(bool leftBorder, out bool exit)
+    {
+        if(transform.position.y <= Despwan.YLimit)
+        {
+            exit = true;
+            return;
+        }
+
+        if (transform.position.x == GameManager.instance.Spawner.XSpawn[leftBorder ? 0 : 1])
+        {
+            startMoveVec.x = -startMoveVec.x;
+            t.Kill();
+        }
+
+        exit = false;
     }
 
     private void Update()

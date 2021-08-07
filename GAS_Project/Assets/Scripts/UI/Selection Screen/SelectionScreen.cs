@@ -27,6 +27,10 @@ public class SelectionScreen : MonoBehaviour
     private ShopItem[] allBoosterShopItems;
 
     [SerializeField]
+    [Tooltip("DIctionary of boosters and their Text object that displays how many the player has of this boost")]
+    private SerializableDictionary<Upgrade.UpgradeTypes, Text> boosterAmountTexts;
+
+    [SerializeField]
     [Tooltip("Total Coins Text")]
     private Text totalCoins;
 
@@ -139,6 +143,8 @@ public class SelectionScreen : MonoBehaviour
         //iterate over all shop items/ booster items to update their individual appearance
         foreach (ShopItem shop in allBoosterShopItems)
         {
+            boosterAmountTexts[shop.Item.UpgradeType].text = "" + PlayerData.instance.TemporaryItemsOwned[shop.Item.UpgradeType];
+            
             //if the price of the item is bigger than the amount of money the player currently has
             //then disable the buy button for this item
             if(shop.Item.Price > PlayerData.instance.CurrentMoney)

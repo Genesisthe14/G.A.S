@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HullUpgrade : Upgrade
 {
-    private static float[] hullUpgrades = { 9.0f, 7.5f, 5.0f };
+    private static float[] hullUpgrades = { 9.0f, 8.0f, 7.0f, 6.0f, 5.0f };
 
     public override void UpgradeFeature()
     {

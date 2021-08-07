@@ -30,10 +30,18 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     [Tooltip("y boundaries in between which the spawn objects can spawn")]
     private float[] ySpawn = new float[2];
+    public float[] YSpawn
+    {
+        get { return ySpawn; }
+    }
 
     [SerializeField]
     [Tooltip("x boundaries in between which the spawn objects can spawn")]
     private float[] xSpawn = new float[2];
+    public float[] XSpawn
+    {
+        get { return xSpawn; }
+    }
 
     [SerializeField]
     [Tooltip("Range of the possible velocity of the spawn objects")]

@@ -7,10 +7,10 @@ using UnityEngine;
 public class Shield : BuffItem
 {
     //Basis hit points the shield can take
-    public static int baseHitpoints = 3;
+    public static int baseHitpoints = 1;
     
     //current amount of hits the shield can still receive after activation
-    private int currentHitPoints = 3;
+    private int currentHitPoints;
     public int CurrentHitPoints
     {
         get { return currentHitPoints; }
