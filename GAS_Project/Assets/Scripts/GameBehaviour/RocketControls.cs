@@ -30,7 +30,7 @@ public class RocketControls : MonoBehaviour, IDragHandler
         if (!GameManager.instance.ConsumeFuel) return;
         
         //get the position of the finger
-        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//Input.GetTouch(0).position // raus
+        Vector2 touchPos = Input.touchCount > 0 ? Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) : Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         //if the player moves beyond the boundaries then don't set the position and return
         if (!(touchPos.x <= xRightBound && touchPos.x >= xLeftBound)) return;

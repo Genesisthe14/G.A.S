@@ -9,7 +9,7 @@ using UnityEngine;
 public class MagnetField : BuffItem
 {
     //Radius of the magnets effective range
-    private static int fieldSize = 13;
+    private static int fieldSize = 10;
     public static int FieldSize
     {
         get { return fieldSize; }
@@ -35,7 +35,7 @@ public class MagnetField : BuffItem
         if (collision.gameObject.CompareTag("collect"))
         {
             Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed*Time.deltaTime;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
         }
     }
 
@@ -45,7 +45,7 @@ public class MagnetField : BuffItem
         if (collision.gameObject.CompareTag("collect"))
         {
             Vector2 veloc = gameObject.transform.position - collision.gameObject.transform.position;
-            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed * Time.deltaTime;
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = veloc * pullSpeed;
         }
     }
 }

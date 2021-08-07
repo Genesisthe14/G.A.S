@@ -16,6 +16,10 @@ public class Despwan : MonoBehaviour
 
     //y boundaries that mark how high the screen is
     private static float yLimit = -6.0f;
+    public static float YLimit
+    {
+        get { return yLimit; }
+    }
 
     private void Update()
     {

@@ -303,7 +303,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             //If the game is paused or over don't raise the distance anymore
-            if (PauseMenu.GamePaused || isGameOver || !spawner.Spawn)
+            if (PauseMenu.isPaused || isGameOver || !spawner.Spawn)
             {
                 yield return null;
                 continue;

@@ -33,17 +33,27 @@ public class GameOverUI : MonoBehaviour
 
     public void Restart() 
     {
-        Time.timeScale = 1;
-        SelectionScreen.instance.EmptyBoosters();
-        SelectionScreen.instance.ResetBoostersTaken(true);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ResetValues();
+        SceneManager.LoadScene("BoosterSelection");
     }
 
     public void MainMenu()
     {
+        ResetValues();
+        SceneManager.LoadScene("Startscreen");
+    }
+
+    public void ReturnToWorkshop()
+    {
+        ResetValues();
+        Homescreen.OpenWorkshop = true;
+        SceneManager.LoadScene("Startscreen");
+    }
+
+    private void ResetValues()
+    {
         Time.timeScale = 1;
         SelectionScreen.instance.EmptyBoosters();
         SelectionScreen.instance.ResetBoostersTaken(true);
-        SceneManager.LoadScene("UIGaS");
     }
 }

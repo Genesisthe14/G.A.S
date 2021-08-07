@@ -14,6 +14,22 @@ using UnityEngine.UI;
 
 public class RocketBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Change if headstart should be faster/slower (the higher the faster)")]
+    private float serializedTargetSpeedFactor = 100.0f;
+
+    //The warp speed factor that should be reached
+    //Change if headstart should be faster/slower (the higher the faster)
+    private static float targetWarpSpeedFactor = 100.0f;
+    public static float TargetWarpSpeedFactor
+    {
+        get { return targetWarpSpeedFactor; }
+    }
+
+
+
+
+    
     //Number of headstarts the player has
     private static int numOfWarps = 0;
     public static int NumOfWarps
@@ -43,14 +59,6 @@ public class RocketBehaviour : MonoBehaviour
     {
         get { return currentWarpSpeedFactor; }
         set { currentWarpSpeedFactor = value; }
-    }
-
-    //The warp speed factor that should be reached
-    //Change if headstart should be faster/slower (the higher the faster)
-    private static float targetWarpSpeedFactor = 100.0f;
-    public static float TargetWarpSpeedFactor
-    {
-        get { return targetWarpSpeedFactor; }
     }
 
     //how long to wait between raising/lowering the current warp speed factor
@@ -88,6 +96,8 @@ public class RocketBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        targetWarpSpeedFactor = serializedTargetSpeedFactor;
+
         //subscribe to the OnWarpActive Event so that OnWarpActive is executed 
         //when the warp is activated
         OnWarpActiveEvent += OnWarpActive;
