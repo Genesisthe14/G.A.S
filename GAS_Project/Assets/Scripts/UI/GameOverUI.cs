@@ -11,7 +11,19 @@ public class GameOverUI : MonoBehaviour
     private GameObject pause;
     
     public Text pointsText;
-    
+
+    [SerializeField]
+    [Tooltip("Button that should be disabled if something is loaded")]
+    private Button[] buttonsToDisable;
+
+    [SerializeField]
+    [Tooltip("Loading screen")]
+    private GameObject loadingScreen;
+
+    [SerializeField]
+    [Tooltip("Loading bar")]
+    private Slider loadingBar;
+
     public void GameOver() 
     {
         GameManager.instance.ConsumeFuel = false;
@@ -32,20 +44,27 @@ public class GameOverUI : MonoBehaviour
     public void Restart() 
     {
         ResetValues();
-        SceneManager.LoadScene("BoosterSelection");
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("BoosterSelection", loadingBar));
     }
 
     public void MainMenu()
     {
         ResetValues();
-        SceneManager.LoadScene("Startscreen");
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("Startscreen", loadingBar));
     }
 
     public void ReturnToWorkshop()
     {
         ResetValues();
         Homescreen.OpenWorkshop = true;
-        SceneManager.LoadScene("Startscreen");
+
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("Startscreen", loadingBar));
     }
 
     private void ResetValues()
@@ -54,5 +73,13 @@ public class GameOverUI : MonoBehaviour
         SelectionScreen.instance.EmptyBoosters();
         SelectionScreen.instance.ResetBoostersTaken(true);
         GameManager.InRun = false;
+    }
+
+    private void DisableButtons()
+    {
+        foreach (Button b in buttonsToDisable)
+        {
+            b.interactable = false;
+        }
     }
 }

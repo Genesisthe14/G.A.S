@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Homescreen : MonoBehaviour
 {
@@ -21,6 +22,18 @@ public class Homescreen : MonoBehaviour
     [Tooltip("Reference to the main screen object")]
     private GameObject main;
 
+    [SerializeField]
+    [Tooltip("Button that should be disabled if something is loaded")]
+    private Button[] buttonsToDisable;
+
+    [SerializeField]
+    [Tooltip("Loading screen")]
+    private GameObject loadingScreen;
+
+    [SerializeField]
+    [Tooltip("Loading bar")]
+    private Slider loadingBar;
+
     private void Awake()
     {
         if (openWorkshop)
@@ -32,16 +45,38 @@ public class Homescreen : MonoBehaviour
         }
     }
 
-
-    public void StartGame () 
+    public static IEnumerator LoadScreenCoroutine(string scene, Slider bar)
     {
-        SceneManager.LoadScene("RocketScene");
+        AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
+
+        float progress = 0.0f;
+
+        //update the loading screen text while loading/unloading process is going on
+        while (!operation.isDone)
+        {
+            progress += Mathf.Clamp01(operation.progress / 0.9f);
+            progress = Mathf.Clamp01(progress);
+
+            bar.value = progress;
+
+            //loadingText.text = "Loading... " + (int)(progress * 100.0f) + "%";
+
+            //wait a frame before continuing
+            yield return null;
+        }
     }
 
     public void QuitGame () 
     {
         Debug.Log("Quet");
         Application.Quit();
+    }
+
+    public void StartGame()
+    {
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(LoadScreenCoroutine("RocketScene", loadingBar));
     }
 
     public void DeleteSaveFile()
@@ -52,6 +87,16 @@ public class Homescreen : MonoBehaviour
     //Loads the booster selection screen
     public void LoadBoosterSelectionScreen()
     {
-        SceneManager.LoadScene("BoosterSelection");
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(LoadScreenCoroutine("BoosterSelection", loadingBar));
+    }
+
+    private void DisableButtons()
+    {
+        foreach(Button b in buttonsToDisable)
+        {
+            b.interactable = false;
+        }
     }
 }

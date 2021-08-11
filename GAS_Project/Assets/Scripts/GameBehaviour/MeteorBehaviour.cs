@@ -52,11 +52,18 @@ public class MeteorBehaviour : MonoBehaviour
     [Tooltip("ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed")]
     private GameObject particle = null;
 
+    public static float staticMinVelocity = 0.0f;
+
     //Number of times this meteor has been hit
     private int currentNumHits = 0;
 
     //Whether this object spawned a shattered version
     private bool spawnedShatteredVersion = false;
+
+    private void Awake()
+    {
+        staticMinVelocity = minVelocity;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -70,13 +77,13 @@ public class MeteorBehaviour : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (!destroyParent && !spawnedShatteredVersion) GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
+        if (!destroyParent && !spawnedShatteredVersion) GameManager.instance.Spawner.CurrentAmountNormalObjects--;
 
         //for meteor parts 
         if (destroyParent && gameObject.transform.parent.childCount == 1)
         {
             //if (substractFromTotalObjects) 
-            GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
+            GameManager.instance.Spawner.CurrentAmountNormalObjects--;
             Destroy(gameObject.transform.parent.gameObject);
             return;
         }
@@ -89,7 +96,7 @@ public class MeteorBehaviour : MonoBehaviour
         if(particle != null)
         {
             GameObject particleOb = Instantiate(particle, transform.position, transform.rotation);
-            particle.GetComponent<ParticleSystem>().Play();
+            particleOb.GetComponent<ParticleSystem>().Play();
         }
 
         explosionSound.Play();
@@ -168,7 +175,7 @@ public class MeteorBehaviour : MonoBehaviour
 
             //instatniate the shattered version of this meteor
             GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
-            GameManager.instance.Spawner.CurrentAmountSpawnObjects++;
+            if(!CompareTag("satellite")) GameManager.instance.Spawner.CurrentAmountNormalObjects++;
             spawnedShatteredVersion = true;
 
             //list of the meteor pieces
