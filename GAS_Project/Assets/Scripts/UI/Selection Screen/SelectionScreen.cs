@@ -41,7 +41,19 @@ public class SelectionScreen : MonoBehaviour
     [SerializeField]
     [Tooltip("Dictionaries containing the icons for the first slot")]
     private SerializableDictionary<Upgrade.UpgradeTypes, GameObject> secondSlotIcons = null;
-    
+
+    [SerializeField]
+    [Tooltip("Button that should be disabled if something is loaded")]
+    private Button[] buttonsToDisable;
+
+    [SerializeField]
+    [Tooltip("Loading screen")]
+    private GameObject loadingScreen;
+
+    [SerializeField]
+    [Tooltip("Loading bar")]
+    private Slider loadingBar;
+
     //List of all dictionaries containing the icons for the correct slots
     //index of lists is number slot and upgrade type is key for correct GameObject to activate
     private List<SerializableDictionary<Upgrade.UpgradeTypes, GameObject>> slotIcons = null;
@@ -73,11 +85,6 @@ public class SelectionScreen : MonoBehaviour
 
         slotIcons[0][boostersTaken[0]].SetActive(true);
         slotIcons[1][boostersTaken[1]].SetActive(true);
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(2)) EmptyBoosters();
     }
 
     private void OnEnable()
@@ -249,13 +256,22 @@ public class SelectionScreen : MonoBehaviour
         foreach(Upgrade.UpgradeTypes booster in PlayerData.instance.TemporaryItemsOwned.Keys)
         {
             PlayerData.instance.TemporaryItemsOwned.ReplaceValue(booster, 0);
-            Debug.Log(PlayerData.instance.TemporaryItemsOwned[booster]);
         }
     }
 
     //Loads the start screen
     public void LoadStartScreen()
     {
-        SceneManager.LoadScene("Startscreen");
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("Startscreen", loadingBar));
+    }
+
+    private void DisableButtons()
+    {
+        foreach (Button b in buttonsToDisable)
+        {
+            b.interactable = false;
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -11,6 +12,18 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     [Tooltip("Countdown text object")]
     private GameObject countText;
+
+    [SerializeField]
+    [Tooltip("Button that should be disabled if something is loaded")]
+    private Button[] buttonsToDisable;
+
+    [SerializeField]
+    [Tooltip("Loading screen")]
+    private GameObject loadingScreen;
+
+    [SerializeField]
+    [Tooltip("Loading bar")]
+    private Slider loadingBar;
 
     //whether the counter was still counting down to the start of the game
     private bool counterActive = false;
@@ -57,7 +70,9 @@ public class PauseMenu : MonoBehaviour
 
         GameManager.InRun = false;
 
-        SceneManager.LoadScene("Startscreen");
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("Startscreen", loadingBar));
     }
 
     public void Quit()
@@ -79,6 +94,17 @@ public class PauseMenu : MonoBehaviour
 
         RocketBehaviour.isWarpActive = false;
         RocketBehaviour.CurrentWarpSpeedFactor = 0.0f;
-        SceneManager.LoadScene("RocketScene");
+
+        loadingScreen.SetActive(true);
+        DisableButtons();
+        StartCoroutine(Homescreen.LoadScreenCoroutine("RocketScene", loadingBar));
+    }
+
+    private void DisableButtons()
+    {
+        foreach (Button b in buttonsToDisable)
+        {
+            b.interactable = false;
+        }
     }
 }

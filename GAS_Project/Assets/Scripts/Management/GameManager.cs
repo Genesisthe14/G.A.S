@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("The amount of fuel substracted per repeatTime")]
     private float lowerRate = 0.5f;
+    public float LowerRate
+    {
+        get { return lowerRate; }
+        set { lowerRate = value; }
+    }
 
     [SerializeField]
     [Tooltip("Interval between the substractions from the fuel")]
