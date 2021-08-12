@@ -16,6 +16,10 @@ public class Despwan : MonoBehaviour
 
     //y boundaries that mark how high the screen is
     private static float yLimit = -6.0f;
+    public static float YLimit
+    {
+        get { return yLimit; }
+    }
 
     private void Update()
     {
@@ -32,13 +36,13 @@ public class Despwan : MonoBehaviour
         //if this object goes beyond the screen boundaries then destory it
         if(currentPos.x < xLimits[0] || currentPos.x > xLimits[1] || currentPos.y < yLimit)
         {
-            if(substract) GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
+            if(substract) GameManager.instance.Spawner.CurrentAmountNormalObjects--;
             Destroy(gameObject);
         }
     }
 
     private void OnDestroy()
     {
-        if (gameObject.CompareTag("shatterParent")) GameManager.instance.Spawner.CurrentAmountSpawnObjects--;
+        if (gameObject.CompareTag("shatterParent")) GameManager.instance.Spawner.CurrentAmountNormalObjects--;
     }
 }

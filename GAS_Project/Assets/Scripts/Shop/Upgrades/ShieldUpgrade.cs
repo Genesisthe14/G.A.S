@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShieldUpgrade : Upgrade
 {
-    private static int[] shieldUpgradeStrengths = { 5, 8, 12};
+    private static int[] shieldUpgradeStrengths = { 2, 3, 4, 5, 6};
 
     public override void UpgradeFeature()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MagnetUpgrade : Upgrade
 {
-    private static int[] magnetUpgrades = { 20, 40, 100 };
+    private static int[] magnetUpgrades = { 20, 40, 60, 80, 100 };
 
     public override void UpgradeFeature()
     {

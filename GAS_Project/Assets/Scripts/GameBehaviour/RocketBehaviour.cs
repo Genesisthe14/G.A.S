@@ -14,6 +14,22 @@ using UnityEngine.UI;
 
 public class RocketBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Change if headstart should be faster/slower (the higher the faster)")]
+    private float serializedTargetSpeedFactor = 100.0f;
+
+    //The warp speed factor that should be reached
+    //Change if headstart should be faster/slower (the higher the faster)
+    private static float targetWarpSpeedFactor = 100.0f;
+    public static float TargetWarpSpeedFactor
+    {
+        get { return targetWarpSpeedFactor; }
+    }
+
+
+
+
+    
     //Number of headstarts the player has
     private static int numOfWarps = 0;
     public static int NumOfWarps
@@ -45,14 +61,6 @@ public class RocketBehaviour : MonoBehaviour
         set { currentWarpSpeedFactor = value; }
     }
 
-    //The warp speed factor that should be reached
-    //Change if headstart should be faster/slower (the higher the faster)
-    private static float targetWarpSpeedFactor = 100.0f;
-    public static float TargetWarpSpeedFactor
-    {
-        get { return targetWarpSpeedFactor; }
-    }
-
     //how long to wait between raising/lowering the current warp speed factor
     private static float waitTime = 0.05f;
 
@@ -64,7 +72,7 @@ public class RocketBehaviour : MonoBehaviour
     private static Action<bool> OnWarpActiveEvent = null;
     
     //amount of fuel that is leaked when the rocket hits a meteor
-    private static float leakingFuel = 10.0f;
+    private static float leakingFuel = 100.0f;
     public static float LeakingFuel
     {
         get { return leakingFuel; }
@@ -83,14 +91,22 @@ public class RocketBehaviour : MonoBehaviour
     [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
     private GameObject damageScreen;
 
+    [SerializeField]
+    [Tooltip("Dictionary of damage dealt for each tag")]
+    private SerializableDictionary<string, float> damageDict;
+
     //Attribute that stores the ease warp coroutine
     private Coroutine easeWarp = null;
 
     private void Awake()
     {
+        targetWarpSpeedFactor = serializedTargetSpeedFactor;
+
         //subscribe to the OnWarpActive Event so that OnWarpActive is executed 
         //when the warp is activated
         OnWarpActiveEvent += OnWarpActive;
+
+        damageDict.Add("UFO", GameManager.StartFuel / 100.0f * 10.0f);
     }
 
     private void OnDestroy()
@@ -201,28 +217,31 @@ public class RocketBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if the rocket hits a meteor then substract fuel
-        if (collision.gameObject.CompareTag("meteor"))
-        {
-            //if the shield or the warp is active then don't take damage
-            if (shield.activeInHierarchy || isWarpActive) return;
-
-            GameManager.instance.LowerFuel(leakingFuel);
-            Damage();
-        }
+        Collision(collision);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        Collision(collision);
+    }
+
+    private void Collision(Collision2D collision)
+    {
         //if the rocket hits a meteor then substract fuel
-        if (collision.gameObject.CompareTag("meteor"))
+        if (DamageKeysContainValue(collision.gameObject.tag))
         {
             //if the shield or the warp is active then don't take damage
             if (shield.activeInHierarchy || isWarpActive) return;
 
-            GameManager.instance.LowerFuel(leakingFuel);
+            GameManager.instance.LowerFuel(damageDict[collision.gameObject.tag] / 100.0f * leakingFuel);
             Damage();
         }
+    }
+
+    //Whether the keys of the damage dict contain the given value
+    private bool DamageKeysContainValue(string testKey)
+    {
+        return damageDict.Keys.Contains(testKey);
     }
 
     //Function that changes the alpha of the damage screen
@@ -248,20 +267,15 @@ public class RocketBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
-
-        if (collision.CompareTag("meteor"))
-        {
-            GameManager.instance.LowerFuel(leakingFuel);
-            Damage();
-        }
-
-        //rocket collided with meteor or satellite while they were in trigger mode
-        //therefore activate meteor collision function for satellite/meteor
-        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+        InTrigger(collision);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
+    {
+        InTrigger(collision);
+    }
+
+    private void InTrigger(Collider2D collision)
     {
         if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
 

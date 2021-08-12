@@ -12,7 +12,7 @@ public class DestructorBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite") || collision.gameObject.CompareTag("UFO"))) return;
 
         //if the destructor collides with a meteor that has a trigger then make it's shade darker
         //to simulate that it passed behind the meteor
@@ -21,7 +21,7 @@ public class DestructorBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
+        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite") || collision.gameObject.CompareTag("UFO"))) return;
 
         //if a meteor/satellite left the destructor collider then reset to normal color
         //and set the collider of the meteor/satellite no trigger

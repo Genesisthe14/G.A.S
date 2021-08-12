@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     [Tooltip("The amount of fuel substracted per repeatTime")]
     private float lowerRate = 0.5f;
+    public float LowerRate
+    {
+        get { return lowerRate; }
+        set { lowerRate = value; }
+    }
 
     [SerializeField]
     [Tooltip("Interval between the substractions from the fuel")]
@@ -226,6 +231,14 @@ public class GameManager : MonoBehaviour
 
     //Whether the player has lost or not
     private bool isGameOver = false;
+
+    //if the player is in a run
+    private static bool inRun = false;
+    public static bool InRun
+    {
+        get { return inRun; }
+        set { inRun = value; }
+    }
     #endregion
 
     private void Awake()
@@ -251,6 +264,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _instance = this;
+        inRun = true;
 
         currentFuel = startFuel;
 
@@ -303,7 +317,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             //If the game is paused or over don't raise the distance anymore
-            if (PauseMenu.GamePaused || isGameOver || !spawner.Spawn)
+            if (PauseMenu.isPaused || isGameOver || !spawner.Spawn)
             {
                 yield return null;
                 continue;

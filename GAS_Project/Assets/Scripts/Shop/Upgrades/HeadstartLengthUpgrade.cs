@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeadstartLengthUpgrade : Upgrade
 {
-    private static int[] lengthUpgrades = { 500, 650, 850 };
+    private static int[] lengthUpgrades = { 500, 600, 700, 800, 900 };
 
     public override void UpgradeFeature()
     {

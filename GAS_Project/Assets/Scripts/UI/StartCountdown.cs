@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +22,13 @@ public class StartCountdown : MonoBehaviour
 
         while(countdown > 0)
         {
+            if (PauseMenu.isPaused)
+            {
+                yield return null;
+                continue;
+            }
+
+
             countdownText.text = "" + countdown--;
             yield return new WaitForSecondsRealtime(1.0f);
         }
