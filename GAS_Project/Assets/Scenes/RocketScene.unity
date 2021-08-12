@@ -14231,6 +14231,8 @@ MonoBehaviour:
   - {fileID: 1422685008}
   - {fileID: 1033302725}
   - {fileID: 659523493}
+  currentAmountNormalObjects: 0
+  currentAmountOpponents: 0
 --- !u!114 &2110865608
 MonoBehaviour:
   m_ObjectHideFlags: 0
