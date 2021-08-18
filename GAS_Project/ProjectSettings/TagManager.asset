@@ -17,6 +17,7 @@ TagManager:
   - headstartAura
   - UFO
   - Jelly
+  - Laser
   layers:
   - Default
   - TransparentFX

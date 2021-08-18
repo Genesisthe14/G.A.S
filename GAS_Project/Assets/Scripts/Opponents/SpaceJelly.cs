@@ -14,6 +14,10 @@ public class SpaceJelly : MonoBehaviour
     [Tooltip("How long the jelly is on the rocket")]
     private float attachTime = 3.0f;
 
+    [SerializeField]
+    [Tooltip("Minimum velocity the jelly has to be hit with")]
+    private float minVelocity = 10.0f;
+
     //Object this jelly should follow
     private GameObject followObject;
     public GameObject FollowObject
@@ -37,13 +41,15 @@ public class SpaceJelly : MonoBehaviour
             {
                 StopCoroutine(followRoutine);
 
+                if (rigBod == null) return;
+
                 moveTween = rigBod.DOMoveY(Despwan.YLimit, timeToBottom / totalDistanceToCover * Mathf.Abs(transform.position.y - Despwan.YLimit))
                     .SetEase(Ease.Linear)
                     .OnComplete(() => DestroyJelly());
             }
             else
             {
-                moveTween.Kill();
+                if(moveTween != null && moveTween.target != null) moveTween.Kill();
 
                 followRoutine = StartCoroutine(Follow());
             }
@@ -89,11 +95,12 @@ public class SpaceJelly : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("weight"))
         {
-            if (increaseFuelConsumption != null)
+            if(collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity)
             {
-                StopCoroutine(increaseFuelConsumption);
-                if (GameManager.instance != null) GameManager.instance.LowerRate /= 2.0f;
+                GetComponent<Collider2D>().isTrigger = true;
+                return;
             }
+
             DestroyJelly();
         }
     }
@@ -102,6 +109,14 @@ public class SpaceJelly : MonoBehaviour
     {
         Debug.Log("Sploosh");
         GameManager.instance.Spawner.CurrentAmountOpponents--;
+
+        if (increaseFuelConsumption != null)
+        {
+            StopCoroutine(increaseFuelConsumption);
+            if (GameManager.instance != null) GameManager.instance.LowerRate /= 2.0f;
+        }
+
+        if (moveTween != null && moveTween.target != null) moveTween.Kill();
         Destroy(gameObject);
     }
 

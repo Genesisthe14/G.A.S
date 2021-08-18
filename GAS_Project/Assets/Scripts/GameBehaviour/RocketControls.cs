@@ -23,11 +23,27 @@ public class RocketControls : MonoBehaviour, IDragHandler
     [Tooltip("y value of the screen boundary on the bottom")]
     private float yDownBound;
 
+    [SerializeField]
+    [Tooltip("Object for displaying laser shock")]
+    private GameObject shockDisplay;
+    public GameObject ShockDisplay
+    {
+        get { return shockDisplay; }
+    }
+
+    //Whether the player can control the rocket or not
+    private bool canControl = true;
+    public bool CanControl
+    {
+        get { return canControl; }
+        set{ canControl = value; }
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
         //if no fuel is consumed a.k.a. the game is paused or over
         //then don't move on drag
-        if (!GameManager.instance.ConsumeFuel) return;
+        if (!GameManager.instance.ConsumeFuel || !canControl) return;
         
         //get the position of the finger
         Vector2 touchPos = Input.touchCount > 0 ? Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) : Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -38,5 +54,13 @@ public class RocketControls : MonoBehaviour, IDragHandler
 
         //set position of rocket to finger position
         transform.position = touchPos;
+    }
+
+    public IEnumerator FreezeCountDown(float freezeTime)
+    {
+        yield return new WaitForSecondsRealtime(freezeTime);
+
+        shockDisplay.SetActive(false);
+        canControl = true;
     }
 }
