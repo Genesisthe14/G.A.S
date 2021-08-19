@@ -7,6 +7,24 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [Header("Object pool")]
+    [SerializeField]
+    [Tooltip("Parent to put the objects under")]
+    private GameObject poolParent;
+
+    [SerializeField]
+    [Tooltip("Amount each object type shouls spawn")]
+    private int amountEachType = 50;
+
+    private Queue<GameObject> meteorQueue = new Queue<GameObject>();
+    private Queue<GameObject> specialMeteorQueue = new Queue<GameObject>();
+    private Queue<GameObject> satelliteQueue = new Queue<GameObject>();
+    private Queue<GameObject> ufoQueue = new Queue<GameObject>();
+    private Queue<GameObject> jellyQueue = new Queue<GameObject>();
+    private Queue<GameObject> laserQueue = new Queue<GameObject>();
+
+
+    [Space]
     [Header("Spawn Parameters")]
 
     [SerializeField]
@@ -59,7 +77,7 @@ public class Spawner : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Total amount of spawn objects allowed in the scene")]
-    private int totalAmounNormalObjects = 5;
+    private int totalAmountNormalObjects = 5;
     
     //Sum of all normal propabilities
     private float sumNormalPropabilities = 0.0f;
@@ -98,7 +116,7 @@ public class Spawner : MonoBehaviour
         { 
             currentAmountNormalObjects = value;
             if (currentAmountNormalObjects < 0) currentAmountNormalObjects = 0;
-            if (currentAmountNormalObjects > totalAmounNormalObjects) currentAmountNormalObjects = totalAmounNormalObjects;
+            if (currentAmountNormalObjects > totalAmountNormalObjects) currentAmountNormalObjects = totalAmountNormalObjects;
         }
     }
 
@@ -140,7 +158,44 @@ public class Spawner : MonoBehaviour
         {
             sumOpponentPropabilities += sp.SpawnWeight;
         }
+
+        GameObject meteorOb = GetObjectWithSpawnTag("meteor", normObjects).SpawnOb;
+        GameObject specialMeteorOb = GetObjectWithSpawnTag("specialMeteor", normObjects).SpawnOb;
+        GameObject satelliteOb = GetObjectWithSpawnTag("satellite", normObjects).SpawnOb;
+        GameObject ufoOb = GetObjectWithSpawnTag("ufo", opponents).SpawnOb;
+        GameObject jellyOb = GetObjectWithSpawnTag("jelly", opponents).SpawnOb;
+        GameObject laserOb = GetObjectWithSpawnTag("laser", opponents).SpawnOb;
+
+        for (int i = 0; i < amountEachType; i++)
+        {
+            MakePoolObject(meteorOb, meteorQueue);
+            MakePoolObject(specialMeteorOb, specialMeteorQueue);
+            MakePoolObject(satelliteOb, satelliteQueue);
+            MakePoolObject(ufoOb, ufoQueue);
+            MakePoolObject(jellyOb, jellyQueue);
+            MakePoolObject(laserOb, laserQueue);
+        }
     }
+
+    #region Object pooling
+    private SpawnObject GetObjectWithSpawnTag(string tag, List<SpawnObject> list)
+    {
+        foreach(SpawnObject ob in list)
+        {
+            if (ob.SpawnTag == tag) return ob;
+        }
+
+        return new SpawnObject();
+    }
+
+    private void MakePoolObject(GameObject prefab, Queue<GameObject> queue)
+    {
+        GameObject ob = Instantiate(prefab);
+        ob.SetActive(false);
+        ob.transform.parent = poolParent.transform;
+        queue.Enqueue(ob);
+    }
+    #endregion
 
     // Start is called before the first frame update
     private void Start()
@@ -154,7 +209,7 @@ public class Spawner : MonoBehaviour
         while (value)
         {
             //if spawn is false then don't spawn anything and continue to the next iteration
-            if (!spawn || currentAmountNormalObjects >= totalAmounNormalObjects)
+            if (!spawn || currentAmountNormalObjects >= totalAmountNormalObjects)
             {
                 yield return null;
                 continue;
@@ -184,7 +239,7 @@ public class Spawner : MonoBehaviour
                 case SpawnCategories.OPPONENT:
                     if (opponents == null && opponents.Count <= 0) break;
                     
-                    if (currentAmountOpponents <= totalAmountOpponents)
+                    if (currentAmountOpponents < totalAmountOpponents)
                     {
                         yield return SpawnOpponent();
                     }
@@ -202,6 +257,7 @@ public class Spawner : MonoBehaviour
     private IEnumerator SpawnNormalObject()
     {
         GameObject spawnObject = null;
+        string spawnTag = "";
         currentAmountNormalObjects++;
 
         float randomNorm = Random.Range(0, sumNormalPropabilities - 1);
@@ -210,6 +266,7 @@ public class Spawner : MonoBehaviour
             if (randomNorm < norm.SpawnWeight)
             {
                 spawnObject = norm.SpawnOb;
+                spawnTag = norm.SpawnTag;
                 break;
             }
 
@@ -235,6 +292,33 @@ public class Spawner : MonoBehaviour
         invokeTime -= RocketBehaviour.IsWarpActive ? 1.0f : 0.0f;
 
         yield return new WaitForSecondsRealtime(invokeTime < 0.0f ? 0.0f : invokeTime);
+    }
+
+    private GameObject GetSpawnObject(string spawnTag)
+    {
+        switch (spawnTag)
+        {
+            case "meteor":
+                return meteorQueue.Dequeue();
+
+            case "specialMeteor":
+                return specialMeteorQueue.Dequeue();
+
+            case "satellite":
+                return satelliteQueue.Dequeue();
+
+            case "ufo":
+                return ufoQueue.Dequeue();
+
+            case "jelly":
+                return jellyQueue.Dequeue();
+
+            case "laser":
+                return laserQueue.Dequeue();
+
+            default:
+                return null;
+        }
     }
 
     private IEnumerator SpawnOpponent()
@@ -263,6 +347,13 @@ public class Spawner : MonoBehaviour
 
             ufo.EndPoints = endPointsUFO;
             ufo.WayPoints = wayPointsUFO;
+        }
+        else if (spawnedOb.GetComponent<LaserGate>() != null)
+        {
+            spawnedOb.transform.position = new Vector2(Random.Range(xSpawn[0], xSpawn[1]), Random.Range(ySpawn[0], ySpawn[1]));
+            
+            float angle = Random.Range(-135.0f, 135.0f);
+            spawnedOb.transform.Rotate(Vector3.forward, angle);
         }
 
         //wait certain amount of time generated by the invoke time range to spawn next spawn object
@@ -297,6 +388,14 @@ public class Spawner : MonoBehaviour
         public GameObject SpawnOb
         {
             get { return spawnOb; }
+        }
+
+        [SerializeField]
+        [Tooltip("Tag of the spawnObject")]
+        private string spawnTag;
+        public string SpawnTag
+        {
+            get { return spawnTag; }
         }
     }
 }

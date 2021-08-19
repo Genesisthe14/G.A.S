@@ -159,15 +159,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4024517779431996164, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.058368202
+      value: 0.035
       objectReference: {fileID: 0}
     - target: {fileID: 4024517779431996164, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.06276788
+      value: 0.035
       objectReference: {fileID: 0}
     - target: {fileID: 4024517779431996164, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.14033397
+      value: 0.035
       objectReference: {fileID: 0}
     - target: {fileID: 4024517779431996164, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_LocalPosition.x
@@ -241,6 +241,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7428273080763289788, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7428273080763289788, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 7.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 7428273080763289788, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 5.93
+      objectReference: {fileID: 0}
     - target: {fileID: 7724264879143395053, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -271,6 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3345701535988447796, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+    - {fileID: 7428273080763289788, guid: d4935354d9b097649beada1972ff6e92, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d4935354d9b097649beada1972ff6e92, type: 3}
 --- !u!1 &2594394834081245630 stripped
 GameObject:

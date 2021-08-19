@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     #region attributes
+    #region spawning
     [Header("Spawning & Speed")]
     [SerializeField]
     [Tooltip("The amount of fuel substracted per repeatTime")]
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     //Dictionary with initial values of the properties that are raised when the speed of the game should increase
     private Dictionary<string, float> initialSpeedValues = new Dictionary<string, float>();
-
+    #endregion
 
     [Header("Buffs")]
     [SerializeField]
@@ -88,6 +89,14 @@ public class GameManager : MonoBehaviour
     public Spawner Spawner
     {
         get { return spawner; }
+    }
+
+    [SerializeField]
+    [Tooltip("Coin Manager")]
+    private CoinManager coinManager;
+    public CoinManager CoinM
+    {
+        get { return coinManager; }
     }
 
     [SerializeField]
@@ -161,13 +170,13 @@ public class GameManager : MonoBehaviour
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
                 } else {
-                    //Debug.Log("Purple");
-                    fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
+                    //Debug.Log("red);
+                    fillColor.GetComponent<Image>().color = new Color32(222, 22, 22,255);
                 }
             }
             else
             {
-                fillColor.GetComponent<Image>().color = new Color32(159, 0, 158, 255);
+                fillColor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
 
             fuelBar.SetFuel((int)currentFuel);

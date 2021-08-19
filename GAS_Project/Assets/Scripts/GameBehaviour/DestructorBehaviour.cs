@@ -10,9 +10,11 @@ public class DestructorBehaviour : MonoBehaviour
     [Tooltip("Shade to darken the sprite to if the destructor is too slow to destroy the meteor")]
     private Color darkerShade;
 
+    private List<string> triggerObs = new List<string>() { "meteor", "satellite", "UFO", "Jelly" };
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite") || collision.gameObject.CompareTag("UFO"))) return;
+        if (!triggerObs.Contains(collision.gameObject.tag)) return;
 
         //if the destructor collides with a meteor that has a trigger then make it's shade darker
         //to simulate that it passed behind the meteor
@@ -21,7 +23,7 @@ public class DestructorBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite") || collision.gameObject.CompareTag("UFO"))) return;
+        if (!triggerObs.Contains(collision.gameObject.tag)) return;
 
         //if a meteor/satellite left the destructor collider then reset to normal color
         //and set the collider of the meteor/satellite no trigger

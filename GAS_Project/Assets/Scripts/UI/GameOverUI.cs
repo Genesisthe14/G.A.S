@@ -69,7 +69,7 @@ public class GameOverUI : MonoBehaviour
 
     private void ResetValues()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         SelectionScreen.instance.EmptyBoosters();
         SelectionScreen.instance.ResetBoostersTaken(true);
         GameManager.InRun = false;

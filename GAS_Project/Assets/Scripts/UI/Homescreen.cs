@@ -50,7 +50,9 @@ public class Homescreen : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
 
         float progress = 0.0f;
-
+        
+        Time.timeScale = 1;
+        
         //update the loading screen text while loading/unloading process is going on
         while (!operation.isDone)
         {

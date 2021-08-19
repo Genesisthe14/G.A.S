@@ -153,17 +153,7 @@ public class MeteorBehaviour : MonoBehaviour
         {
             if (GetComponent<GiveMoney>() != null)
             {
-                //spawn the same amount of coin prefabs as numCoinsToSpawn
-                for (int i = 0; i < numCoinsToSpawn; i++)
-                {
-                    GameObject coin = Instantiate(coinPrefab);
-
-                    coin.transform.position = transform.position;
-                    coin.GetComponent<MoveCoins>().MoneyToAdd = GetComponent<GiveMoney>().Money / numCoinsToSpawn;
-
-                    //wait a random amount of time to move the coins to their target position
-                    coin.GetComponent<MoveCoins>().StartWaitTime = Random.Range(0.1f, 0.8f);
-                }
+                GameManager.instance.CoinM.AddCoins(transform.position, (int)Mathf.Ceil(GetComponent<GiveMoney>().Money / 2.0f));
             }
 
             //if this metor doesn't shatter then just play the particle effect

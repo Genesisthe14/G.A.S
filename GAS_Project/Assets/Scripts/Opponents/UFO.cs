@@ -35,12 +35,14 @@ public class UFO : MonoBehaviour
         set { endPoints = value; }
     }
 
+    private Tween moveTween;
+
     private void Start()
     {
-        GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), speed, PathType.Linear, PathMode.Ignore)
+        moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), speed, PathType.Linear, PathMode.Ignore)
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
-            .OnComplete( () => DestroyUFO() );
+            .OnComplete( () => DestroyUFO(false) );
     }
 
     //Generates an array of way points the ufo should take
@@ -140,6 +142,7 @@ public class UFO : MonoBehaviour
             }
         }
 
+        if(moveTween != null && moveTween.target != null) moveTween.Kill();
 
         Destroy(gameObject);
     }
