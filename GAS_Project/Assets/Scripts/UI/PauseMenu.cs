@@ -57,9 +57,15 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void Crash()
+    {
+        pauseGame();
+        GameManager.instance.CurrentFuel = 0.0f;
+    }
+
     public void LoadMenu()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         isPaused = false;
 
         SelectionScreen.instance.EmptyBoosters();
@@ -84,7 +90,7 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartLevel()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         isPaused = false;
 
         PlayerData.instance.CurrentMoney = GameManager.instance.BeforeRun["currentMoney"];

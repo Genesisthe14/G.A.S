@@ -170,13 +170,13 @@ public class GameManager : MonoBehaviour
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
                 } else {
-                    //Debug.Log("Purple");
-                    fillColor.GetComponent<Image>().color = new Color32(159,0,158,255);
+                    //Debug.Log("red);
+                    fillColor.GetComponent<Image>().color = new Color32(222, 22, 22,255);
                 }
             }
             else
             {
-                fillColor.GetComponent<Image>().color = new Color32(159, 0, 158, 255);
+                fillColor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
 
             fuelBar.SetFuel((int)currentFuel);

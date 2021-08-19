@@ -8,6 +8,10 @@ public class StartCountdown : MonoBehaviour
     [Tooltip("Text that displays the countdown")]
     private Text countdownText;
 
+    [SerializeField]
+    [Tooltip("Raycast Blocker")]
+    private GameObject rayBlocker;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,6 +38,7 @@ public class StartCountdown : MonoBehaviour
         }
 
         countdownText.enabled = false;
+        rayBlocker.SetActive(false);
         GameManager.instance.Spawner.Spawn = true;
         GameManager.instance.ConsumeFuel = true;
     }

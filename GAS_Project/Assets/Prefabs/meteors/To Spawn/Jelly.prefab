@@ -122,6 +122,12 @@ MonoBehaviour:
   timeToBottom: 5
   attachTime: 5
   minVelocity: 10
+  rocketPositions:
+  - {x: -1.18, y: 1.44, z: 0}
+  - {x: -3.93, y: 2.25, z: 0}
+  - {x: -2.21, y: -5.08, z: 0}
+  - {x: 3.77, y: -4, z: 0}
+  - {x: 3.34, y: 1.55, z: 0}
 --- !u!60 &8568788514268988705
 PolygonCollider2D:
   m_ObjectHideFlags: 0
