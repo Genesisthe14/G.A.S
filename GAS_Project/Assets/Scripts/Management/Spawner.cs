@@ -159,7 +159,7 @@ public class Spawner : MonoBehaviour
             sumOpponentPropabilities += sp.SpawnWeight;
         }
 
-        GameObject meteorOb = GetObjectWithSpawnTag("meteor", normObjects).SpawnOb;
+        /*GameObject meteorOb = GetObjectWithSpawnTag("meteor", normObjects).SpawnOb;
         GameObject specialMeteorOb = GetObjectWithSpawnTag("specialMeteor", normObjects).SpawnOb;
         GameObject satelliteOb = GetObjectWithSpawnTag("satellite", normObjects).SpawnOb;
         GameObject ufoOb = GetObjectWithSpawnTag("ufo", opponents).SpawnOb;
@@ -174,7 +174,7 @@ public class Spawner : MonoBehaviour
             MakePoolObject(ufoOb, ufoQueue);
             MakePoolObject(jellyOb, jellyQueue);
             MakePoolObject(laserOb, laserQueue);
-        }
+        }*/
     }
 
     #region Object pooling
@@ -265,7 +265,7 @@ public class Spawner : MonoBehaviour
         {
             if (randomNorm < norm.SpawnWeight)
             {
-                spawnObject = norm.SpawnOb;
+                spawnObject = norm.SpawnOb;//
                 spawnTag = norm.SpawnTag;
                 break;
             }
