@@ -45,10 +45,6 @@ public class MeteorBehaviour : MonoBehaviour
     private GameObject coinPrefab;
 
     [SerializeField]
-    [Tooltip("How many coins to spawn")]
-    private int numCoinsToSpawn = 5;
-
-    [SerializeField]
     [Tooltip("ParticleSystem with the effect that should be played when the meteor doesn't shatter but is simply destroyed")]
     private GameObject particle = null;
 
