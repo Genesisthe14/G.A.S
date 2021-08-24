@@ -128,6 +128,7 @@ MonoBehaviour:
   - {x: -2.21, y: -5.08, z: 0}
   - {x: 3.77, y: -4, z: 0}
   - {x: 3.34, y: 1.55, z: 0}
+  particleObject: {fileID: 5187336158532253354, guid: 3b4228c032f7975429c187654b6c3502, type: 3}
 --- !u!60 &8568788514268988705
 PolygonCollider2D:
   m_ObjectHideFlags: 0

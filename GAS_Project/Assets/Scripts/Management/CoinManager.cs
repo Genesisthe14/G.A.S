@@ -12,7 +12,7 @@ public class CoinManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Target the coins are moving to")]
-    private Transform target;
+    private RectTransform target;
 
     [Header("Object pooling")]
     [SerializeField]
@@ -48,9 +48,25 @@ public class CoinManager : MonoBehaviour
 
     private void Awake()
     {
-        targetPosition = target.position;
+        targetPosition = ReturnMiddleRect(target);
 
         PrepareCoins();
+    }
+
+    private Vector3 ReturnMiddleRect(RectTransform rect)
+    {
+        Vector3 temp = Vector3.zero;
+        Vector3[] corners = new Vector3[4]; 
+        rect.GetWorldCorners(corners);
+
+        foreach (var item in corners)
+        {
+            temp += item;
+        }
+
+        temp.z = 0;
+
+        return temp /= corners.Length;
     }
 
     private void PrepareCoins()
