@@ -1,23 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("All Scenes this audio manager can exist in")]
-    private List<string> scenesExistIn;
+    [Tooltip("Whether the music instance should be destroyed")]
+    private bool destroyMusicInstance = false;
+
+    [SerializeField]
+    [Tooltip("Whether the music instance should be saved")]
+    private bool saveMusicInstance = false;
+
+    [SerializeField]
+    [Tooltip("Music instance")]
+    private GameObject musicInstance;
+
+    private static GameObject staticMusicInstance;
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += DoOnLoad;
+        DestroyBGMusic();
     }
 
-    private void DoOnLoad(Scene scene, LoadSceneMode mode)
+    private void DestroyBGMusic()
     {
-        if (!scenesExistIn.Contains(SceneManager.GetActiveScene().name)) Destroy(gameObject);
+        bool destroyedMusicInstance = false;
+        if (destroyMusicInstance && staticMusicInstance != null && musicInstance != null && staticMusicInstance != musicInstance)
+        {
+            destroyedMusicInstance = true;
+            Destroy(musicInstance);
+        }
 
-        DontDestroyOnLoad(gameObject);
+        if(destroyMusicInstance && !saveMusicInstance) Destroy(staticMusicInstance);
+
+        if (saveMusicInstance && !destroyedMusicInstance)
+        {
+            if(staticMusicInstance != null)
+            {
+                Destroy(staticMusicInstance);
+            }
+
+            musicInstance.transform.parent = null;
+            staticMusicInstance = musicInstance;
+            DontDestroyOnLoad(staticMusicInstance);
+        }
     }
 }

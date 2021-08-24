@@ -22,6 +22,10 @@ public class SpaceJelly : MonoBehaviour
     [Tooltip("Positions to put the jelly on on the rocket")]
     private Vector3[] rocketPositions;
 
+    [SerializeField]
+    [Tooltip("Particle object to spawn")]
+    private GameObject particleObject;
+
     //Object this jelly should follow
     private GameObject followObject;
     public GameObject FollowObject
@@ -119,6 +123,10 @@ public class SpaceJelly : MonoBehaviour
 
             DestroyJelly();
         }
+        else if (collision.gameObject.CompareTag("shield"))
+        {
+            DestroyJelly();
+        }
     }
 
     private void DestroyJelly()
@@ -133,6 +141,9 @@ public class SpaceJelly : MonoBehaviour
         }
 
         if (moveTween != null && moveTween.target != null) moveTween.Kill();
+
+        GameObject particle = Instantiate(particleObject);
+        particle.transform.position = gameObject.transform.position;
         Destroy(gameObject);
     }
 

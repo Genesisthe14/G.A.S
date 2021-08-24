@@ -34742,6 +34742,11 @@ RectTransform:
   m_AnchoredPosition: {x: 80.6145, y: 79.23047}
   m_SizeDelta: {x: -179.16357, y: 578.84766}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!1 &1008310823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3170890908505629271, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+  m_PrefabInstance: {fileID: 3170890908337079926}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1010500301
 GameObject:
   m_ObjectHideFlags: 0
@@ -76142,6 +76147,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 192320897321673445, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192320897321673445, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3170890907851318692, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -76189,6 +76202,30 @@ PrefabInstance:
     - target: {fileID: 3170890907851318694, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
       propertyPath: m_Name
       value: AudioSource
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170890907851318695, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: musicInstance
+      value: 
+      objectReference: {fileID: 1008310823}
+    - target: {fileID: 3170890907851318695, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: saveMusicInstance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170890907851318695, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: destroyMusicInstance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170890907851318695, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: dontDestoryObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170890907851318695, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: dontDestoryObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711958270498752606, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
