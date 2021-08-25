@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource source;
-    
-    [SerializeField]
     private GameObject pause;
     
     public Text pointsText;
@@ -34,7 +31,6 @@ public class GameOverUI : MonoBehaviour
         gameObject.SetActive(true);
         pause.SetActive(false);
 
-        source.Play();
         Time.timeScale = 0;
 
         int distance = (int)GameManager.instance.Distance;

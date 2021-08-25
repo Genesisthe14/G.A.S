@@ -22,6 +22,10 @@ public class SpaceJelly : MonoBehaviour
     [Tooltip("Positions to put the jelly on on the rocket")]
     private Vector3[] rocketPositions;
 
+    [SerializeField]
+    [Tooltip("Particle object to spawn")]
+    private GameObject particleObject;
+
     //Object this jelly should follow
     private GameObject followObject;
     public GameObject FollowObject
@@ -73,6 +77,14 @@ public class SpaceJelly : MonoBehaviour
     //Coroutine that slowly lowers the fuel of the player
     private Coroutine increaseFuelConsumption;
 
+    //AudioSource that plays the destroy sound
+    private AudioSource destroySound;
+    public AudioSource DestroySound
+    {
+        get { return destroySound; }
+        set { destroySound = value; }
+    }
+
     //Whether the jelly is on the Rocket or not
     private bool isOnRocket = false;
 
@@ -80,6 +92,13 @@ public class SpaceJelly : MonoBehaviour
     {
         rigBod = GetComponent<Rigidbody2D>();
         totalDistanceToCover = Mathf.Abs(transform.position.y - Despwan.YLimit);
+
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
     }
 
     private void Start()
@@ -87,6 +106,11 @@ public class SpaceJelly : MonoBehaviour
         moveTween = rigBod.DOMoveY(Despwan.YLimit, timeToBottom)
             .SetEase(Ease.Linear)
             .OnComplete(() => DestroyJelly());
+    }
+
+    private void StopSounds()
+    {
+        destroySound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -119,6 +143,10 @@ public class SpaceJelly : MonoBehaviour
 
             DestroyJelly();
         }
+        else if (collision.gameObject.CompareTag("shield"))
+        {
+            DestroyJelly();
+        }
     }
 
     private void DestroyJelly()
@@ -133,6 +161,11 @@ public class SpaceJelly : MonoBehaviour
         }
 
         if (moveTween != null && moveTween.target != null) moveTween.Kill();
+
+        GameObject particle = Instantiate(particleObject);
+        particle.transform.position = gameObject.transform.position;
+
+        destroySound.Play();
         Destroy(gameObject);
     }
 

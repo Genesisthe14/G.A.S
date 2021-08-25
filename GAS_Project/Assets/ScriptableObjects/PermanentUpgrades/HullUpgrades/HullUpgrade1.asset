@@ -16,5 +16,5 @@ MonoBehaviour:
   upgradeNum: 1
   isPermanentUpgrade: 1
   upgradeType: 4
-  upgradeName: Hull
+  upgradeName: Rocket Toughness
   price: 200

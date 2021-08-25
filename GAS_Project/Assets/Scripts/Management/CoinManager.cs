@@ -12,7 +12,15 @@ public class CoinManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Target the coins are moving to")]
-    private Transform target;
+    private RectTransform target;
+
+    [SerializeField]
+    [Tooltip("Coin collect sound prefab")]
+    private GameObject collectSoundPrefab;
+
+    [SerializeField]
+    [Tooltip("Parent for the audio prefabs")]
+    private GameObject audioParent;
 
     [Header("Object pooling")]
     [SerializeField]
@@ -46,11 +54,29 @@ public class CoinManager : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    private List<AudioSource> coinCollectSoundSources = new List<AudioSource>();
+
     private void Awake()
     {
-        targetPosition = target.position;
+        targetPosition = ReturnMiddleRect(target);
 
         PrepareCoins();
+    }
+
+    private Vector3 ReturnMiddleRect(RectTransform rect)
+    {
+        Vector3 temp = Vector3.zero;
+        Vector3[] corners = new Vector3[4]; 
+        rect.GetWorldCorners(corners);
+
+        foreach (var item in corners)
+        {
+            temp += item;
+        }
+
+        temp.z = 0;
+
+        return temp /= corners.Length;
     }
 
     private void PrepareCoins()
@@ -62,6 +88,11 @@ public class CoinManager : MonoBehaviour
             coin.SetActive(false);
             coin.transform.parent = transform;
             coinsQueue.Enqueue(coin);
+
+            GameObject temp = Instantiate(collectSoundPrefab);
+            temp.transform.position = targetPosition;
+            temp.transform.parent = audioParent.transform;
+            coinCollectSoundSources.Add(temp.GetComponent<AudioSource>());
         }
     }
 
@@ -92,6 +123,8 @@ public class CoinManager : MonoBehaviour
                 {
                     coin.SetActive(false);
                     coinsQueue.Enqueue(coin);
+
+                    coinCollectSoundSources[i].Play();
 
                     PlayerData.instance.CurrentMoney++;
                     GameManager.instance.MoneyText.text = "" + PlayerData.instance.CurrentMoney;

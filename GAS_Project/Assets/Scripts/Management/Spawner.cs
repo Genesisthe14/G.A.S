@@ -63,6 +63,10 @@ public class Spawner : MonoBehaviour
         get { return velocityRange; }
     }
 
+    [SerializeField]
+    [Tooltip("AudioSources for the objects spawned")]
+    private SerializableDictionary<string, AudioSource> audioSourcesForSpawn;
+
     //Sum of all category propabilities
     private float sumCatPropabilities = 0.0f;
 
@@ -277,6 +281,7 @@ public class Spawner : MonoBehaviour
         Vector2 spawnPos = new Vector2(Random.Range(xSpawn[0], xSpawn[1]), Random.Range(ySpawn[0], ySpawn[1]));
 
         GameObject temp = Instantiate(spawnObject, spawnPos, spawnObject.transform.rotation);
+        AssignAudioSource(temp, spawnTag);
 
         //generate the velocity of the spawn object based on the velocity range
         //and up the velocity if the warp is active
@@ -292,6 +297,24 @@ public class Spawner : MonoBehaviour
         invokeTime -= RocketBehaviour.IsWarpActive ? 1.0f : 0.0f;
 
         yield return new WaitForSecondsRealtime(invokeTime < 0.0f ? 0.0f : invokeTime);
+    }
+
+    private void AssignAudioSource(GameObject spawn, string spawnTag)
+    {
+        switch (spawnTag)
+        {
+            case "meteor":
+            case "specialMeteor":
+            case "satellite":
+                spawn.GetComponent<MeteorBehaviour>().DestroySound = audioSourcesForSpawn[spawnTag];
+                return;
+            case "ufo":
+                spawn.GetComponent<UFO>().DestroySound = audioSourcesForSpawn[spawnTag];
+                return;
+            case "jelly":
+                spawn.GetComponent<SpaceJelly>().DestroySound = audioSourcesForSpawn[spawnTag];
+                return;
+        }
     }
 
     private GameObject GetSpawnObject(string spawnTag)
@@ -325,12 +348,14 @@ public class Spawner : MonoBehaviour
     {
         float randomOP = Random.Range(0.0f, sumOpponentPropabilities - 1.0f);
         GameObject opponent = null;
+        string spawnTag = "";
 
         foreach (SpawnObject sp in opponents)
         {
             if (randomOP < sp.SpawnWeight)
             {
-                opponent = sp.SpawnOb;
+                opponent = sp.SpawnOb;//
+                spawnTag = sp.SpawnTag;
                 break;
             }
 
@@ -340,8 +365,9 @@ public class Spawner : MonoBehaviour
         currentAmountOpponents++;
 
         GameObject spawnedOb = Instantiate(opponent);
+        AssignAudioSource(spawnedOb, spawnTag);
 
-        if(spawnedOb.GetComponent<UFO>() != null)
+        if (spawnedOb.GetComponent<UFO>() != null)
         {
             UFO ufo = spawnedOb.GetComponent<UFO>();
 
@@ -372,7 +398,7 @@ public class Spawner : MonoBehaviour
     }
 
     [System.Serializable]
-    private struct SpawnObject
+    private class SpawnObject
     {
         [SerializeField]
         [Tooltip("Relative propability this spawnObject should spawn with")]

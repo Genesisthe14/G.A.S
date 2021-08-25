@@ -21,6 +21,14 @@ public class UFO : MonoBehaviour
     [Tooltip("GameObject with a particleSystem which is played when the Ufo is destroyed")]
     private GameObject particle = null;
 
+    //AudioSource that plays the destroy sound
+    private AudioSource destroySound;
+    public AudioSource DestroySound
+    {
+        get { return destroySound; }
+        set { destroySound = value; }
+    }
+
     //Points that are used for random movement
     private List<Transform> wayPoints = null;
     public List<Transform> WayPoints
@@ -37,12 +45,27 @@ public class UFO : MonoBehaviour
 
     private Tween moveTween;
 
+    private void Awake()
+    {
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
     private void Start()
     {
         moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), speed, PathType.Linear, PathMode.Ignore)
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
             .OnComplete( () => DestroyUFO(false) );
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
+    }
+
+    private void StopSounds()
+    {
+        destroySound.Stop();
     }
 
     //Generates an array of way points the ufo should take
@@ -143,6 +166,8 @@ public class UFO : MonoBehaviour
         }
 
         if(moveTween != null && moveTween.target != null) moveTween.Kill();
+
+        destroySound.Play();
 
         Destroy(gameObject);
     }

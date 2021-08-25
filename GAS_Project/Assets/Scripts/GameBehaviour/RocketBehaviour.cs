@@ -28,8 +28,39 @@ public class RocketBehaviour : MonoBehaviour
 
 
 
+    [SerializeField]
+    [Tooltip("Reference to the shield buff")]
+    private GameObject shield;
 
-    
+    [SerializeField]
+    [Tooltip("Aura shown when Headstart is active")]
+    private GameObject WarpAura;
+
+    [SerializeField]
+    [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
+    private GameObject damageScreen;
+
+    [SerializeField]
+    [Tooltip("Dictionary of damage dealt for each tag")]
+    private SerializableDictionary<string, float> damageDict;
+
+    [Header("Audio")]
+    [SerializeField]
+    [Tooltip("AudioSource for rocket is hit sound")]
+    private AudioSource rocketIsHit;
+
+    [SerializeField]
+    [Tooltip("Audiosource for the laser hit sound")]
+    private AudioSource laserHitSound;
+    public AudioSource LaserHitSound
+    {
+        get { return laserHitSound; }
+    }
+
+    [SerializeField]
+    [Tooltip("Audiosource for the hyperjump")]
+    private AudioSource hyperjumpSound;
+
     //Number of headstarts the player has
     private static int numOfWarps = 0;
     public static int NumOfWarps
@@ -79,22 +110,6 @@ public class RocketBehaviour : MonoBehaviour
         set { leakingFuel = value; }
     }
 
-    [SerializeField]
-    [Tooltip("Reference to the shield buff")]
-    private GameObject shield;
-
-    [SerializeField]
-    [Tooltip("Aura shown when Headstart is active")]
-    private GameObject WarpAura;
-
-    [SerializeField]
-    [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
-    private GameObject damageScreen;
-
-    [SerializeField]
-    [Tooltip("Dictionary of damage dealt for each tag")]
-    private SerializableDictionary<string, float> damageDict;
-
     //Attribute that stores the ease warp coroutine
     private Coroutine easeWarp = null;
 
@@ -107,12 +122,22 @@ public class RocketBehaviour : MonoBehaviour
         OnWarpActiveEvent += OnWarpActive;
 
         damageDict.Add("UFO", GameManager.StartFuel / 100.0f * 10.0f);
+
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void StopSounds()
+    {
+        rocketIsHit.Stop();
+        laserHitSound.Stop();
+        hyperjumpSound.Stop();
     }
 
     private void OnDestroy()
     {
         //unsubscribe from the OnWarpActive Event
         OnWarpActiveEvent -= OnWarpActive;
+        GameManager.instance.GameOverEvent -= StopSounds;
     }
 
     //Function that activates when the active state of the warp is supposed to change
@@ -165,7 +190,9 @@ public class RocketBehaviour : MonoBehaviour
         //Start to accelerate the rocket to simulate warp
         if(easeWarp != null)
             StopCoroutine(easeWarp);
-        
+
+        hyperjumpSound.Play();
+
         easeWarp = StartCoroutine(EaseWarp());
 
         Debug.Log("Headstart activated");
@@ -225,23 +252,19 @@ public class RocketBehaviour : MonoBehaviour
         Collision(collision);
     }
 
+    //What happens on collision
     private void Collision(Collision2D collision)
     {
         //if the rocket hits a meteor then substract fuel
-        if (DamageKeysContainValue(collision.gameObject.tag))
+        if (damageDict.Keys.Contains(collision.gameObject.tag))
         {
             //if the shield or the warp is active then don't take damage
             if (shield.activeInHierarchy || isWarpActive) return;
 
             GameManager.instance.LowerFuel(damageDict[collision.gameObject.tag] / 100.0f * leakingFuel);
+            rocketIsHit.Play();
             Damage();
         }
-    }
-
-    //Whether the keys of the damage dict contain the given value
-    private bool DamageKeysContainValue(string testKey)
-    {
-        return damageDict.Keys.Contains(testKey);
     }
 
     //Function that changes the alpha of the damage screen
@@ -267,6 +290,7 @@ public class RocketBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Laser")) laserHitSound.Play();
         InTrigger(collision);
     }
 

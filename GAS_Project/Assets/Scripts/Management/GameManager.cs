@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -119,9 +120,23 @@ public class GameManager : MonoBehaviour
     [Tooltip("Object representing the Shield")]
     private GameObject shieldObj;
 
-    public ParticleSystem particleBar;
+    [Header("Audio")]
+    [SerializeField]
+    [Tooltip("AudioSource Crash sound")]
+    private AudioSource crashSound;
 
-    
+    [SerializeField]
+    [Tooltip("AudioSource fuel low sound")]
+    private AudioSource fuelLowSound;
+
+    [SerializeField]
+    [Tooltip("AudioSource use refuel sound")]
+    private AudioSource useRefuelSound;
+
+    [SerializeField]
+    [Tooltip("AudioSource use shield sound")]
+    private AudioSource useShieldSound;
+
     //instance of the GameManager for the singleton
     private static GameManager _instance;
     public static GameManager instance
@@ -158,7 +173,7 @@ public class GameManager : MonoBehaviour
 
             if(currentFuel <= 0.0f)
             {
-                isGameOver = true;
+                IsGameOver = true;
                 gameOverObject.GameOver();
                 currentFuel = 0.0f;
             }
@@ -173,10 +188,13 @@ public class GameManager : MonoBehaviour
                     //Debug.Log("red);
                     fillColor.GetComponent<Image>().color = new Color32(222, 22, 22,255);
                 }
+
+                if (!fuelLowSound.isPlaying && !isGameOver) fuelLowSound.Play();
             }
             else
             {
                 fillColor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                if (fuelLowSound.isPlaying) fuelLowSound.Stop();
             }
 
             fuelBar.SetFuel((int)currentFuel);
@@ -240,6 +258,29 @@ public class GameManager : MonoBehaviour
 
     //Whether the player has lost or not
     private bool isGameOver = false;
+    public bool IsGameOver
+    {
+        get { return isGameOver; }
+        set 
+        { 
+            isGameOver = value;
+
+            if (isGameOver)
+            {
+                crashSound.Play();
+                if (gameOverEvent != null) gameOverEvent.Invoke();
+            }
+
+        }
+    }
+
+    //Event that is triggered when isGameOver is set to true
+    private Action gameOverEvent = null;
+    public Action GameOverEvent
+    {
+        get { return gameOverEvent; }
+        set { gameOverEvent = value; }
+    }
 
     //if the player is in a run
     private static bool inRun = false;
@@ -252,6 +293,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _instance = this;
+        
         //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
         List<string> eventMask = new List<string>();
 
@@ -268,11 +311,12 @@ public class GameManager : MonoBehaviour
         beforeRun.Add("numShields", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS]);
         beforeRun.Add("refuels", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL]);
         beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
+
+        GameOverEvent += StopSounds;
     }
 
     private void Start()
     {
-        _instance = this;
         inRun = true;
 
         currentFuel = startFuel;
@@ -300,11 +344,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RaiseDistance());
     }
 
+    private void StopSounds()
+    {
+        fuelLowSound.Stop();
+        useRefuelSound.Stop();
+        useShieldSound.Stop();
+    }
+
     //Playes the Particleeffect stored in particleBar
-    private void PlayParticle() 
+    /*private void PlayParticle() 
     {
         particleBar.Play();
-    }
+    }*/
 
     //Uses substracts fuel from the tank in height of lowerRate
     private IEnumerator UseFuel()
@@ -336,11 +387,11 @@ public class GameManager : MonoBehaviour
             //the warp is active or not
             yield return new WaitForSecondsRealtime(RocketBehaviour.IsWarpActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
 
-            if(distance >= 100 & !particleBar.isPlaying)
+            /*if(distance >= 100 & !particleBar.isPlaying)
             {
                 distanceText.color = Color.yellow;
                 PlayParticle();
-            }
+            }*/
 
             //Raise distance and adjust distance text
             if(!isGameOver)Distance += mPerSec;
@@ -435,6 +486,7 @@ public class GameManager : MonoBehaviour
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.REFUEL);
 
         CurrentFuel += startFuel / 100.0f * refuelPercent;
+        useRefuelSound.Play();
         Debug.Log("Refueled");
     }
 
@@ -454,6 +506,7 @@ public class GameManager : MonoBehaviour
 
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.NUMSHIELDS);
 
+        useShieldSound.Play();
         shieldObj.SetActive(true);
     }
 
