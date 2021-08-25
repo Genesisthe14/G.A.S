@@ -23,11 +23,32 @@ public class LaserGate : MonoBehaviour
     //Tween that saves the movement
     private Tween moveTween;
 
+    //AudioSource playing the laser move sound
+    private AudioSource laserMoveSound;
+
+    private void Awake()
+    {
+        laserMoveSound = GetComponent<AudioSource>();
+
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
+    }
+
     private void Start()
     {
+        laserMoveSound.Play();
         moveTween = GetComponent<Rigidbody2D>().DOMoveY(movementLimit, timeTillBottom)
             .SetEase(Ease.Linear)
             .OnComplete(() => DestroyLaser());
+    }
+
+    private void StopSounds()
+    {
+        laserMoveSound.Stop();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,6 +68,7 @@ public class LaserGate : MonoBehaviour
         }
     }
 
+    //What happens when the rocket is touching the laser gate
     private void OnRocketTouching(RocketControls controls)
     {
         if (!controls.CanControl || !ableToFreeze) return;
@@ -55,13 +77,16 @@ public class LaserGate : MonoBehaviour
         controls.CanControl = false;
         ableToFreeze = false;
 
-        StartCoroutine(controls.FreezeCountDown(freezeTime));
+        controls.StartFreezeCountdown(freezeTime);
     }
 
+    //Destroys the laser
     private void DestroyLaser()
     {
         GameManager.instance.Spawner.CurrentAmountOpponents--;
         if (moveTween != null && moveTween.target != null) moveTween.Kill();
+
+        laserMoveSound.Stop();
 
         Destroy(gameObject);
     }

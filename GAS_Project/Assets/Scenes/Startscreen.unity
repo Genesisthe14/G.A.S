@@ -10987,7 +10987,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
-  kind: 2
 --- !u!1 &323499497
 GameObject:
   m_ObjectHideFlags: 0
@@ -11219,7 +11218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
-  kind: 1
 --- !u!1 &326368343
 GameObject:
   m_ObjectHideFlags: 0
@@ -23085,7 +23083,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
-  kind: 0
 --- !u!1 &693164255
 GameObject:
   m_ObjectHideFlags: 0
@@ -48223,7 +48220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1461840409
 RectTransform:
   m_ObjectHideFlags: 0

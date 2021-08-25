@@ -267,7 +267,6 @@ public class GameManager : MonoBehaviour
 
             if (isGameOver)
             {
-                fuelLowSound.Stop();
                 crashSound.Play();
                 if (gameOverEvent != null) gameOverEvent.Invoke();
             }
@@ -276,10 +275,11 @@ public class GameManager : MonoBehaviour
     }
 
     //Event that is triggered when isGameOver is set to true
-    private Action gameOverEvent;
+    private Action gameOverEvent = null;
     public Action GameOverEvent
     {
         get { return gameOverEvent; }
+        set { gameOverEvent = value; }
     }
 
     //if the player is in a run
@@ -293,6 +293,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _instance = this;
+        
         //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
         List<string> eventMask = new List<string>();
 
@@ -309,11 +311,12 @@ public class GameManager : MonoBehaviour
         beforeRun.Add("numShields", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.NUMSHIELDS]);
         beforeRun.Add("refuels", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.REFUEL]);
         beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
+
+        GameOverEvent += StopSounds;
     }
 
     private void Start()
     {
-        _instance = this;
         inRun = true;
 
         currentFuel = startFuel;
@@ -339,6 +342,13 @@ public class GameManager : MonoBehaviour
         //Start using fuel and raising distance traveled
         StartCoroutine(UseFuel());
         StartCoroutine(RaiseDistance());
+    }
+
+    private void StopSounds()
+    {
+        fuelLowSound.Stop();
+        useRefuelSound.Stop();
+        useShieldSound.Stop();
     }
 
     //Playes the Particleeffect stored in particleBar

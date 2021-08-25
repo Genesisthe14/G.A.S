@@ -16,5 +16,5 @@ MonoBehaviour:
   upgradeNum: 3
   isPermanentUpgrade: 1
   upgradeType: 8
-  upgradeName: Refuel Efficiency
+  upgradeName: Refuel Upgrade
   price: 1000

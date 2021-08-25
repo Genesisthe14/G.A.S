@@ -45,12 +45,27 @@ public class UFO : MonoBehaviour
 
     private Tween moveTween;
 
+    private void Awake()
+    {
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
     private void Start()
     {
         moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), speed, PathType.Linear, PathMode.Ignore)
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
             .OnComplete( () => DestroyUFO(false) );
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
+    }
+
+    private void StopSounds()
+    {
+        destroySound.Stop();
     }
 
     //Generates an array of way points the ufo should take

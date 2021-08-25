@@ -15,8 +15,12 @@ public class CoinManager : MonoBehaviour
     private RectTransform target;
 
     [SerializeField]
-    [Tooltip("Coin collect sound")]
-    private AudioSource collectSound;
+    [Tooltip("Coin collect sound prefab")]
+    private GameObject collectSoundPrefab;
+
+    [SerializeField]
+    [Tooltip("Parent for the audio prefabs")]
+    private GameObject audioParent;
 
     [Header("Object pooling")]
     [SerializeField]
@@ -50,6 +54,8 @@ public class CoinManager : MonoBehaviour
 
     private Vector3 targetPosition;
 
+    private List<AudioSource> coinCollectSoundSources = new List<AudioSource>();
+
     private void Awake()
     {
         targetPosition = ReturnMiddleRect(target);
@@ -82,6 +88,11 @@ public class CoinManager : MonoBehaviour
             coin.SetActive(false);
             coin.transform.parent = transform;
             coinsQueue.Enqueue(coin);
+
+            GameObject temp = Instantiate(collectSoundPrefab);
+            temp.transform.position = targetPosition;
+            temp.transform.parent = audioParent.transform;
+            coinCollectSoundSources.Add(temp.GetComponent<AudioSource>());
         }
     }
 
@@ -113,7 +124,7 @@ public class CoinManager : MonoBehaviour
                     coin.SetActive(false);
                     coinsQueue.Enqueue(coin);
 
-                    collectSound.Play();
+                    coinCollectSoundSources[i].Play();
 
                     PlayerData.instance.CurrentMoney++;
                     GameManager.instance.MoneyText.text = "" + PlayerData.instance.CurrentMoney;

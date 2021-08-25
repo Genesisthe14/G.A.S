@@ -114,14 +114,16 @@ public class PlayerData : MonoBehaviour
     {
         if (masterSlider == null) return;
 
+        //initialize volume with saved values
         SetVolume("Master", masterSlider.value);
         SetVolume("Effects", effectsSlider.value);
         SetVolume("Music", musicSlider.value);
     }
 
-    private void SetVolume(string paraName, float value)
+    //Set the volume of the given group to given value
+    private void SetVolume(string groupName, float value)
     {
-        masterMixer.SetFloat(paraName, Mathf.Log10(value) * 20);
+        masterMixer.SetFloat(groupName, Mathf.Log10(value) * 20);
     }
 
     static bool OnApplicationQuitting()

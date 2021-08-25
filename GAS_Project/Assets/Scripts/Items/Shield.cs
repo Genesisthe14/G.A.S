@@ -35,9 +35,24 @@ public class Shield : BuffItem
         }
     }
 
+    private void Awake()
+    {
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
+    }
+
     private void Start()
     {
         currentHitPoints = baseHitpoints;
+    }
+
+    private void StopSounds()
+    {
+        shieldHitSound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

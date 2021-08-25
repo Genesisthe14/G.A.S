@@ -64,6 +64,12 @@ public class MeteorBehaviour : MonoBehaviour
     private void Awake()
     {
         staticMinVelocity = minVelocity;
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void StopSounds()
+    {
+        destroySound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,6 +94,8 @@ public class MeteorBehaviour : MonoBehaviour
             Destroy(gameObject.transform.parent.gameObject);
             return;
         }
+
+        GameManager.instance.GameOverEvent -= StopSounds;
     }
 
     //Start playing the particle effect and disable 
