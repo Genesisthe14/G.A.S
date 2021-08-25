@@ -27,8 +27,12 @@ public class SelectionScreen : MonoBehaviour
     private ShopItem[] allBoosterShopItems;
 
     [SerializeField]
-    [Tooltip("DIctionary of boosters and their Text object that displays how many the player has of this boost")]
-    private SerializableDictionary<Upgrade.UpgradeTypes, Text> boosterAmountTexts;
+    [Tooltip("Dictionary for booster amounts in first booster slot")]
+    private SerializableDictionary<int, GameObject> firstSlotLevels;
+
+    [SerializeField]
+    [Tooltip("Dictionary for booster amounts in second booster slot")]
+    private SerializableDictionary<int, GameObject> secondSlotLevels;
 
     [SerializeField]
     [Tooltip("Total Coins Text")]
@@ -71,6 +75,9 @@ public class SelectionScreen : MonoBehaviour
         get { return _instance; }
     }
 
+    //List of booster slot level dictionaries
+    private List<SerializableDictionary<int, GameObject>> slotLevelList = new List<SerializableDictionary<int, GameObject>>();
+
     private void Awake()
     {
         _instance = this;
@@ -85,6 +92,9 @@ public class SelectionScreen : MonoBehaviour
 
         slotIcons[0][boostersTaken[0]].SetActive(true);
         slotIcons[1][boostersTaken[1]].SetActive(true);
+
+        slotLevelList.Add(firstSlotLevels);
+        slotLevelList.Add(secondSlotLevels);
     }
 
     private void OnEnable()
@@ -150,8 +160,14 @@ public class SelectionScreen : MonoBehaviour
         //iterate over all shop items/ booster items to update their individual appearance
         foreach (ShopItem shop in allBoosterShopItems)
         {
-            boosterAmountTexts[shop.Item.UpgradeType].text = "" + PlayerData.instance.TemporaryItemsOwned[shop.Item.UpgradeType];
-            
+            for (int i = 0; i < boostersTaken.Length; i++)
+            {
+                if (boostersTaken[i] == Upgrade.UpgradeTypes.NONE) continue;
+                
+                int numberOfBoosters = PlayerData.instance.TemporaryItemsOwned[boostersTaken[i]];
+                slotLevelList[i][numberOfBoosters].SetActive(true);
+            }
+
             //if the price of the item is bigger than the amount of money the player currently has
             //then disable the buy button for this item
             if(shop.Item.Price > PlayerData.instance.CurrentMoney)
@@ -169,6 +185,7 @@ public class SelectionScreen : MonoBehaviour
                 //if the type of the shop item is one of the types the
                 //player has already bought then set the buy button of
                 //the shop item to active
+
                 foreach(Upgrade.UpgradeTypes type in boostersTaken)
                 {
                     if (type == shop.Item.UpgradeType)
