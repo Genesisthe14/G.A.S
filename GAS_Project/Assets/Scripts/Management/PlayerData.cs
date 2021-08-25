@@ -1,10 +1,44 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 //Class that contains most value affect the player directly
 //like the amount of money he owns or what items and upgrádes
 
 public class PlayerData : MonoBehaviour
 {
+    [SerializeField]
+    [Tooltip("Master mixer")]
+    private AudioMixer masterMixer;
+    public AudioMixer MasterMixer
+    {
+        get { return masterMixer; }
+    }
+
+    [SerializeField]
+    [Tooltip("Master slider")]
+    private Slider masterSlider;
+    public Slider MasterSlider
+    {
+        get { return masterSlider; }
+    }
+
+    [SerializeField]
+    [Tooltip("Effects slider")]
+    private Slider effectsSlider;
+    public Slider EffectsSlider
+    {
+        get { return effectsSlider; }
+    }
+
+    [SerializeField]
+    [Tooltip("Music slider")]
+    private Slider musicSlider;
+    public Slider MusicSlider
+    {
+        get { return musicSlider; }
+    }
+
     //instance of player data
     private static PlayerData _instance = null;
     public static PlayerData instance
@@ -74,6 +108,20 @@ public class PlayerData : MonoBehaviour
         }
 
         Application.wantsToQuit += OnApplicationQuitting;
+    }
+
+    private void Start()
+    {
+        if (masterSlider == null) return;
+
+        SetVolume("Master", masterSlider.value);
+        SetVolume("Effects", effectsSlider.value);
+        SetVolume("Music", musicSlider.value);
+    }
+
+    private void SetVolume(string paraName, float value)
+    {
+        masterMixer.SetFloat(paraName, Mathf.Log10(value) * 20);
     }
 
     static bool OnApplicationQuitting()

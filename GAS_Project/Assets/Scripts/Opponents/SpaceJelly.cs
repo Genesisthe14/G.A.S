@@ -77,6 +77,14 @@ public class SpaceJelly : MonoBehaviour
     //Coroutine that slowly lowers the fuel of the player
     private Coroutine increaseFuelConsumption;
 
+    //AudioSource that plays the destroy sound
+    private AudioSource destroySound;
+    public AudioSource DestroySound
+    {
+        get { return destroySound; }
+        set { destroySound = value; }
+    }
+
     //Whether the jelly is on the Rocket or not
     private bool isOnRocket = false;
 
@@ -144,6 +152,8 @@ public class SpaceJelly : MonoBehaviour
 
         GameObject particle = Instantiate(particleObject);
         particle.transform.position = gameObject.transform.position;
+
+        destroySound.Play();
         Destroy(gameObject);
     }
 

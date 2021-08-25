@@ -47,6 +47,15 @@ public class SaveData
         floatSaveData.Add("refuelAmount", GameManager.RefuelPercent);
         floatSaveData.Add("headstartLength", GameManager.HeadstartLength);
 
+        PlayerData.instance.MasterMixer.GetFloat("Master", out float masterVolume);
+        floatSaveData.Add("masterVolume", masterVolume);
+
+        PlayerData.instance.MasterMixer.GetFloat("Effects", out float effectsVolume);
+        floatSaveData.Add("effectsVolume", effectsVolume);
+
+        PlayerData.instance.MasterMixer.GetFloat("Music", out float musicVolume);
+        floatSaveData.Add("musicVolume", musicVolume);
+
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
         temporaryItemsOwned = PlayerData.instance.TemporaryItemsOwned;
     }
@@ -68,5 +77,12 @@ public class SaveData
         GameManager.StartFuel = floatSaveData["fuelLevel"];
         GameManager.RefuelPercent = floatSaveData["refuelAmount"];
         GameManager.HeadstartLength = floatSaveData["headstartLength"];
+
+        if(PlayerData.instance.MasterSlider != null)
+        {
+            PlayerData.instance.MasterSlider.value = Mathf.Pow(10, floatSaveData["masterVolume"] / 20);
+            PlayerData.instance.EffectsSlider.value = Mathf.Pow(10, floatSaveData["effectsVolume"] / 20);
+            PlayerData.instance.MusicSlider.value = Mathf.Pow(10, floatSaveData["musicVolume"] / 20);
+        }
     }
 }

@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 
 public class RopeSFX : MonoBehaviour
 {
-    public PlayableDirector soundeffect;
+    [SerializeField]
+    [Tooltip("Sound effect for swinging the detructor")]
+    private AudioSource soundeffect;
+
+    [SerializeField]
+    [Tooltip("Minimum velocity to play the sound at")]
+    private float minVelocity = 0.7f;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (GetComponent<Rigidbody2D>().velocity.magnitude > 0.7)
+        if (GetComponent<Rigidbody2D>().velocity.magnitude >= minVelocity && !soundeffect.isPlaying)
         {
             soundeffect.Play();            
         }
-        else
+        else if((GetComponent<Rigidbody2D>().velocity.magnitude < minVelocity && soundeffect.isPlaying) || GameManager.instance.IsGameOver)
         {
             soundeffect.Stop();
         }

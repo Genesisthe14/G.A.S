@@ -39,14 +39,6 @@ public class LaserGate : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("rocket"))
-        {
-            OnRocketTouching(collision.gameObject.GetComponent<RocketControls>());
-        }
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("rocket"))

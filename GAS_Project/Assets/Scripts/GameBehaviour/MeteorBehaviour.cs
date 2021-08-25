@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 //Class the determines the behaviour of the meteors in the scene
 
 public class MeteorBehaviour : MonoBehaviour
 {
-    [Tooltip("PlayableDircetor that plays the explosion sound")]
-    public PlayableDirector explosionSound;
+    //AudioSource that plays the destroy sound
+    private AudioSource destroySound;
+    public AudioSource DestroySound
+    {
+        get { return destroySound; }
+        set { destroySound = value; }
+    }
 
+    [Header("Behaviour")]
     [SerializeField]
     [Tooltip("Does the meteor shatter when hit or is it destroyed immediately")]
     private bool shatters = false;
@@ -95,7 +100,7 @@ public class MeteorBehaviour : MonoBehaviour
             particleOb.GetComponent<ParticleSystem>().Play();
         }
 
-        explosionSound.Play();
+        destroySound.Play();
         
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().simulated = false;
@@ -172,8 +177,9 @@ public class MeteorBehaviour : MonoBehaviour
 
             foreach (GameObject part in meteorParts)
             {
-                //if(part.GetComponent<MeteorBehaviour>() != null) part.GetComponent<MeteorBehaviour>().SubstractFromTotalObjects = false;
                 Vector2 dir = directions[Random.Range(0, 4)];
+
+                if(!CompareTag("satellite")) part.GetComponent<MeteorBehaviour>().DestroySound = destroySound;
 
                 //add impulse to the pieces of the shattered version
                 Vector2 forceVec = dir * force;

@@ -28,7 +28,25 @@ public class RocketBehaviour : MonoBehaviour
 
 
 
+    [SerializeField]
+    [Tooltip("Reference to the shield buff")]
+    private GameObject shield;
 
+    [SerializeField]
+    [Tooltip("Aura shown when Headstart is active")]
+    private GameObject WarpAura;
+
+    [SerializeField]
+    [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
+    private GameObject damageScreen;
+
+    [SerializeField]
+    [Tooltip("Dictionary of damage dealt for each tag")]
+    private SerializableDictionary<string, float> damageDict;
+
+    [SerializeField]
+    [Tooltip("AudioSource for rocket is hit sound")]
+    private AudioSource rocketIsHit;
     
     //Number of headstarts the player has
     private static int numOfWarps = 0;
@@ -78,22 +96,6 @@ public class RocketBehaviour : MonoBehaviour
         get { return leakingFuel; }
         set { leakingFuel = value; }
     }
-
-    [SerializeField]
-    [Tooltip("Reference to the shield buff")]
-    private GameObject shield;
-
-    [SerializeField]
-    [Tooltip("Aura shown when Headstart is active")]
-    private GameObject WarpAura;
-
-    [SerializeField]
-    [Tooltip("Screen that is displayed for a short time when the rocket takes damage")]
-    private GameObject damageScreen;
-
-    [SerializeField]
-    [Tooltip("Dictionary of damage dealt for each tag")]
-    private SerializableDictionary<string, float> damageDict;
 
     //Attribute that stores the ease warp coroutine
     private Coroutine easeWarp = null;
@@ -234,6 +236,7 @@ public class RocketBehaviour : MonoBehaviour
             if (shield.activeInHierarchy || isWarpActive) return;
 
             GameManager.instance.LowerFuel(damageDict[collision.gameObject.tag] / 100.0f * leakingFuel);
+            rocketIsHit.Play();
             Damage();
         }
     }

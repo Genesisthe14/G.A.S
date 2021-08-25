@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class Shield : BuffItem
 {
+    [SerializeField]
+    [Tooltip("Tags of objects to collide with")]
+    private List<string> collideTags;
+
+    [SerializeField]
+    [Tooltip("Shield hit sound")]
+    private AudioSource shieldHitSound;
+    
     //Basis hit points the shield can take
     public static int baseHitpoints = 1;
     
@@ -35,9 +43,10 @@ public class Shield : BuffItem
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //If a meteor hits the shield substract a hit point
-        if (collision.gameObject.CompareTag("meteor"))
+        if (collideTags.Contains(collision.gameObject.tag))
         {
             CurrentHitPoints--;
+            shieldHitSound.Play();
         }
     }
 
