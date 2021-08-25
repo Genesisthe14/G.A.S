@@ -19657,7 +19657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.4934082, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 756.2759, y: 177.21875}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &3337844111013032607
@@ -20597,7 +20597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.37741292}
   m_AnchorMax: {x: 1, y: 0.37741292}
-  m_AnchoredPosition: {x: 235.12988, y: 0}
+  m_AnchoredPosition: {x: 235.12988, y: 22.277}
   m_SizeDelta: {x: -487.74, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &4266427934739962794
@@ -21659,8 +21659,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5
@@ -22979,7 +22979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.4933472, y: 0}
+  m_AnchoredPosition: {x: 0.000061035156, y: -16}
   m_SizeDelta: {x: 756.2759, y: 177.21875}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6576509010959214664
@@ -25239,8 +25239,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5
@@ -25552,8 +25552,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5
