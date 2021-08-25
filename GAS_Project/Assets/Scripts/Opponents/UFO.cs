@@ -21,6 +21,14 @@ public class UFO : MonoBehaviour
     [Tooltip("GameObject with a particleSystem which is played when the Ufo is destroyed")]
     private GameObject particle = null;
 
+    //AudioSource that plays the destroy sound
+    private AudioSource destroySound;
+    public AudioSource DestroySound
+    {
+        get { return destroySound; }
+        set { destroySound = value; }
+    }
+
     //Points that are used for random movement
     private List<Transform> wayPoints = null;
     public List<Transform> WayPoints
@@ -143,6 +151,8 @@ public class UFO : MonoBehaviour
         }
 
         if(moveTween != null && moveTween.target != null) moveTween.Kill();
+
+        destroySound.Play();
 
         Destroy(gameObject);
     }

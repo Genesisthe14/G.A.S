@@ -14,6 +14,10 @@ public class CoinManager : MonoBehaviour
     [Tooltip("Target the coins are moving to")]
     private RectTransform target;
 
+    [SerializeField]
+    [Tooltip("Coin collect sound")]
+    private AudioSource collectSound;
+
     [Header("Object pooling")]
     [SerializeField]
     [Tooltip("Maximum amount of coins that can occur")]
@@ -108,6 +112,8 @@ public class CoinManager : MonoBehaviour
                 {
                     coin.SetActive(false);
                     coinsQueue.Enqueue(coin);
+
+                    collectSound.Play();
 
                     PlayerData.instance.CurrentMoney++;
                     GameManager.instance.MoneyText.text = "" + PlayerData.instance.CurrentMoney;

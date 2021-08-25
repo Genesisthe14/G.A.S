@@ -7025,6 +7025,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c4dcde8bf25bf49b8984e1939a048f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masterMixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
+  masterSlider: {fileID: 692397748}
+  effectsSlider: {fileID: 322585283}
+  musicSlider: {fileID: 325910788}
 --- !u!4 &200828864
 Transform:
   m_ObjectHideFlags: 0
@@ -10881,7 +10885,7 @@ GameObject:
   - component: {fileID: 322585283}
   - component: {fileID: 322585284}
   m_Layer: 5
-  m_Name: Slider (2)
+  m_Name: SFXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10983,6 +10987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
+  kind: 2
 --- !u!1 &323499497
 GameObject:
   m_ObjectHideFlags: 0
@@ -11112,7 +11117,7 @@ GameObject:
   - component: {fileID: 325910788}
   - component: {fileID: 325910789}
   m_Layer: 5
-  m_Name: Slider (1)
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11214,6 +11219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
+  kind: 1
 --- !u!1 &326368343
 GameObject:
   m_ObjectHideFlags: 0
@@ -22977,7 +22983,7 @@ GameObject:
   - component: {fileID: 692397748}
   - component: {fileID: 692397749}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: MasterSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23079,6 +23085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 4b481ba31a77c5b47a3d6c44c0fc0a51, type: 2}
+  kind: 0
 --- !u!1 &693164255
 GameObject:
   m_ObjectHideFlags: 0
