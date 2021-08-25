@@ -16,5 +16,5 @@ MonoBehaviour:
   upgradeNum: 2
   isPermanentUpgrade: 1
   upgradeType: 3
-  upgradeName: Magnet
+  upgradeName: Fuel Magnet
   price: 500

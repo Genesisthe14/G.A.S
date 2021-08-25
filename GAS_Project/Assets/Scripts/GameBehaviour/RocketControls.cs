@@ -56,9 +56,18 @@ public class RocketControls : MonoBehaviour, IDragHandler
         transform.position = touchPos;
     }
 
-    public IEnumerator FreezeCountDown(float freezeTime)
+    //Start FreezeCounterCoroutine
+    public void StartFreezeCountdown(float freezeTime)
+    {
+        StartCoroutine(FreezeCountdown(freezeTime, GetComponent<RocketBehaviour>().LaserHitSound));
+    }
+
+    //Starts the countdown for how long the rocket is frozen in place
+    public IEnumerator FreezeCountdown(float freezeTime, AudioSource laserSound)
     {
         yield return new WaitForSecondsRealtime(freezeTime);
+
+        if (laserSound != null) laserSound.Stop();
 
         shockDisplay.SetActive(false);
         canControl = true;

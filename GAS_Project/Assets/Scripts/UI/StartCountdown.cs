@@ -12,6 +12,10 @@ public class StartCountdown : MonoBehaviour
     [Tooltip("Raycast Blocker")]
     private GameObject rayBlocker;
 
+    [SerializeField]
+    [Tooltip("AudioSource that plays the countdown sound")]
+    private AudioSource countdownSound;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,6 +38,7 @@ public class StartCountdown : MonoBehaviour
 
 
             countdownText.text = "" + countdown--;
+            countdownSound.Play();
             yield return new WaitForSecondsRealtime(1.0f);
         }
 

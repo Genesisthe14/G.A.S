@@ -13,6 +13,16 @@ public class RopeSFX : MonoBehaviour
     [Tooltip("Minimum velocity to play the sound at")]
     private float minVelocity = 0.7f;
 
+    private void Awake()
+    {
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -24,5 +34,10 @@ public class RopeSFX : MonoBehaviour
         {
             soundeffect.Stop();
         }
+    }
+
+    private void StopSounds()
+    {
+        soundeffect.Stop();
     }
 }

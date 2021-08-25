@@ -92,6 +92,13 @@ public class SpaceJelly : MonoBehaviour
     {
         rigBod = GetComponent<Rigidbody2D>();
         totalDistanceToCover = Mathf.Abs(transform.position.y - Despwan.YLimit);
+
+        GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.GameOverEvent -= StopSounds;
     }
 
     private void Start()
@@ -99,6 +106,11 @@ public class SpaceJelly : MonoBehaviour
         moveTween = rigBod.DOMoveY(Despwan.YLimit, timeToBottom)
             .SetEase(Ease.Linear)
             .OnComplete(() => DestroyJelly());
+    }
+
+    private void StopSounds()
+    {
+        destroySound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
