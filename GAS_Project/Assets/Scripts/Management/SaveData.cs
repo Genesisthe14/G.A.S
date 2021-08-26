@@ -49,6 +49,8 @@ public class SaveData
         intSaveData.Add("deaths", PlayerData.instance.Deaths);
         intSaveData.Add("destroyedObjects", PlayerData.instance.DestroyedObjects);
         intSaveData.Add("totalGold", PlayerData.instance.TotalGold);
+        //Peter was here
+        intSaveData.Add("clever", PlayerData.instance.clever);
 
         //save audio levels
         PlayerData.instance.MasterMixer.GetFloat("Master", out float masterVolume);
@@ -83,6 +85,8 @@ public class SaveData
         PlayerData.instance.Deaths = intSaveData["deaths"];
         PlayerData.instance.DestroyedObjects = intSaveData["destroyedObjects"];
         PlayerData.instance.TotalGold = intSaveData["totalGold"];
+        //Peter was here
+        PlayerData.instance.clever = intSaveData["clever"];
 
         if (PlayerData.instance.MasterSlider != null)
         {
