@@ -36385,14 +36385,6 @@ MonoBehaviour:
   - {fileID: 4375283}
   - {fileID: 1243978459}
   loadingScreen: {fileID: 471832271}
-<<<<<<< HEAD
-<<<<<<< HEAD
-  tutorialScreen: {fileID: 171014047}
-=======
->>>>>>> parent of 920d2c7 (Tutorial screen)
-=======
-  tutorialScreen: {fileID: 0}
->>>>>>> parent of 1db8c10 (Vergessen den Screen zuzuweisen)
   loadingBar: {fileID: 1506445480}
 --- !u!1 &1075479797
 GameObject:
