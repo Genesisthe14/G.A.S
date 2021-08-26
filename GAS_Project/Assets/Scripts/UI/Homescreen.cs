@@ -30,20 +30,9 @@ public class Homescreen : MonoBehaviour
     [Tooltip("Loading screen")]
     private GameObject loadingScreen;
 
-    //Peter was Here
-    [SerializeField]
-    [Tooltip("Tutorial screen")]
-    private GameObject tutorialScreen;
-
     [SerializeField]
     [Tooltip("Loading bar")]
     private Slider loadingBar;
-
-    //Peter was here
-    // if you are clever you don´t need a tutorial
-    private int clever = PlayerData.instance.clever;
-
-
 
     private void Awake()
     {
@@ -103,26 +92,6 @@ public class Homescreen : MonoBehaviour
         loadingScreen.SetActive(true);
         DisableButtons();
         StartCoroutine(LoadScreenCoroutine("BoosterSelection", loadingBar));
-    }
-    //Peter was here
-    public void LoadTutorialScreen(){
-        tutorialScreen.SetActive(true);
-        main.SetActive(false);
-
-    }
-    //Peter was here
-    public void decideTutorial()
-    {
-        if (clever<=0)
-        {
-            LoadBoosterSelectionScreen();
-        }
-        else
-        {
-            LoadTutorialScreen();
-            PlayerData.instance.clever = 1;
-        }
-
     }
 
     private void DisableButtons()
