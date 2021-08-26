@@ -43,6 +43,8 @@ public class PauseMenu : MonoBehaviour
             PauseMenuUI.SetActive(false);
             countText.SetActive(true);
             isPaused = false;
+
+            if(GameManager.instance.PauseAllAudioEvent != null) GameManager.instance.PauseAllAudioEvent.Invoke(false);
         } 
         else {
 
@@ -54,6 +56,8 @@ public class PauseMenu : MonoBehaviour
             PauseMenuUI.SetActive(true);
             countText.SetActive(false);
             isPaused = true;
+
+            if(GameManager.instance.PauseAllAudioEvent != null) GameManager.instance.PauseAllAudioEvent.Invoke(true);
         }
     }
 

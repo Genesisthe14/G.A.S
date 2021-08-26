@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             
             if(currentFuel <= 30f)
             {
-                if(Mathf.Approximately(currentFuel % 0.3f, 0.0f)) 
+                if(Mathf.Approximately(Mathf.Round(currentFuel) % 3.0f, 0.0f)) 
                 {
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = normalFuelColor;
@@ -307,6 +307,9 @@ public class GameManager : MonoBehaviour
     //time till bottom event
     public Action<float> TimeTillBottomRaiseEvent { get; set; } = null;
 
+    //Pause all audio event
+    public Action<bool> PauseAllAudioEvent { get; set; } = null;
+
     #endregion
 
     private void Awake()
@@ -394,11 +397,21 @@ public class GameManager : MonoBehaviour
         useShieldSound.Stop();
     }
 
-    //Playes the Particleeffect stored in particleBar
-    /*private void PlayParticle() 
+    private void PauseSounds(bool pause)
     {
-        particleBar.Play();
-    }*/
+        if (pause)
+        {
+            fuelLowSound.Pause();
+            useRefuelSound.Pause();
+            useShieldSound.Pause();
+        }
+        else
+        {
+            fuelLowSound.UnPause();
+            useRefuelSound.UnPause();
+            useShieldSound.UnPause();
+        }
+    }
 
     //Uses substracts fuel from the tank in height of lowerRate
     private IEnumerator UseFuel()
