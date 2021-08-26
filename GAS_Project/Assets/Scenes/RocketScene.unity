@@ -1452,6 +1452,7 @@ MonoBehaviour:
   - {fileID: 1925355434}
   - {fileID: 1927495204}
   - {fileID: 206195925}
+  jellyColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &216091690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3707,6 +3708,7 @@ MonoBehaviour:
   - {fileID: 1559557667}
   - {fileID: 1062077306}
   - {fileID: 157661154}
+  jellyColor: {r: 0.48627454, g: 0.007843138, b: 0.7058824, a: 1}
 --- !u!4 &651189924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4494306926945084, guid: 77e23c6fbbd027a4f86605658cf24868, type: 3}
@@ -4879,6 +4881,7 @@ MonoBehaviour:
   rocketIsHit: {fileID: 1427483545}
   laserHitSound: {fileID: 1427483548}
   hyperjumpSound: {fileID: 1427483547}
+  shardSound: {fileID: 1427483544}
 --- !u!114 &733383234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14189,6 +14192,11 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 4194960968602687770, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
   m_PrefabInstance: {fileID: 1427483533}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1427483544 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3463127837192608880, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
+  m_PrefabInstance: {fileID: 1427483533}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1427483545 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1123133475870540270, guid: be4de563bbc6e094195f69fb0c42f5f1, type: 3}
@@ -18567,7 +18575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071cc8064b0fdcf40b76cb15605d5345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowerRate: 3.5
+  lowerRate: 1.5
   fuelConsuptionTime: 1
   limitFuelConsumptionTime: 0.2
   lowestSpawnInterval: 0.28

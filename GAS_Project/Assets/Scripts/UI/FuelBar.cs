@@ -17,6 +17,10 @@ public class FuelBar : MonoBehaviour
     [Tooltip("Sliders that represent the complete fuel bar")]
     private GameObject[] fuelSliders;
 
+    [SerializeField]
+    [Tooltip("Color for the fuelbars when the jelly is on the rocket")]
+    private Color jellyColor;
+
     private void Awake()
     {
         foreach(GameObject slider in fuelSliders)
@@ -27,6 +31,26 @@ public class FuelBar : MonoBehaviour
         for(int i = 0; i <= currentNumFuelUpgrades; i++)
         {
             fuelSliders[i].SetActive(true);
+        }
+
+        GameManager.instance.JellyOnRocketEvent += ChangeFuelbarColor;
+    }
+
+    private void ChangeFuelbarColor(bool jellyOnRocket)
+    {
+        if (jellyOnRocket)
+        {
+            foreach (GameObject slider in fuelSliders)
+            {
+                slider.GetComponent<Slider>().fillRect.gameObject.GetComponent<Image>().color = jellyColor;
+            }
+        }
+        else
+        {
+            foreach (GameObject slider in fuelSliders)
+            {
+                slider.GetComponent<Slider>().fillRect.gameObject.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            }
         }
     }
 

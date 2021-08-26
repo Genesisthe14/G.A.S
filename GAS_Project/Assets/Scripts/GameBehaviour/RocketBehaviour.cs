@@ -61,6 +61,14 @@ public class RocketBehaviour : MonoBehaviour
     [Tooltip("Audiosource for the hyperjump")]
     private AudioSource hyperjumpSound;
 
+    [SerializeField]
+    [Tooltip("Audiosource for the shards when they are collected")]
+    private AudioSource shardSound;
+    public AudioSource ShardSound
+    {
+        get { return shardSound; }
+    }
+
     //Number of headstarts the player has
     private static int numOfWarps = 0;
     public static int NumOfWarps
@@ -131,6 +139,7 @@ public class RocketBehaviour : MonoBehaviour
         rocketIsHit.Stop();
         laserHitSound.Stop();
         hyperjumpSound.Stop();
+        shardSound.Stop();
     }
 
     private void OnDestroy()

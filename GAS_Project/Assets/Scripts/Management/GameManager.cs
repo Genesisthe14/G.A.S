@@ -160,6 +160,9 @@ public class GameManager : MonoBehaviour
         set { refuelPercent = value; }
     }
 
+    //Normal color of the fuelbar
+    private Color normalFuelColor = new Color32(255, 255, 255, 255);
+
     //Total amount of fuel
     private float currentFuel;
     public float CurrentFuel
@@ -183,7 +186,7 @@ public class GameManager : MonoBehaviour
                 if((currentFuel * 100f) % 3 == 0) 
                 {
                     //Debug.Log("White");
-                    fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
+                    fillColor.GetComponent<Image>().color = normalFuelColor;
                 } else {
                     //Debug.Log("red);
                     fillColor.GetComponent<Image>().color = new Color32(222, 22, 22,255);
@@ -193,13 +196,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                fillColor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                fillColor.GetComponent<Image>().color = normalFuelColor;
                 if (fuelLowSound.isPlaying) fuelLowSound.Stop();
             }
 
             fuelBar.SetFuel((int)currentFuel);
         }
     }
+
+    //Event for when a jelly is on the rocket
+    public Action<bool> JellyOnRocketEvent { get; set; } = null;
 
     //Whether the fuel consumption should be stopped
     private bool consumeFuel = false;
@@ -306,6 +312,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        JellyOnRocketEvent += JellyFuelColor;
         
         //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
         List<string> eventMask = new List<string>();
@@ -328,6 +336,18 @@ public class GameManager : MonoBehaviour
         TimeTillBottomRaiseEvent += UFO.RaiseTempo;
         TimeTillBottomRaiseEvent += LaserGate.RaiseTempo;
         TimeTillBottomRaiseEvent += SpaceJelly.RaiseTempo;
+    }
+
+    private void JellyFuelColor(bool onRocket)
+    {
+        if (onRocket)
+        {
+            normalFuelColor = new Color32(124, 2, 180, 255);
+        }
+        else
+        {
+            normalFuelColor = new Color32(255, 255, 255, 255);
+        }
     }
 
     private void OnDestroy()

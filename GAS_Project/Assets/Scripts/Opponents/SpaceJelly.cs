@@ -95,6 +95,9 @@ public class SpaceJelly : MonoBehaviour
         set { destroySound = value; }
     }
 
+    //AudioSource that plays the on rocket sound
+    private AudioSource onRocketSound;
+
     //SpriteRenderer of the jelly
     private SpriteRenderer rend;
 
@@ -114,9 +117,12 @@ public class SpaceJelly : MonoBehaviour
 
     private static bool first = true;
 
+    private static int countJellysOnRocket = 0;
+
     private void Awake()
     {
         rend = GetComponent<SpriteRenderer>();
+        onRocketSound = GetComponent<AudioSource>();
 
         normalJelly = rend.sprite;
         rigBod = GetComponent<Rigidbody2D>();
@@ -158,6 +164,7 @@ public class SpaceJelly : MonoBehaviour
     private void StopSounds()
     {
         destroySound.Stop();
+        onRocketSound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -165,6 +172,10 @@ public class SpaceJelly : MonoBehaviour
         if (collision.gameObject.CompareTag("rocket"))
         {
             isOnRocket = true;
+            if(GameManager.instance.JellyOnRocketEvent != null) GameManager.instance.JellyOnRocketEvent.Invoke(true);
+            countJellysOnRocket++;
+
+            onRocketSound.Play();
 
             int posIndex = 0;
 
@@ -203,6 +214,10 @@ public class SpaceJelly : MonoBehaviour
     {
         Debug.Log("Sploosh");
         GameManager.instance.Spawner.CurrentAmountOpponents--;
+        
+        if(isOnRocket) countJellysOnRocket--;
+
+        if (countJellysOnRocket <= 0 && GameManager.instance.JellyOnRocketEvent != null) GameManager.instance.JellyOnRocketEvent.Invoke(false);
 
         if (increaseFuelConsumption != null)
         {
@@ -216,6 +231,8 @@ public class SpaceJelly : MonoBehaviour
         particle.transform.position = gameObject.transform.position;
 
         if(playDestroySound) destroySound.Play();
+        onRocketSound.Stop();
+
         Destroy(gameObject);
     }
 

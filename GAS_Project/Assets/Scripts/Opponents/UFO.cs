@@ -45,6 +45,9 @@ public class UFO : MonoBehaviour
 
     private Tween moveTween;
 
+    //audioSource playing the movement sound
+    private AudioSource movementSound;
+
     //base value of timeTillBottom for the percantage
     private static float startTimeTillBottom = -1;
 
@@ -63,6 +66,8 @@ public class UFO : MonoBehaviour
             first = false;
         }
 
+        movementSound = GetComponent<AudioSource>();
+
         if(startTimeTillBottom < 0) startTimeTillBottom = timeTillBottom;
         if (lowerTimeTillBottom > 0) timeTillBottom = lowerTimeTillBottom;
         GameManager.instance.GameOverEvent += StopSounds;
@@ -79,6 +84,7 @@ public class UFO : MonoBehaviour
 
     private void Start()
     {
+        movementSound.Play();
         moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), timeTillBottom, PathType.Linear, PathMode.Ignore)
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
@@ -93,6 +99,7 @@ public class UFO : MonoBehaviour
     private void StopSounds()
     {
         destroySound.Stop();
+        movementSound.Stop();
     }
 
     //Generates an array of way points the ufo should take
@@ -197,6 +204,7 @@ public class UFO : MonoBehaviour
         if(moveTween != null && moveTween.target != null) moveTween.Kill();
 
         destroySound.Play();
+        movementSound.Stop();
 
         Destroy(gameObject);
     }
