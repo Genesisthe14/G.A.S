@@ -55,8 +55,6 @@ public class PlayerData : MonoBehaviour
     public int DestroyedObjects { get; set; } = 0;
 
     public int TotalGold { get; set; } = 0;
-    //Peter was here
-    public int clever { get; set; } = 0;
 
     //save
     //Amount of money the player currently has
