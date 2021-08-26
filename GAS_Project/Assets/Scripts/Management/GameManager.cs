@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("lowest interval between spawning meteors")]
-    private float lowestSpawnInterval = 0.5f;
+    private float lowestSpawnInterval = 0.3f;
 
     [SerializeField]
     [Tooltip("Length of a section in meters which after the speed of the game is raised")]
@@ -160,6 +160,9 @@ public class GameManager : MonoBehaviour
         set { refuelPercent = value; }
     }
 
+    //Normal color of the fuelbar
+    private Color normalFuelColor = new Color32(255, 255, 255, 255);
+
     //Total amount of fuel
     private float currentFuel;
     public float CurrentFuel
@@ -183,7 +186,7 @@ public class GameManager : MonoBehaviour
                 if((currentFuel * 100f) % 3 == 0) 
                 {
                     //Debug.Log("White");
-                    fillColor.GetComponent<Image>().color = new Color32(255,255,255,255);
+                    fillColor.GetComponent<Image>().color = normalFuelColor;
                 } else {
                     //Debug.Log("red);
                     fillColor.GetComponent<Image>().color = new Color32(222, 22, 22,255);
@@ -193,13 +196,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                fillColor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                fillColor.GetComponent<Image>().color = normalFuelColor;
                 if (fuelLowSound.isPlaying) fuelLowSound.Stop();
             }
 
             fuelBar.SetFuel((int)currentFuel);
         }
     }
+
+    //Event for when a jelly is on the rocket
+    public Action<bool> JellyOnRocketEvent { get; set; } = null;
 
     //Whether the fuel consumption should be stopped
     private bool consumeFuel = false;
@@ -282,6 +288,14 @@ public class GameManager : MonoBehaviour
         set { gameOverEvent = value; }
     }
 
+    //Event that is triggered when a booster is used
+    private Action<bool> boosterUsedEvent = null;
+    public Action<bool> BoosterUsedEvent
+    {
+        get { return boosterUsedEvent; }
+        set { boosterUsedEvent = value; }
+    }
+
     //if the player is in a run
     private static bool inRun = false;
     public static bool InRun
@@ -289,11 +303,17 @@ public class GameManager : MonoBehaviour
         get { return inRun; }
         set { inRun = value; }
     }
+
+    //time till bottom event
+    public Action<float> TimeTillBottomRaiseEvent { get; set; } = null;
+
     #endregion
 
     private void Awake()
     {
         _instance = this;
+
+        JellyOnRocketEvent += JellyFuelColor;
         
         //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
         List<string> eventMask = new List<string>();
@@ -313,6 +333,28 @@ public class GameManager : MonoBehaviour
         beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
 
         GameOverEvent += StopSounds;
+        TimeTillBottomRaiseEvent += UFO.RaiseTempo;
+        TimeTillBottomRaiseEvent += LaserGate.RaiseTempo;
+        TimeTillBottomRaiseEvent += SpaceJelly.RaiseTempo;
+    }
+
+    private void JellyFuelColor(bool onRocket)
+    {
+        if (onRocket)
+        {
+            normalFuelColor = new Color32(124, 2, 180, 255);
+        }
+        else
+        {
+            normalFuelColor = new Color32(255, 255, 255, 255);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        TimeTillBottomRaiseEvent -= UFO.RaiseTempo;
+        TimeTillBottomRaiseEvent -= LaserGate.RaiseTempo;
+        TimeTillBottomRaiseEvent -= SpaceJelly.RaiseTempo;
     }
 
     private void Start()
@@ -338,6 +380,7 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("distancePerSecond", mPerSec);
         initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
+
 
         //Start using fuel and raising distance traveled
         StartCoroutine(UseFuel());
@@ -377,7 +420,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             //If the game is paused or over don't raise the distance anymore
-            if (PauseMenu.isPaused || isGameOver || !spawner.Spawn)
+            if (PauseMenu.isPaused || isGameOver || !spawner.Spawn || !consumeFuel)
             {
                 yield return null;
                 continue;
@@ -386,12 +429,6 @@ public class GameManager : MonoBehaviour
             //use different time intervals to wait to raise distance based on whether
             //the warp is active or not
             yield return new WaitForSecondsRealtime(RocketBehaviour.IsWarpActive ? timeIntervalDistance[1] : timeIntervalDistance[0]);
-
-            /*if(distance >= 100 & !particleBar.isPlaying)
-            {
-                distanceText.color = Color.yellow;
-                PlayParticle();
-            }*/
 
             //Raise distance and adjust distance text
             if(!isGameOver)Distance += mPerSec;
@@ -454,6 +491,8 @@ public class GameManager : MonoBehaviour
                 if (spawner.InvokeTimeRange[0] < 0.0f) spawner.InvokeTimeRange[0] = 0.0f;
             }
 
+            if(TimeTillBottomRaiseEvent != null) TimeTillBottomRaiseEvent.Invoke(raisePercentage);
+
         }
     }
 
@@ -487,6 +526,9 @@ public class GameManager : MonoBehaviour
 
         CurrentFuel += startFuel / 100.0f * refuelPercent;
         useRefuelSound.Play();
+
+        if (boosterUsedEvent != null) boosterUsedEvent.Invoke(false);
+
         Debug.Log("Refueled");
     }
 
@@ -508,6 +550,10 @@ public class GameManager : MonoBehaviour
 
         useShieldSound.Play();
         shieldObj.SetActive(true);
+
+        if (boosterUsedEvent != null) boosterUsedEvent.Invoke(false);
+
+        Debug.Log("Shield used");
     }
 
     //Activates the warp if the player owns at least one

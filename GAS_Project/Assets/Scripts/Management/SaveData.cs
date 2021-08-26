@@ -22,10 +22,6 @@ public class SaveData
     [SerializeField]
     private SerializableDictionary<string, string> permanentUpgradeIDsPlayerOwns;
 
-    //dictionary containing the temporary upgrades the player has bought and how many of them
-    [SerializeField]
-    private SerializableDictionary<Upgrade.UpgradeTypes, int> temporaryItemsOwned;
-
     //Constructor that initializes the attributes of SaveData with values 
     //that are supposed to be saved
     public SaveData()
@@ -33,19 +29,26 @@ public class SaveData
         intSaveData = new SerializableDictionary<string, int>();
         floatSaveData = new SerializableDictionary<string, float>();
         permanentUpgradeIDsPlayerOwns = new SerializableDictionary<string, string>();
-        temporaryItemsOwned = new SerializableDictionary<Upgrade.UpgradeTypes, int>();
-
-
-        intSaveData.Add("shield_baseHitpoints", Shield.baseHitpoints);
+        
+        //save money
         intSaveData.Add("currentMoney", PlayerData.instance.CurrentMoney);
+       
+        //Save permanent upgrades
+        intSaveData.Add("shield_baseHitpoints", Shield.baseHitpoints);
         intSaveData.Add("magnetSize", MagnetField.FieldSize);
         intSaveData.Add("numFuelUpgrades", FuelBar.CurrentNumFuelUpgrades);
-        intSaveData.Add("numOfHeadstarts", RocketBehaviour.NumOfWarps);
 
         floatSaveData.Add("leakingFuel", RocketBehaviour.LeakingFuel);
         floatSaveData.Add("fuelLevel", GameManager.StartFuel);
         floatSaveData.Add("refuelAmount", GameManager.RefuelPercent);
         floatSaveData.Add("headstartLength", GameManager.HeadstartLength);
+
+        //save stats
+        intSaveData.Add("totalDistance", PlayerData.instance.TotalDistance);
+        intSaveData.Add("highestDistance", PlayerData.instance.HighestDistance);
+        intSaveData.Add("deaths", PlayerData.instance.Deaths);
+        intSaveData.Add("destroyedObjects", PlayerData.instance.DestroyedObjects);
+        intSaveData.Add("totalGold", PlayerData.instance.TotalGold);
 
         //save audio levels
         PlayerData.instance.MasterMixer.GetFloat("Master", out float masterVolume);
@@ -58,7 +61,6 @@ public class SaveData
         floatSaveData.Add("musicVolume", musicVolume);
 
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
-        temporaryItemsOwned = PlayerData.instance.TemporaryItemsOwned;
     }
 
     //Initializes the values that were previously saved with the attributes from
@@ -66,20 +68,23 @@ public class SaveData
     public void SetData()
     {
         PlayerData.instance.PermanentUpgradeIDsPlayerOwns = permanentUpgradeIDsPlayerOwns;
-        PlayerData.instance.TemporaryItemsOwned = temporaryItemsOwned;
 
         MagnetField.FieldSize = intSaveData["magnetSize"];
         Shield.baseHitpoints = intSaveData["shield_baseHitpoints"];        
         PlayerData.instance.CurrentMoney = intSaveData["currentMoney"];
         FuelBar.CurrentNumFuelUpgrades = intSaveData["numFuelUpgrades"];
-        RocketBehaviour.NumOfWarps = intSaveData["numOfHeadstarts"];
-
         RocketBehaviour.LeakingFuel = floatSaveData["leakingFuel"];
         GameManager.StartFuel = floatSaveData["fuelLevel"];
         GameManager.RefuelPercent = floatSaveData["refuelAmount"];
         GameManager.HeadstartLength = floatSaveData["headstartLength"];
 
-        if(PlayerData.instance.MasterSlider != null)
+        PlayerData.instance.TotalDistance = intSaveData["totalDistance"];
+        PlayerData.instance.HighestDistance = intSaveData["highestDistance"];
+        PlayerData.instance.Deaths = intSaveData["deaths"];
+        PlayerData.instance.DestroyedObjects = intSaveData["destroyedObjects"];
+        PlayerData.instance.TotalGold = intSaveData["totalGold"];
+
+        if (PlayerData.instance.MasterSlider != null)
         {
             PlayerData.instance.MasterSlider.value = Mathf.Pow(10, floatSaveData["masterVolume"] / 20);
             PlayerData.instance.EffectsSlider.value = Mathf.Pow(10, floatSaveData["effectsVolume"] / 20);

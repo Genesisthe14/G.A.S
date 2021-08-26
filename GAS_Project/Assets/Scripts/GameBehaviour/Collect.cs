@@ -30,6 +30,8 @@ public class Collect : MonoBehaviour
             {
                 GameManager.instance.AddFuel(collectedFuel);
             }
+
+            collisionObj.GetComponent<RocketBehaviour>().ShardSound.Play();
             
             //if the parent only has one child left then destroy parent
             if(parent.transform.childCount == 1)

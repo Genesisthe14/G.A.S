@@ -46,6 +46,16 @@ public class PlayerData : MonoBehaviour
         get { return _instance; }
     }
 
+    public int HighestDistance { get; set; } = 0;
+
+    public int TotalDistance { get; set; } = 0;
+
+    public int Deaths { get; set; } = 0;
+
+    public int DestroyedObjects { get; set; } = 0;
+
+    public int TotalGold { get; set; } = 0;
+
     //save
     //Amount of money the player currently has
     private int currentMoney = 0;
@@ -129,6 +139,7 @@ public class PlayerData : MonoBehaviour
     static bool OnApplicationQuitting()
     {
         Debug.Log("Quat");
+        if(SelectionScreen.instance != null) SelectionScreen.instance.ResetBoostersTaken(true);
         SaveLoadService.SaveGame();
         Application.wantsToQuit -= OnApplicationQuitting;
         return true;

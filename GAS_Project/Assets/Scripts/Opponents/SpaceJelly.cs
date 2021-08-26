@@ -26,6 +26,10 @@ public class SpaceJelly : MonoBehaviour
     [Tooltip("Particle object to spawn")]
     private GameObject particleObject;
 
+    [SerializeField]
+    [Tooltip("Sprite to change to when rocket is in range of jelly")]
+    private Sprite lockedOnJelly;
+
     //Object this jelly should follow
     private GameObject followObject;
     public GameObject FollowObject
@@ -45,18 +49,24 @@ public class SpaceJelly : MonoBehaviour
 
             if (isOnRocket) return;
 
+            //if the jelly is not in range of the rocket
             if (!inRange)
             {
+                rend.sprite = normalJelly;
+                
                 StopCoroutine(followRoutine);
 
                 if (rigBod == null) return;
 
                 moveTween = rigBod.DOMoveY(Despwan.YLimit, timeToBottom / totalDistanceToCover * Mathf.Abs(transform.position.y - Despwan.YLimit))
                     .SetEase(Ease.Linear)
-                    .OnComplete(() => DestroyJelly());
+                    .OnComplete(() => DestroyJelly(false));
             }
+            //jelly is in range of the rocket
             else
             {
+                rend.sprite = lockedOnJelly;
+
                 if(moveTween != null && moveTween.target != null) moveTween.Kill();
 
                 followRoutine = StartCoroutine(Follow());
@@ -85,15 +95,58 @@ public class SpaceJelly : MonoBehaviour
         set { destroySound = value; }
     }
 
+    //AudioSource that plays the on rocket sound
+    private AudioSource onRocketSound;
+
+    //SpriteRenderer of the jelly
+    private SpriteRenderer rend;
+
+    //Sprite that is first used for jelly
+    private Sprite normalJelly;
+
     //Whether the jelly is on the Rocket or not
     private bool isOnRocket = false;
 
+    //base value of timeTillBottom for the percantage
+    private static float startTimeTillBottom = -1;
+
+    //Working value for timeTillBottom to raise speed
+    private static float lowerTimeTillBottom = -1;
+
+    private static float minimumTime = 1.0f;
+
+    private static bool first = true;
+
+    private static int countJellysOnRocket = 0;
+
     private void Awake()
     {
+        rend = GetComponent<SpriteRenderer>();
+        onRocketSound = GetComponent<AudioSource>();
+
+        normalJelly = rend.sprite;
         rigBod = GetComponent<Rigidbody2D>();
         totalDistanceToCover = Mathf.Abs(transform.position.y - Despwan.YLimit);
 
+        if (first)
+        {
+            lowerTimeTillBottom = timeToBottom;
+            first = false;
+        }
+
+        if (startTimeTillBottom < 0) startTimeTillBottom = timeToBottom;
+        if (lowerTimeTillBottom > 0) timeToBottom = lowerTimeTillBottom;
+
         GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    public static void RaiseTempo(float percentage)
+    {
+        if (lowerTimeTillBottom > minimumTime)
+        {
+            lowerTimeTillBottom -= startTimeTillBottom * percentage / 100.0f;
+            if (lowerTimeTillBottom < minimumTime) lowerTimeTillBottom = minimumTime;
+        }
     }
 
     private void OnDestroy()
@@ -105,12 +158,13 @@ public class SpaceJelly : MonoBehaviour
     {
         moveTween = rigBod.DOMoveY(Despwan.YLimit, timeToBottom)
             .SetEase(Ease.Linear)
-            .OnComplete(() => DestroyJelly());
+            .OnComplete(() => DestroyJelly(false));
     }
 
     private void StopSounds()
     {
         destroySound.Stop();
+        onRocketSound.Stop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -118,6 +172,10 @@ public class SpaceJelly : MonoBehaviour
         if (collision.gameObject.CompareTag("rocket"))
         {
             isOnRocket = true;
+            if(GameManager.instance.JellyOnRocketEvent != null) GameManager.instance.JellyOnRocketEvent.Invoke(true);
+            countJellysOnRocket++;
+
+            onRocketSound.Play();
 
             int posIndex = 0;
 
@@ -141,18 +199,25 @@ public class SpaceJelly : MonoBehaviour
                 return;
             }
 
+            PlayerData.instance.DestroyedObjects++;
+
             DestroyJelly();
         }
-        else if (collision.gameObject.CompareTag("shield"))
+        else if (collision.gameObject.CompareTag("shield") || collision.gameObject.CompareTag("headstartAura"))
         {
+            PlayerData.instance.DestroyedObjects++;
             DestroyJelly();
         }
     }
 
-    private void DestroyJelly()
+    private void DestroyJelly(bool playDestroySound = true)
     {
         Debug.Log("Sploosh");
         GameManager.instance.Spawner.CurrentAmountOpponents--;
+        
+        if(isOnRocket) countJellysOnRocket--;
+
+        if (countJellysOnRocket <= 0 && GameManager.instance.JellyOnRocketEvent != null) GameManager.instance.JellyOnRocketEvent.Invoke(false);
 
         if (increaseFuelConsumption != null)
         {
@@ -165,7 +230,9 @@ public class SpaceJelly : MonoBehaviour
         GameObject particle = Instantiate(particleObject);
         particle.transform.position = gameObject.transform.position;
 
-        destroySound.Play();
+        if(playDestroySound) destroySound.Play();
+        onRocketSound.Stop();
+
         Destroy(gameObject);
     }
 

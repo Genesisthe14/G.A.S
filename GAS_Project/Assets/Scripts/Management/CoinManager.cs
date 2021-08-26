@@ -127,6 +127,7 @@ public class CoinManager : MonoBehaviour
                     coinCollectSoundSources[i].Play();
 
                     PlayerData.instance.CurrentMoney++;
+                    PlayerData.instance.TotalGold++;
                     GameManager.instance.MoneyText.text = "" + PlayerData.instance.CurrentMoney;
                 });
         }
