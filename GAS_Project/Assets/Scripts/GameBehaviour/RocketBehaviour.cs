@@ -118,6 +118,8 @@ public class RocketBehaviour : MonoBehaviour
         set { leakingFuel = value; }
     }
 
+    private GameObject lastObInTrigger = null;
+
     //Attribute that stores the ease warp coroutine
     private Coroutine easeWarp = null;
 
@@ -312,16 +314,22 @@ public class RocketBehaviour : MonoBehaviour
 
     private void InTrigger(Collider2D collision)
     {
+        lastObInTrigger = collision.gameObject;
+        
         if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
 
-        if (collision.CompareTag("meteor"))
+        //if the shield or the warp is active then don't take damage
+        if (shield.activeInHierarchy || isWarpActive)
         {
-            GameManager.instance.LowerFuel(leakingFuel);
-            Damage();
+            collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(null);
+            return;
         }
+
+        GameManager.instance.LowerFuel(damageDict[collision.gameObject.tag] / 100.0f * leakingFuel);
+        Damage();
 
         //rocket collided with meteor or satellite while they were in trigger mode
         //therefore activate meteor collision function for satellite/meteor
-        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(collision);
+        collision.GetComponent<MeteorBehaviour>().OnMeteorCollision(null);
     }
 }

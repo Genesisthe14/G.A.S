@@ -18575,7 +18575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071cc8064b0fdcf40b76cb15605d5345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowerRate: 1.5
+  lowerRate: 2.1
   fuelConsuptionTime: 1
   limitFuelConsumptionTime: 0.2
   lowestSpawnInterval: 0.28
@@ -18641,7 +18641,7 @@ MonoBehaviour:
     list:
     - Key: 90
       Value: 0
-    - Key: 50
+    - Key: 55
       Value: 1
   invokeTimeRange:
   - 1.06

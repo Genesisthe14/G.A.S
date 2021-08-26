@@ -136,6 +136,12 @@ public class MeteorBehaviour : MonoBehaviour
 
     public void OnMeteorCollision(Collider2D collision)
     {
+        if(collision == null)
+        {
+            StartParticle();
+            return;
+        }
+        
         if(collision.gameObject.CompareTag("shield") || collision.gameObject.CompareTag("headstartAura")) PlayerData.instance.DestroyedObjects++;
 
         //if the meteor hit the rocket or shield destroy it without spawning part stones
@@ -144,6 +150,8 @@ public class MeteorBehaviour : MonoBehaviour
             StartParticle();
             return;
         }
+
+
 
         //if the meteor collides with anything else but the weight then don't do anything
         if (!RocketBehaviour.IsWarpActive && !collision.gameObject.CompareTag("weight")) return;

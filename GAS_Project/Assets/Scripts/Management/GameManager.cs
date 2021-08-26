@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             
             if(currentFuel <= 30f)
             {
-                if((currentFuel * 100f) % 3 == 0) 
+                if(Mathf.Approximately(currentFuel % 0.3f, 0.0f)) 
                 {
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = normalFuelColor;
