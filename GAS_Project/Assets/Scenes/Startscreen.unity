@@ -72412,6 +72412,7 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
       - m_Target: {fileID: 1074502951}
         m_TargetAssemblyTypeName: Homescreen, Assembly-CSharp
         m_MethodName: StartGame
@@ -72424,6 +72425,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+=======
+>>>>>>> parent of fcdf23c (Merge pull request #44 from Genesisthe14/Florians_Commits)
 =======
 >>>>>>> parent of fcdf23c (Merge pull request #44 from Genesisthe14/Florians_Commits)
 --- !u!222 &317980613583785655
@@ -101386,6 +101389,7 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
       - m_Target: {fileID: 1074502951}
         m_TargetAssemblyTypeName: Homescreen, Assembly-CSharp
         m_MethodName: StartGame
@@ -101398,6 +101402,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+=======
+>>>>>>> parent of fcdf23c (Merge pull request #44 from Genesisthe14/Florians_Commits)
 =======
 >>>>>>> parent of fcdf23c (Merge pull request #44 from Genesisthe14/Florians_Commits)
 --- !u!114 &8241084655078876230
