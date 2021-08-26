@@ -16713,14 +16713,10 @@ MonoBehaviour:
   - {fileID: 1379420720}
   - {fileID: 1502944056}
   - {fileID: 554449376}
-  boosterAmountTexts:
-    list:
-    - Key: 5
-      Value: {fileID: 399979507}
-    - Key: 7
-      Value: {fileID: 846676248}
-    - Key: 6
-      Value: {fileID: 964622309}
+  firstSlotLevels:
+    list: []
+  secondSlotLevels:
+    list: []
   totalCoins: {fileID: 541425737}
   firstSlotIcons:
     list:
@@ -17991,12 +17987,12 @@ GameObject:
   - component: {fileID: 8588554948353239959}
   - component: {fileID: 7470878194043292467}
   m_Layer: 5
-  m_Name: 3
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &523433142610515433
 GameObject:
   m_ObjectHideFlags: 0
@@ -19687,12 +19683,12 @@ GameObject:
   - component: {fileID: 8359341488210962290}
   - component: {fileID: 7567523389324813725}
   m_Layer: 5
-  m_Name: 2
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &2052404683805311570
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19713,12 +19709,12 @@ GameObject:
   - component: {fileID: 8749826246975474583}
   - component: {fileID: 5506998769980556979}
   m_Layer: 5
-  m_Name: 2
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2086851008916421870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20373,7 +20369,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
     m_FontSize: 66
     m_FontStyle: 0
     m_BestFit: 0
@@ -20525,14 +20521,22 @@ MonoBehaviour:
   - {fileID: 6188820457062164804}
   - {fileID: 7308469120957892374}
   - {fileID: 1979881487328820497}
-  boosterAmountTexts:
+  firstSlotLevels:
     list:
-    - Key: 5
-      Value: {fileID: 399979507}
-    - Key: 7
-      Value: {fileID: 846676248}
-    - Key: 6
-      Value: {fileID: 964622309}
+    - Key: 1
+      Value: {fileID: 4877464104555935258}
+    - Key: 2
+      Value: {fileID: 503276882646078137}
+    - Key: 3
+      Value: {fileID: 2066625493706146558}
+  secondSlotLevels:
+    list:
+    - Key: 1
+      Value: {fileID: 8923868713729092723}
+    - Key: 2
+      Value: {fileID: 6465520012388729386}
+    - Key: 3
+      Value: {fileID: 2027203839261532076}
   totalCoins: {fileID: 3573338691889811468}
   firstSlotIcons:
     list:
@@ -20978,7 +20982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.4934082, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 756.2759, y: 177.21875}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &3337844111013032607
@@ -21857,7 +21861,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.37741292}
   m_AnchorMax: {x: 1, y: 0.37741292}
-  m_AnchoredPosition: {x: 235.12988, y: 0}
+  m_AnchoredPosition: {x: 235.12988, y: 22.277}
   m_SizeDelta: {x: -487.74, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &4266427934739962794
@@ -22093,7 +22097,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
     m_FontSize: 66
     m_FontStyle: 0
     m_BestFit: 0
@@ -22506,12 +22510,12 @@ GameObject:
   - component: {fileID: 6513229969791902204}
   - component: {fileID: 8210963414005003269}
   m_Layer: 5
-  m_Name: 4
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &4896394356040171811
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22850,8 +22854,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5
@@ -23211,7 +23215,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
     m_FontSize: 66
     m_FontStyle: 0
     m_BestFit: 0
@@ -23997,12 +24001,12 @@ GameObject:
   - component: {fileID: 2293337455506604267}
   - component: {fileID: 7691678355819046172}
   m_Layer: 5
-  m_Name: 3
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6474600902889754168
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24090,7 +24094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.4933472, y: 0}
+  m_AnchoredPosition: {x: 0.000061035156, y: -16}
   m_SizeDelta: {x: 756.2759, y: 177.21875}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &6576509010959214664
@@ -26178,8 +26182,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5
@@ -26251,12 +26255,12 @@ GameObject:
   - component: {fileID: 2903546297843544157}
   - component: {fileID: 3391322237754459880}
   m_Layer: 5
-  m_Name: 4
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &8935939674559661818
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26431,8 +26435,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: b0c444b51e4738f4e8ce19cf296786d6, type: 3}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: 98704e520a074c647b4807e0a9387cc4, type: 3}
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5

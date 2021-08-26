@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9594603be89f4459df1e500052b13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToBottom: 5
+  timeToBottom: 4
   attachTime: 5
   minVelocity: 10
   rocketPositions:
@@ -129,6 +129,7 @@ MonoBehaviour:
   - {x: 3.77, y: -4, z: 0}
   - {x: 3.34, y: 1.55, z: 0}
   particleObject: {fileID: 5187336158532253354, guid: 3b4228c032f7975429c187654b6c3502, type: 3}
+  lockedOnJelly: {fileID: 21300000, guid: 4af46ebb30c110d459d14de8e9129f6d, type: 3}
 --- !u!60 &8568788514268988705
 PolygonCollider2D:
   m_ObjectHideFlags: 0

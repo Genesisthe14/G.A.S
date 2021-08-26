@@ -35,6 +35,11 @@ public class GameOverUI : MonoBehaviour
 
         int distance = (int)GameManager.instance.Distance;
         pointsText.text = distance + " KM";
+        PlayerData.instance.TotalDistance += distance;
+
+        if (distance > PlayerData.instance.HighestDistance) PlayerData.instance.HighestDistance = distance;
+
+        PlayerData.instance.Deaths++;
     }
 
     public void Restart() 

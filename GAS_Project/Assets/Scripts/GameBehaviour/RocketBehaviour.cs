@@ -195,6 +195,8 @@ public class RocketBehaviour : MonoBehaviour
 
         easeWarp = StartCoroutine(EaseWarp());
 
+        if (GameManager.instance.BoosterUsedEvent != null) GameManager.instance.BoosterUsedEvent.Invoke(false);
+
         Debug.Log("Headstart activated");
     }
 

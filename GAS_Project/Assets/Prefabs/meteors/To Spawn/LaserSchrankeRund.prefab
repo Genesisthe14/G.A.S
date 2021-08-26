@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freezeTime: 1.5
-  timeTillBottom: 10
+  timeTillBottom: 8.02
   movementLimit: -6.2
 --- !u!50 &5758492675630317581
 Rigidbody2D:

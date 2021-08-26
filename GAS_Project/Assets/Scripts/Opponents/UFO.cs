@@ -6,8 +6,8 @@ using DG.Tweening;
 public class UFO : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("Speed of the Ufo")]
-    private float speed = 15.0f;
+    [Tooltip("Time ufo needs to reach bottom")]
+    private float timeTillBottom = 15.0f;
 
     [SerializeField]
     [Tooltip("Shattered version of the UFO")]
@@ -45,14 +45,41 @@ public class UFO : MonoBehaviour
 
     private Tween moveTween;
 
+    //base value of timeTillBottom for the percantage
+    private static float startTimeTillBottom = -1;
+
+    //Working value for timeTillBottom to raise speed
+    private static float lowerTimeTillBottom = -1;
+
+    private static float minimumTime = 2.0f;
+
+    private static bool first = true;
+
     private void Awake()
     {
+        if (first)
+        {
+            lowerTimeTillBottom = timeTillBottom;
+            first = false;
+        }
+
+        if(startTimeTillBottom < 0) startTimeTillBottom = timeTillBottom;
+        if (lowerTimeTillBottom > 0) timeTillBottom = lowerTimeTillBottom;
         GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    public static void RaiseTempo(float percentage)
+    {
+        if(lowerTimeTillBottom > minimumTime)
+        {
+            lowerTimeTillBottom -= startTimeTillBottom * percentage / 50.0f;
+            if (lowerTimeTillBottom < minimumTime) lowerTimeTillBottom = minimumTime;
+        }
     }
 
     private void Start()
     {
-        moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), speed, PathType.Linear, PathMode.Ignore)
+        moveTween = GetComponent<Rigidbody2D>().DOPath(ReturnPathPoints(), timeTillBottom, PathType.Linear, PathMode.Ignore)
             .SetAutoKill(false)
             .SetEase(Ease.Linear)
             .OnComplete( () => DestroyUFO(false) );
@@ -124,6 +151,8 @@ public class UFO : MonoBehaviour
                 GetComponent<Collider2D>().isTrigger = true;
                 return;
             }
+
+            PlayerData.instance.DestroyedObjects++;
 
             DestroyUFO(true);
         }

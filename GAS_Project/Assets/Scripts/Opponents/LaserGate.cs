@@ -26,11 +26,39 @@ public class LaserGate : MonoBehaviour
     //AudioSource playing the laser move sound
     private AudioSource laserMoveSound;
 
+    //base value of timeTillBottom for the percantage
+    private static float startTimeTillBottom = -1;
+
+    //Working value for timeTillBottom to raise speed
+    private static float lowerTimeTillBottom = -1;
+
+    private static float minimumTime = 2.0f;
+
+    private static bool first = true;
+
     private void Awake()
     {
         laserMoveSound = GetComponent<AudioSource>();
 
+        if (first)
+        {
+            lowerTimeTillBottom = timeTillBottom;
+            first = false;
+        }
+
+        if (startTimeTillBottom < 0) startTimeTillBottom = timeTillBottom;
+        if (lowerTimeTillBottom > 0) timeTillBottom = lowerTimeTillBottom;
+
         GameManager.instance.GameOverEvent += StopSounds;
+    }
+
+    public static void RaiseTempo(float percentage)
+    {
+        if (lowerTimeTillBottom > minimumTime)
+        {
+            lowerTimeTillBottom -= startTimeTillBottom * percentage / 100.0f;
+            if (lowerTimeTillBottom < minimumTime) lowerTimeTillBottom = minimumTime;
+        }
     }
 
     private void OnDestroy()

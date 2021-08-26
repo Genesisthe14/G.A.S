@@ -136,6 +136,8 @@ public class MeteorBehaviour : MonoBehaviour
 
     public void OnMeteorCollision(Collider2D collision)
     {
+        if(collision.gameObject.CompareTag("shield") || collision.gameObject.CompareTag("headstartAura")) PlayerData.instance.DestroyedObjects++;
+
         //if the meteor hit the rocket or shield destroy it without spawning part stones
         if (!RocketBehaviour.IsWarpActive && (collision.gameObject.CompareTag("rocket") || collision.gameObject.CompareTag("shield")))
         {
@@ -159,7 +161,7 @@ public class MeteorBehaviour : MonoBehaviour
         //if the current number of hits on this meteor is equal to or exceeds 
         //the number of hits necessary to destroy the meteor
         if (currentNumHits >= numOfHitsToDestroy)
-        {
+        {            
             if (GetComponent<GiveMoney>() != null)
             {
                 GameManager.instance.CoinM.AddCoins(transform.position, (int)Mathf.Ceil(GetComponent<GiveMoney>().Money / 2.0f));
@@ -171,6 +173,8 @@ public class MeteorBehaviour : MonoBehaviour
                 StartParticle();
                 return;
             }
+            
+            PlayerData.instance.DestroyedObjects++;
 
             //instatniate the shattered version of this meteor
             GameObject shatteredV = Instantiate(shatteredVersion, gameObject.transform.position, gameObject.transform.rotation);
