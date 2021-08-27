@@ -56,7 +56,7 @@ public class PlayerData : MonoBehaviour
 
     public int TotalGold { get; set; } = 0;
 
-    public bool FirstPLayed { get; set; } = true;
+    public bool FirstPlayed { get; set; } = true;
 
     //save
     //Amount of money the player currently has
@@ -74,8 +74,6 @@ public class PlayerData : MonoBehaviour
                 UpdateShopDisplay.instance.MoneyText.text = "" + currentMoney;
         }
     }
-
-    private bool firstLoaded = true;
 
     //save
     //IDs of the permanent upgrades the player owns
@@ -95,6 +93,8 @@ public class PlayerData : MonoBehaviour
         set { temporaryItemsOwned = value; }
     }
 
+    public static bool ResettingSave { get; set; } = false;
+
     private void Awake()
     {
         if (_instance != null)
@@ -113,11 +113,7 @@ public class PlayerData : MonoBehaviour
         temporaryItemsOwned.Add(Upgrade.UpgradeTypes.HEADSTART, 0);
 
         //load the last saved game
-        if (firstLoaded)
-        {
-            SaveLoadService.LoadGame();
-            firstLoaded = false;
-        }
+        SaveLoadService.LoadGame();
 
         Application.wantsToQuit += OnApplicationQuitting;
     }
@@ -142,7 +138,9 @@ public class PlayerData : MonoBehaviour
     {
         Debug.Log("Quat");
         if(SelectionScreen.instance != null) SelectionScreen.instance.ResetBoostersTaken(true);
-        SaveLoadService.SaveGame();
+        
+        //Only save if the game is not being reset
+        if(!ResettingSave) SaveLoadService.SaveGame();
         Application.wantsToQuit -= OnApplicationQuitting;
         return true;
     }
