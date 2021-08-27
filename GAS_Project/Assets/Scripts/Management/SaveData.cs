@@ -22,6 +22,10 @@ public class SaveData
     [SerializeField]
     private SerializableDictionary<string, string> permanentUpgradeIDsPlayerOwns;
 
+    //whether the player is playing the game for the first time
+    [SerializeField]
+    private bool firstPlayed;
+
     //Constructor that initializes the attributes of SaveData with values 
     //that are supposed to be saved
     public SaveData()
@@ -61,6 +65,8 @@ public class SaveData
         floatSaveData.Add("musicVolume", musicVolume);
 
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
+
+        firstPlayed = PlayerData.instance.FirstPLayed;
     }
 
     //Initializes the values that were previously saved with the attributes from
@@ -90,5 +96,7 @@ public class SaveData
             PlayerData.instance.EffectsSlider.value = Mathf.Pow(10, floatSaveData["effectsVolume"] / 20);
             PlayerData.instance.MusicSlider.value = Mathf.Pow(10, floatSaveData["musicVolume"] / 20);
         }
+
+        PlayerData.instance.FirstPLayed = firstPlayed;
     }
 }

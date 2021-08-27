@@ -60,7 +60,7 @@ public class ShopItem : MonoBehaviour
     private int buyLimitBoosters = 3;
 
     private void Awake()
-    {
+    {        
         if(activateOnBuy != null) activateOnBuy.SetActive(false);
         
         //Set the texts that are supposed to show the important info of this shop item
@@ -144,7 +144,7 @@ public class ShopItem : MonoBehaviour
             //check if not already obtained
             if (PlayerData.instance.PermanentUpgradeIDsPlayerOwns.ContainsKey(item.UpgradeID))
             {
-                buyButton.interactable = false;
+                if (buyButton.interactable) buyButton.interactable = false;
                 Deactivate(availableDisplay);
                 Activate(unavailableDisplay);
 
@@ -162,13 +162,13 @@ public class ShopItem : MonoBehaviour
                 //check if player has enough money to buy otherwise set inactive
                 if (item.Price > PlayerData.instance.CurrentMoney)
                 {
-                    buyButton.interactable = false;
+                    if (buyButton.interactable) buyButton.interactable = false;
                     Deactivate(availableDisplay);
                     Activate(unavailableDisplay);
                 }
                 else
                 {
-                    buyButton.interactable = true;
+                    if (!buyButton.interactable) buyButton.interactable = true;
                     Activate(availableDisplay);
                     Deactivate(unavailableDisplay);
                 }
@@ -189,13 +189,13 @@ public class ShopItem : MonoBehaviour
         //check if player has enough money to buy otherwise set inactive
         if (item.Price > PlayerData.instance.CurrentMoney)
         {
-            buyButton.interactable = false;
+            if(buyButton.interactable) buyButton.interactable = false;
             Deactivate(availableDisplay);
             Activate(unavailableDisplay);
         }
         else
         {
-            buyButton.interactable = true;
+            if (!buyButton.interactable) buyButton.interactable = true;
             Activate(availableDisplay);
             Deactivate(unavailableDisplay);
         }

@@ -34,6 +34,10 @@ public class Homescreen : MonoBehaviour
     [Tooltip("Loading bar")]
     private Slider loadingBar;
 
+    [SerializeField]
+    [Tooltip("First Tutorial screen")]
+    private GameObject firstTutorialScreen;
+
     private void Awake()
     {
         if (openWorkshop)
@@ -42,6 +46,21 @@ public class Homescreen : MonoBehaviour
 
             shop.SetActive(true);
             main.SetActive(false);
+        }
+    }
+
+    private void Start()
+    {
+        if (firstTutorialScreen == null) return;
+
+        if (PlayerData.instance.FirstPLayed)
+        {
+            PlayerData.instance.FirstPLayed = false;
+            firstTutorialScreen.SetActive(true);
+        }
+        else
+        {
+            firstTutorialScreen.SetActive(false);
         }
     }
 

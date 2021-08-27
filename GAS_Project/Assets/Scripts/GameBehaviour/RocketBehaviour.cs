@@ -118,8 +118,6 @@ public class RocketBehaviour : MonoBehaviour
         set { leakingFuel = value; }
     }
 
-    private GameObject lastObInTrigger = null;
-
     //Attribute that stores the ease warp coroutine
     private Coroutine easeWarp = null;
 
@@ -134,6 +132,7 @@ public class RocketBehaviour : MonoBehaviour
         damageDict.Add("UFO", GameManager.StartFuel / 100.0f * 10.0f);
 
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     private void StopSounds()
@@ -144,11 +143,30 @@ public class RocketBehaviour : MonoBehaviour
         shardSound.Stop();
     }
 
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            rocketIsHit.Pause();
+            laserHitSound.Pause();
+            hyperjumpSound.Pause();
+            shardSound.Pause();
+        }
+        else
+        {
+            rocketIsHit.UnPause();
+            laserHitSound.UnPause();
+            hyperjumpSound.UnPause();
+            shardSound.UnPause();
+        }
+    }
+
     private void OnDestroy()
     {
         //unsubscribe from the OnWarpActive Event
         OnWarpActiveEvent -= OnWarpActive;
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     //Function that activates when the active state of the warp is supposed to change
@@ -314,8 +332,6 @@ public class RocketBehaviour : MonoBehaviour
 
     private void InTrigger(Collider2D collision)
     {
-        lastObInTrigger = collision.gameObject;
-        
         if (!(collision.CompareTag("meteor") || collision.CompareTag("satellite"))) return;
 
         //if the shield or the warp is active then don't take damage

@@ -313,6 +313,7 @@ MonoBehaviour:
   - {fileID: 1485228319}
   loadingScreen: {fileID: 860231746}
   loadingBar: {fileID: 860231745}
+  firstTutorialScreen: {fileID: 0}
 --- !u!1 &7725006
 GameObject:
   m_ObjectHideFlags: 0
@@ -13510,7 +13511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2063070205
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13559,14 +13560,10 @@ MonoBehaviour:
   - {fileID: 1379420720}
   - {fileID: 1502944056}
   - {fileID: 554449376}
-  boosterAmountTexts:
-    list:
-    - Key: 5
-      Value: {fileID: 399979507}
-    - Key: 7
-      Value: {fileID: 846676248}
-    - Key: 6
-      Value: {fileID: 964622309}
+  firstSlotLevels:
+    list: []
+  secondSlotLevels:
+    list: []
   totalCoins: {fileID: 541425737}
   firstSlotIcons:
     list:

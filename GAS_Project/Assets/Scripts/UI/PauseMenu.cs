@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour
     //whether the counter was still counting down to the start of the game
     private bool counterActive = false;
 
-    public void pauseGame() 
+    public void PauseGame() 
     {
         if (isPaused) 
         {
@@ -44,6 +44,8 @@ public class PauseMenu : MonoBehaviour
             countText.SetActive(true);
             isPaused = false;
 
+            AudioManager.StaticMusicInstance.GetComponent<AudioSource>().UnPause();
+
             if(GameManager.instance.PauseAllAudioEvent != null) GameManager.instance.PauseAllAudioEvent.Invoke(false);
         } 
         else {
@@ -57,13 +59,15 @@ public class PauseMenu : MonoBehaviour
             countText.SetActive(false);
             isPaused = true;
 
-            if(GameManager.instance.PauseAllAudioEvent != null) GameManager.instance.PauseAllAudioEvent.Invoke(true);
+            AudioManager.StaticMusicInstance.GetComponent<AudioSource>().Pause();
+
+            if (GameManager.instance.PauseAllAudioEvent != null) GameManager.instance.PauseAllAudioEvent.Invoke(true);
         }
     }
 
     public void Crash()
     {
-        pauseGame();
+        PauseGame();
         GameManager.instance.CurrentFuel = 0.0f;
     }
 

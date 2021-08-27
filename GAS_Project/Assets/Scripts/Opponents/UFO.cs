@@ -70,7 +70,9 @@ public class UFO : MonoBehaviour
 
         if(startTimeTillBottom < 0) startTimeTillBottom = timeTillBottom;
         if (lowerTimeTillBottom > 0) timeTillBottom = lowerTimeTillBottom;
+        
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     public static void RaiseTempo(float percentage)
@@ -94,12 +96,27 @@ public class UFO : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     private void StopSounds()
     {
         destroySound.Stop();
         movementSound.Stop();
+    }
+
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            destroySound.Pause();
+            movementSound.Pause();
+        }
+        else
+        {
+            destroySound.UnPause();
+            movementSound.UnPause();
+        }
     }
 
     //Generates an array of way points the ufo should take

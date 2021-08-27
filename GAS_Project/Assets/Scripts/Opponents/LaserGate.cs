@@ -50,6 +50,7 @@ public class LaserGate : MonoBehaviour
         if (lowerTimeTillBottom > 0) timeTillBottom = lowerTimeTillBottom;
 
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     public static void RaiseTempo(float percentage)
@@ -64,6 +65,7 @@ public class LaserGate : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     private void Start()
@@ -77,6 +79,18 @@ public class LaserGate : MonoBehaviour
     private void StopSounds()
     {
         laserMoveSound.Stop();
+    }
+
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            laserMoveSound.Pause();
+        }
+        else
+        {
+            laserMoveSound.UnPause();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

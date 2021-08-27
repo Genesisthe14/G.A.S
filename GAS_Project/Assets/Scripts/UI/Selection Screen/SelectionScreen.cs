@@ -78,6 +78,8 @@ public class SelectionScreen : MonoBehaviour
     //List of booster slot level dictionaries
     private List<SerializableDictionary<int, GameObject>> slotLevelList = new List<SerializableDictionary<int, GameObject>>();
 
+    private bool enabledOnce = false;
+
     private void Awake()
     {
         _instance = this;
@@ -99,6 +101,10 @@ public class SelectionScreen : MonoBehaviour
 
     private void OnEnable()
     {
+        if (enabledOnce) return;
+
+        enabledOnce = true;
+
         //if the selection screen is entered by the player 
         //save the amount of boosters the player had for each booster type in boosters
         foreach (Upgrade up in boosters)
@@ -172,9 +178,9 @@ public class SelectionScreen : MonoBehaviour
             //then disable the buy button for this item
             if(shop.Item.Price > PlayerData.instance.CurrentMoney)
             {
-                shop.BuyButton.interactable = false;
+                if(shop.BuyButton.interactable) shop.BuyButton.interactable = false;
             }
-            else shop.BuyButton.interactable = true;
+            else if (!shop.BuyButton.interactable) shop.BuyButton.interactable = true;
 
             //if two slots are already set
             if (currentBoosterSlot >= boostersTaken.Length)

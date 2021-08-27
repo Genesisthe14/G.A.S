@@ -38,11 +38,13 @@ public class Shield : BuffItem
     private void Awake()
     {
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     private void OnDestroy()
     {
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     private void Start()
@@ -53,6 +55,18 @@ public class Shield : BuffItem
     private void StopSounds()
     {
         shieldHitSound.Stop();
+    }
+
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            shieldHitSound.Pause();
+        }
+        else
+        {
+            shieldHitSound.UnPause();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -14,6 +14,10 @@ public class GameOverUI : MonoBehaviour
     private Button[] buttonsToDisable;
 
     [SerializeField]
+    [Tooltip("Hud elements that should be disabled when game over")]
+    private GameObject hudElement;
+
+    [SerializeField]
     [Tooltip("Loading screen")]
     private GameObject loadingScreen;
 
@@ -31,7 +35,11 @@ public class GameOverUI : MonoBehaviour
         gameObject.SetActive(true);
         pause.SetActive(false);
 
+        hudElement.SetActive(false);
+
         Time.timeScale = 0;
+
+        AudioManager.StaticMusicInstance.GetComponent<AudioSource>().Pause();
 
         int distance = (int)GameManager.instance.Distance;
         pointsText.text = distance + " KM";
@@ -70,7 +78,7 @@ public class GameOverUI : MonoBehaviour
 
     private void ResetValues()
     {
-        //Time.timeScale = 1;
+        AudioManager.StaticMusicInstance.GetComponent<AudioSource>().Play();
         SelectionScreen.instance.EmptyBoosters();
         SelectionScreen.instance.ResetBoostersTaken(true);
         GameManager.InRun = false;

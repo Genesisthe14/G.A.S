@@ -61,6 +61,28 @@ public class CoinManager : MonoBehaviour
         targetPosition = ReturnMiddleRect(target);
 
         PrepareCoins();
+
+        GameManager.instance.PauseAllAudioEvent += PlayPauseAudios;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.PauseAllAudioEvent -= PlayPauseAudios;
+    }
+
+    private void PlayPauseAudios(bool pause)
+    {
+        foreach (AudioSource source in coinCollectSoundSources)
+        {
+            if (pause)
+            {
+                source.Pause();
+            }
+            else
+            {
+                source.UnPause();
+            }
+        }
     }
 
     private Vector3 ReturnMiddleRect(RectTransform rect)

@@ -17,6 +17,10 @@ public class AudioManager : MonoBehaviour
     private GameObject musicInstance;
 
     private static GameObject staticMusicInstance;
+    public static GameObject StaticMusicInstance
+    {
+        get { return staticMusicInstance; }
+    }
 
     private void Awake()
     {

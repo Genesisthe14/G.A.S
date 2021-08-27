@@ -336,6 +336,8 @@ public class GameManager : MonoBehaviour
         beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
 
         GameOverEvent += StopSounds;
+        PauseAllAudioEvent += PauseSounds;
+
         TimeTillBottomRaiseEvent += UFO.RaiseTempo;
         TimeTillBottomRaiseEvent += LaserGate.RaiseTempo;
         TimeTillBottomRaiseEvent += SpaceJelly.RaiseTempo;
@@ -358,6 +360,9 @@ public class GameManager : MonoBehaviour
         TimeTillBottomRaiseEvent -= UFO.RaiseTempo;
         TimeTillBottomRaiseEvent -= LaserGate.RaiseTempo;
         TimeTillBottomRaiseEvent -= SpaceJelly.RaiseTempo;
+
+        GameOverEvent -= StopSounds;
+        PauseAllAudioEvent -= PauseSounds;
     }
 
     private void Start()
@@ -384,6 +389,7 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
+        AudioManager.StaticMusicInstance.GetComponent<AudioSource>().Play();
 
         //Start using fuel and raising distance traveled
         StartCoroutine(UseFuel());

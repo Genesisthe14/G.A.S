@@ -56,6 +56,8 @@ public class PlayerData : MonoBehaviour
 
     public int TotalGold { get; set; } = 0;
 
+    public bool FirstPLayed { get; set; } = true;
+
     //save
     //Amount of money the player currently has
     private int currentMoney = 0;

@@ -138,6 +138,7 @@ public class SpaceJelly : MonoBehaviour
         if (lowerTimeTillBottom > 0) timeToBottom = lowerTimeTillBottom;
 
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     public static void RaiseTempo(float percentage)
@@ -152,6 +153,7 @@ public class SpaceJelly : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     private void Start()
@@ -165,6 +167,20 @@ public class SpaceJelly : MonoBehaviour
     {
         destroySound.Stop();
         onRocketSound.Stop();
+    }
+
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            destroySound.Pause();
+            onRocketSound.Pause();
+        }
+        else
+        {
+            destroySound.UnPause();
+            onRocketSound.UnPause();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
