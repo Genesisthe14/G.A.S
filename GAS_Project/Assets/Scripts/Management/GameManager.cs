@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             
             if(currentFuel <= 30f)
             {
-                if((currentFuel * 100f) % 3 == 0) 
+                if(Mathf.Approximately(Mathf.Round(currentFuel) % 3.0f, 0.0f)) 
                 {
                     //Debug.Log("White");
                     fillColor.GetComponent<Image>().color = normalFuelColor;
@@ -307,6 +307,9 @@ public class GameManager : MonoBehaviour
     //time till bottom event
     public Action<float> TimeTillBottomRaiseEvent { get; set; } = null;
 
+    //Pause all audio event
+    public Action<bool> PauseAllAudioEvent { get; set; } = null;
+
     #endregion
 
     private void Awake()
@@ -333,6 +336,8 @@ public class GameManager : MonoBehaviour
         beforeRun.Add("headstarts", PlayerData.instance.TemporaryItemsOwned[Upgrade.UpgradeTypes.HEADSTART]);
 
         GameOverEvent += StopSounds;
+        PauseAllAudioEvent += PauseSounds;
+
         TimeTillBottomRaiseEvent += UFO.RaiseTempo;
         TimeTillBottomRaiseEvent += LaserGate.RaiseTempo;
         TimeTillBottomRaiseEvent += SpaceJelly.RaiseTempo;
@@ -355,6 +360,9 @@ public class GameManager : MonoBehaviour
         TimeTillBottomRaiseEvent -= UFO.RaiseTempo;
         TimeTillBottomRaiseEvent -= LaserGate.RaiseTempo;
         TimeTillBottomRaiseEvent -= SpaceJelly.RaiseTempo;
+
+        GameOverEvent -= StopSounds;
+        PauseAllAudioEvent -= PauseSounds;
     }
 
     private void Start()
@@ -381,6 +389,7 @@ public class GameManager : MonoBehaviour
         initialSpeedValues.Add("lowerVelocityRange", spawner.VelocityRange[0]);
         initialSpeedValues.Add("upperVelocityRange", spawner.VelocityRange[1]);
 
+        AudioManager.StaticMusicInstance.GetComponent<AudioSource>().Play();
 
         //Start using fuel and raising distance traveled
         StartCoroutine(UseFuel());
@@ -394,11 +403,21 @@ public class GameManager : MonoBehaviour
         useShieldSound.Stop();
     }
 
-    //Playes the Particleeffect stored in particleBar
-    /*private void PlayParticle() 
+    private void PauseSounds(bool pause)
     {
-        particleBar.Play();
-    }*/
+        if (pause)
+        {
+            fuelLowSound.Pause();
+            useRefuelSound.Pause();
+            useShieldSound.Pause();
+        }
+        else
+        {
+            fuelLowSound.UnPause();
+            useRefuelSound.UnPause();
+            useShieldSound.UnPause();
+        }
+    }
 
     //Uses substracts fuel from the tank in height of lowerRate
     private IEnumerator UseFuel()

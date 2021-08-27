@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebd10c278ea72d449479d59bf9230dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeTillBottom: 5.05
+  timeTillBottom: 3.5
   shatteredUFO: {fileID: 847542010473168204, guid: 7c544d924aad655488b373684c441fec, type: 3}
   force: 10000
   particle: {fileID: 7219856023323386365, guid: bbd5ef6ea993f3343a49c069409d17d8, type: 3}

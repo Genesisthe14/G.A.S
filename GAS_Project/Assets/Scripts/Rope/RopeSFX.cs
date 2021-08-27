@@ -16,11 +16,13 @@ public class RopeSFX : MonoBehaviour
     private void Awake()
     {
         GameManager.instance.GameOverEvent += StopSounds;
+        GameManager.instance.PauseAllAudioEvent += PauseSounds;
     }
 
     private void OnDestroy()
     {
         GameManager.instance.GameOverEvent -= StopSounds;
+        GameManager.instance.PauseAllAudioEvent -= PauseSounds;
     }
 
     // Update is called once per frame
@@ -39,5 +41,17 @@ public class RopeSFX : MonoBehaviour
     private void StopSounds()
     {
         soundeffect.Stop();
+    }
+
+    private void PauseSounds(bool pause)
+    {
+        if (pause)
+        {
+            soundeffect.Pause();
+        }
+        else
+        {
+            soundeffect.UnPause();
+        }
     }
 }

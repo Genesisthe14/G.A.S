@@ -12,6 +12,7 @@ public class PlayOnDrag : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        gameObject.SetActive(false);
         onSwipe.Invoke();
     }
 }
