@@ -49,18 +49,15 @@ public class Homescreen : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void ActivateTutorialOrBooster()
     {
-        if (firstTutorialScreen == null) return;
-
-        if (PlayerData.instance.FirstPLayed)
+        if (PlayerData.instance.FirstPlayed)
         {
-            PlayerData.instance.FirstPLayed = false;
             firstTutorialScreen.SetActive(true);
         }
         else
         {
-            firstTutorialScreen.SetActive(false);
+            LoadBoosterSelectionScreen();
         }
     }
 
@@ -95,6 +92,8 @@ public class Homescreen : MonoBehaviour
 
     public void StartGame()
     {
+        if (PlayerData.instance.FirstPlayed) PlayerData.instance.FirstPlayed = false;
+
         loadingScreen.SetActive(true);
         DisableButtons();
         StartCoroutine(LoadScreenCoroutine("RocketScene", loadingBar));
@@ -103,6 +102,8 @@ public class Homescreen : MonoBehaviour
     public void DeleteSaveFile()
     {
         SaveLoadService.DeleteSaveFile();
+        PlayerData.ResettingSave = true;
+        QuitGame();
     }
 
     //Loads the booster selection screen

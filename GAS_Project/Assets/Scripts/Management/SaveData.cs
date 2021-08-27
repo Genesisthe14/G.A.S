@@ -66,7 +66,7 @@ public class SaveData
 
         permanentUpgradeIDsPlayerOwns = PlayerData.instance.PermanentUpgradeIDsPlayerOwns;
 
-        firstPlayed = PlayerData.instance.FirstPLayed;
+        firstPlayed = PlayerData.instance.FirstPlayed;
     }
 
     //Initializes the values that were previously saved with the attributes from
@@ -97,6 +97,6 @@ public class SaveData
             PlayerData.instance.MusicSlider.value = Mathf.Pow(10, floatSaveData["musicVolume"] / 20);
         }
 
-        PlayerData.instance.FirstPLayed = firstPlayed;
+        PlayerData.instance.FirstPlayed = firstPlayed;
     }
 }
