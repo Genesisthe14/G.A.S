@@ -133,10 +133,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("AudioSource use refuel sound")]
     private AudioSource useRefuelSound;
 
-    [SerializeField]
-    [Tooltip("AudioSource use shield sound")]
-    private AudioSource useShieldSound;
-
     //instance of the GameManager for the singleton
     private static GameManager _instance;
     public static GameManager instance
@@ -262,6 +258,9 @@ public class GameManager : MonoBehaviour
     //time between raising the distance the player traveled
     private float[] timeIntervalDistance = { 1.0f, 0.05f };
 
+    //Whether the crash sound was already played one
+    private bool crashPlayed = false;
+
     //Whether the player has lost or not
     private bool isGameOver = false;
     public bool IsGameOver
@@ -273,7 +272,12 @@ public class GameManager : MonoBehaviour
 
             if (isGameOver)
             {
-                crashSound.Play();
+                if (!crashPlayed)
+                {
+                    crashSound.Play();
+                    crashPlayed = true;
+                }
+
                 if (gameOverEvent != null) gameOverEvent.Invoke();
             }
 
@@ -400,7 +404,6 @@ public class GameManager : MonoBehaviour
     {
         fuelLowSound.Stop();
         useRefuelSound.Stop();
-        useShieldSound.Stop();
     }
 
     private void PauseSounds(bool pause)
@@ -409,13 +412,11 @@ public class GameManager : MonoBehaviour
         {
             fuelLowSound.Pause();
             useRefuelSound.Pause();
-            useShieldSound.Pause();
         }
         else
         {
             fuelLowSound.UnPause();
             useRefuelSound.UnPause();
-            useShieldSound.UnPause();
         }
     }
 
@@ -567,8 +568,8 @@ public class GameManager : MonoBehaviour
 
         BoosterButtons.BoostersOwnedChangedEvent.Invoke(Upgrade.UpgradeTypes.NUMSHIELDS);
 
-        useShieldSound.Play();
         shieldObj.SetActive(true);
+        shieldObj.GetComponent<Shield>().ShieldActiveSound.Play();
 
         if (boosterUsedEvent != null) boosterUsedEvent.Invoke(false);
 

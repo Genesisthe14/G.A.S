@@ -240,7 +240,7 @@ public class RocketBehaviour : MonoBehaviour
             while (currentWarpSpeedFactor > 0.0f)
             {
                 //deccelerates twice as fast as it accelerates
-                currentWarpSpeedFactor -= easeValue * 2.0f;
+                currentWarpSpeedFactor -= easeValue * 1.5f;
 
 
                 if(currentWarpSpeedFactor % toggleAura == 0)
@@ -321,7 +321,7 @@ public class RocketBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Laser")) laserHitSound.Play();
+        if (collision.gameObject.CompareTag("Laser") && !IsWarpActive) laserHitSound.Play();
         InTrigger(collision);
     }
 

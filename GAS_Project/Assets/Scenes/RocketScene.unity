@@ -16774,7 +16774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundeffect: {fileID: 1427483534}
-  minVelocity: 9.5
+  minVelocity: 11.03
 --- !u!114 &1351730869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27883,6 +27883,7 @@ MonoBehaviour:
   - UFO
   - Laser
   shieldHitSound: {fileID: 1427483539}
+  shieldActiveSound: {fileID: 1427483540}
 --- !u!212 &1791867486
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32058,7 +32059,6 @@ MonoBehaviour:
   crashSound: {fileID: 1427483543}
   fuelLowSound: {fileID: 1427483542}
   useRefuelSound: {fileID: 1427483541}
-  useShieldSound: {fileID: 1427483540}
 --- !u!4 &2110865606
 Transform:
   m_ObjectHideFlags: 0

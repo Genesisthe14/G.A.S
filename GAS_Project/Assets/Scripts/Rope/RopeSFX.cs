@@ -28,6 +28,8 @@ public class RopeSFX : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (GameManager.instance.IsGameOver) return;
+        
         if (GetComponent<Rigidbody2D>().velocity.magnitude >= minVelocity && !soundeffect.isPlaying)
         {
             soundeffect.Play();            

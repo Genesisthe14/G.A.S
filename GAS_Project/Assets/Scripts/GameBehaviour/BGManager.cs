@@ -102,7 +102,7 @@ public class BGManager : MonoBehaviour
             nextBG.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
 
             Vector3 nextBGPos = nextBG.transform.position;
-            nextBGPos.y = ySpawnOffset;
+            nextBGPos.y = bgObjects[0].transform.position.y + ySpawnOffset;
             nextBG.transform.position = nextBGPos;
 
             bgObjects[1] = nextBG;
