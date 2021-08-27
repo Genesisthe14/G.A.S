@@ -13,7 +13,15 @@ public class Shield : BuffItem
     [SerializeField]
     [Tooltip("Shield hit sound")]
     private AudioSource shieldHitSound;
-    
+
+    [SerializeField]
+    [Tooltip("Shield active sound")]
+    private AudioSource shieldActiveSound;
+    public AudioSource ShieldActiveSound
+    {
+        get { return shieldActiveSound; }
+    }
+
     //Basis hit points the shield can take
     public static int baseHitpoints = 1;
     
@@ -30,6 +38,7 @@ public class Shield : BuffItem
             if (currentHitPoints <= 0)
             {
                 gameObject.SetActive(false);
+                shieldActiveSound.Stop();
                 currentHitPoints = baseHitpoints;
             }
         }
@@ -55,6 +64,7 @@ public class Shield : BuffItem
     private void StopSounds()
     {
         shieldHitSound.Stop();
+        shieldActiveSound.Stop();
     }
 
     private void PauseSounds(bool pause)
@@ -62,10 +72,12 @@ public class Shield : BuffItem
         if (pause)
         {
             shieldHitSound.Pause();
+            shieldActiveSound.Pause();
         }
         else
         {
             shieldHitSound.UnPause();
+            shieldActiveSound.UnPause();
         }
     }
 

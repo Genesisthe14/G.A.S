@@ -113,7 +113,7 @@ public class LaserGate : MonoBehaviour
     //What happens when the rocket is touching the laser gate
     private void OnRocketTouching(RocketControls controls)
     {
-        if (!controls.CanControl || !ableToFreeze) return;
+        if (!controls.CanControl || !ableToFreeze || RocketBehaviour.isWarpActive) return;
 
         controls.ShockDisplay.SetActive(true);
         controls.CanControl = false;
