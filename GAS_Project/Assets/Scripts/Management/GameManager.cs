@@ -320,6 +320,8 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
 
+        Time.timeScale = 1;
+
         JellyOnRocketEvent += JellyFuelColor;
         
         //Give the camera an event mask which tells the camera which objects can react to e.g. OnMouseDown, etc.
