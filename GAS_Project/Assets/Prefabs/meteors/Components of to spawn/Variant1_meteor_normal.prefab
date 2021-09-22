@@ -211,7 +211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022457960825028982, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: minVelocity
-      value: 25
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6022457960825028982, guid: d4935354d9b097649beada1972ff6e92, type: 3}
       propertyPath: destroyParent
@@ -284,6 +284,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3345701535988447796, guid: d4935354d9b097649beada1972ff6e92, type: 3}
     - {fileID: 7428273080763289788, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+    - {fileID: 1172812750030890904, guid: d4935354d9b097649beada1972ff6e92, type: 3}
+    - {fileID: 4368375947600353820, guid: d4935354d9b097649beada1972ff6e92, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d4935354d9b097649beada1972ff6e92, type: 3}
 --- !u!1 &2594394834081245630 stripped
 GameObject:
